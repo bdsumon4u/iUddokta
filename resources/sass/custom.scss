@@ -1,0 +1,42 @@
+.container-fluid {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.row {
+    margin-left: -10px;
+    margin-right: -10px;
+}
+
+.col,
+[class^="col-"]
+{
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.close {
+    &:focus,
+    &:active {
+        outline: none;
+    }
+}
+
+.SumoSelect {
+    width: 100%;
+    
+    .CaptionCont.SelectBox label {
+        margin: 0;
+    }
+    label {
+        margin-bottom: 0;
+    }
+    .optWrapper {
+        margin-bottom: 5rem;
+    }
+}
+
+[type="date"]
+{
+    font-variant: small-caps;
+}
