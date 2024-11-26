@@ -15,9 +15,9 @@ class OrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function admin(Request $request, $status, ?Reseller $reseller)
+    public function admin(Request $request, $status = null, ?Reseller $reseller = null)
     {
-        if ($reseller->getKey()) {
+        if ($reseller?->getKey()) {
             $orders = $reseller->orders()->getQuery();
         } else {
             $orders = Order::has('reseller')->with('reseller');
@@ -115,9 +115,9 @@ class OrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function reseller(Request $request, ?Reseller $reseller, $status = null)
+    public function reseller(Request $request, ?Reseller $reseller = null, $status = null)
     {
-        if ($reseller->getKey()) {
+        if ($reseller?->getKey()) {
             $orders = $reseller->orders()->getQuery();
         } else {
             return false;

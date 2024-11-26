@@ -31,12 +31,12 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, $slug, ?Category $category)
+    public function index(Request $request, $slug, ?Category $category = null)
     {
         $products = Product::latest();
         if ($request->has('s')) {
             $products = $products->where('name', 'like', '%'.$request->s.'%');
-        } elseif ($category->getKey()) {
+        } elseif ($category?->getKey()) {
             $products = $category->products()->latest();
         }
         // if($category->getKey()) {

@@ -18,9 +18,9 @@ class NotificationController extends Controller
         return view('reseller.notifications.index', compact('notifications'));
     }
 
-    public function update(Request $request, ?DatabaseNotification $notification)
+    public function update(Request $request, ?DatabaseNotification $notification = null)
     {
-        if ($notification->getKey()) {
+        if ($notification?->getKey()) {
             $notification->markAsRead();
         } else {
             auth('reseller')->user()->notifications->markAsRead();
@@ -29,9 +29,9 @@ class NotificationController extends Controller
         return redirect()->back();
     }
 
-    public function destroy(Request $request, ?DatabaseNotification $notification)
+    public function destroy(Request $request, ?DatabaseNotification $notification = null)
     {
-        if ($notification->getKey()) {
+        if ($notification?->getKey()) {
             $notification->delete();
         } elseif ($request->delete) {
             $reseller = auth('reseller')->user();

@@ -15,9 +15,9 @@ class TransactionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, $status, ?Reseller $reseller)
+    public function index(Request $request, $status, ?Reseller $reseller = null)
     {
-        if ($reseller->getKey()) {
+        if ($reseller?->getKey()) {
             $orders = $reseller->transactions()->getQuery();
         } else {
             $orders = Transaction::query();
