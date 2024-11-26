@@ -182,7 +182,7 @@
                                                     Buy<span>*</span>
                                                 </label>
 
-                                                <input type="text" name="buy_price" wire:model.debounce.250ms="buy_price" wire:change="changed" class="form-control" id="buy-price" value="{{ old('buy_price', $buy_price) }}" {{ $a_only }}>
+                                                <input type="text" name="buy_price" wire:model.live.debounce.250ms="buy_price" wire:change="changed" class="form-control" id="buy-price" value="{{ old('buy_price', $buy_price) }}" {{ $a_only }}>
 
                                                 {!! $errors->first('buy_price', '<span class="error-message">:message</span>') !!}
                                             </div>
@@ -193,7 +193,7 @@
                                                     Sell<span>*</span>
                                                 </label>
 
-                                                <input type="text" name="sell" wire:model.debounce.250ms="sell" class="form-control" id="sell-price" value="{{ old('sell', $sell) }}" {{ $a_only }}>
+                                                <input type="text" name="sell" wire:model.live.debounce.250ms="sell" class="form-control" id="sell-price" value="{{ old('sell', $sell) }}" {{ $a_only }}>
 
                                                 {!! $errors->first('sell', '<span class="error-message">:message</span>') !!}
                                             </div>
@@ -209,7 +209,7 @@
                                                         Packaging
                                                     </label>
 
-                                                    <input type="text" name="packaging" wire:model.debounce.250ms="packaging" wire:change="changed" class="form-control" id="packaging-charge" value="{{ old('packaging', $packaging ?? $quantity * 20) }}" {{ $a_only }}>
+                                                    <input type="text" name="packaging" wire:model.live.debounce.250ms="packaging" wire:change="changed" class="form-control" id="packaging-charge" value="{{ old('packaging', $packaging ?? $quantity * 20) }}" {{ $a_only }}>
 
                                                     {!! $errors->first('packaging', '<span class="error-message">:message</span>') !!}
                                                 </div>
@@ -220,7 +220,7 @@
                                                         Delivery Charge
                                                     </label>
 
-                                                    <input type="text" name="delivery_charge" wire:model.debounce.250ms="delivery_charge" wire:change="changed" class="form-control" id="delivery-charge" value="{{ old('delivery_charge', $delivery_charge) }}" {{ $a_only }}>
+                                                    <input type="text" name="delivery_charge" wire:model.live.debounce.250ms="delivery_charge" wire:change="changed" class="form-control" id="delivery-charge" value="{{ old('delivery_charge', $delivery_charge) }}" {{ $a_only }}>
 
                                                     {!! $errors->first('delivery_charge', '<span class="error-message">:message</span>') !!}
                                                 </div>
@@ -231,7 +231,7 @@
                                                         COD / Return
                                                     </label>
 
-                                                    <input type="text" name="cod_charge" wire:model.debounce.250ms="cod_charge" wire:change="changed" class="form-control" id="cod-charge" value="{{ old('cod_charge', $cod_charge) }}" {{ $a_only }}>
+                                                    <input type="text" name="cod_charge" wire:model.live.debounce.250ms="cod_charge" wire:change="changed" class="form-control" id="cod-charge" value="{{ old('cod_charge', $cod_charge) }}" {{ $a_only }}>
 
                                                     {!! $errors->first('cod_charge', '<span class="error-message">:message</span>') !!}
                                                 </div>

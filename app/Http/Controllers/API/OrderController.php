@@ -94,7 +94,7 @@ class OrderController extends Controller
                 })
                 ->addColumn('action', function ($row) {
                     $btn = '<div class="btn-group btn-group-sm d-flex justify-content-between">
-                            <a class="btn btn-sm btn-primary" target="_blank" href="'.route('admin.order.show', $row->id).'" noclick="window.open(\''.route('reseller.order.show', $row->id).'\', \'popup\', \'width=`100%`, height=`100%`\')">View</a>';
+                            <a class="btn btn-sm btn-primary" href="'.route('admin.order.show', $row->id).'" noclick="window.open(\''.route('reseller.order.show', $row->id).'\', \'popup\', \'width=`100%`, height=`100%`\')">View</a>';
                     in_array($row->status, ['completed', 'returned']) || $btn .= '<a class="btn btn-sm btn-danger" href="'.route('admin.order.cancel', $row->id).'" onclick="if (confirm(\'Are You Sure?\')){return true;}else{event.stopPropagation(); event.preventDefault(); return false;};">Cancel</a>';
                     $btn .= '</div>';
 
@@ -188,7 +188,7 @@ class OrderController extends Controller
                 })
                 ->addColumn('action', function ($row) {
                     $btn = '<div class="btn-group btn-group-sm d-flex justify-content-between">
-                            <a class="btn btn-sm btn-primary" target="_blank" href="'.route('reseller.order.show', $row->id).'" noclick="window.open(\''.route('reseller.order.show', $row->id).'\', \'popup\', \'width=`100%`, height=`100%`\')">View</a>';
+                            <a class="btn btn-sm btn-primary" href="'.route('reseller.order.show', $row->id).'" noclick="window.open(\''.route('reseller.order.show', $row->id).'\', \'popup\', \'width=`100%`, height=`100%`\')">View</a>';
                     $row->status == 'pending' && $btn .= '<a class="btn btn-sm btn-danger" href="'.route('reseller.order.cancel', $row->id).'" onclick="if (confirm(\'Are You Sure?\')){return true;}else{event.stopPropagation(); event.preventDefault(); return false;};">Cancel</a>';
                     $btn .= '</div>';
 

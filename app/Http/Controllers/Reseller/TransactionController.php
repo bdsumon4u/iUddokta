@@ -29,8 +29,8 @@ class TransactionController extends Controller
      */
     public function request()
     {
-        // $reseller = auth('reseller')->user();
-        // return view('reseller.transactions.request', compact('reseller'));
+        $reseller = auth('reseller')->user();
+        return view('reseller.transactions.request', compact('reseller'));
     }
 
     /**
@@ -40,23 +40,23 @@ class TransactionController extends Controller
      */
     public function store(Request $request)
     {
-        // $reseller = auth('reseller')->user();
-        // $data = $request->validate([
-        //     'amount' => 'required|integer',
-        //     'method' => 'required',
-        //     'bank_name' => 'nullable',
-        //     'account_name' => 'nullable',
-        //     'branch' => 'nullable',
-        //     'routing_no' => 'nullable',
-        //     'account_type' => 'required',
-        //     'account_number' => 'nullable',
-        // ]);
-        // $data['reseller_id'] = $reseller->id;
+        $reseller = auth('reseller')->user();
+        $data = $request->validate([
+            'amount' => 'required|integer',
+            'method' => 'required',
+            'bank_name' => 'nullable',
+            'account_name' => 'nullable',
+            'branch' => 'nullable',
+            'routing_no' => 'nullable',
+            'account_type' => 'required',
+            'account_number' => 'nullable',
+        ]);
+        $data['reseller_id'] = $reseller->id;
 
-        // if($transaction = Transaction::create($data)) {
-        //     event(new TransactionRequestRecieved($transaction));
-        // }
-        // return redirect()->back()->with('success', 'Money Request Sent.');
+        if($transaction = Transaction::create($data)) {
+            event(new TransactionRequestRecieved($transaction));
+        }
+        return redirect()->back()->with('success', 'Money Request Sent.');
     }
 
     /**

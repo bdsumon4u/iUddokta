@@ -32,31 +32,31 @@ class SidebarComposer
             'name' => 'Products',
             'route' => 'reseller.product.index',
         ],
-        // [
-        //     'icon' => 'fa fa-money',
-        //     'style' => 'dropdown',
-        //     'name' => 'Transactions',
-        //     'items' => [
-        //         [
-        //             'name' => 'History',
-        //             'route' => 'reseller.transactions.index',
-        //         ],
-        //         [
-        //             'name' => 'Settings',
-        //             'route' => 'reseller.setting.edit',
-        //         ],
-        // [
-        //     'name' => 'Money Request',
-        //     'route' => 'reseller.transactions.request',
-        // ],
-        // ],
-        // ],
         [
             'icon' => 'fa fa-money',
-            'style' => 'simple',
+            'style' => 'dropdown',
             'name' => 'Transactions',
-            'route' => 'reseller.transactions.index',
+            'items' => [
+                [
+                    'name' => 'History',
+                    'route' => 'reseller.transactions.index',
+                ],
+                [
+                    'name' => 'Settings',
+                    'route' => 'reseller.setting.edit',
+                ],
+                [
+                    'name' => 'Money Request',
+                    'route' => 'reseller.transactions.request',
+                ],
+            ],
         ],
+        // [
+        //     'icon' => 'fa fa-money',
+        //     'style' => 'simple',
+        //     'name' => 'Transactions',
+        //     'route' => 'reseller.transactions.index',
+        // ],
         [
             'icon' => 'fa fa-cogs',
             'style' => 'dropdown',

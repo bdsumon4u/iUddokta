@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire;
+namespace App\Livewire;
 
 use Cart;
 use Darryldecode\Cart\Facades\CartFacade;
