@@ -15,7 +15,7 @@ class ProductController extends Controller
         $rows = 20;
         $cols = 5;
         $per_page = $request->get('per_page', $rows * $cols);
-        $products = Product::when($request->search, function ($query) use ($request) {
+        $products = Product::with('baseImage')->when($request->search, function ($query) use ($request) {
             $query->search($request->search, null, true);
         })
             ->latest('id')
@@ -33,7 +33,7 @@ class ProductController extends Controller
      */
     public function index(Request $request, $slug, ?Category $category = null)
     {
-        $products = Product::latest();
+        $products = Product::with('baseImage')->latest();
         if ($request->has('s')) {
             $products = $products->where('name', 'like', '%'.$request->s.'%');
         } elseif ($category?->getKey()) {

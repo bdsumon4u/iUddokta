@@ -36,7 +36,7 @@ class Product extends Model
      */
     public function images()
     {
-        return $this->morphToMany(Image::class, 'imageable')->withPivot('zone')->withTimestamps();
+        return $this->morphToMany(Image::class, 'imageable')->withPivot('zone');
     }
 
     /**
@@ -44,7 +44,7 @@ class Product extends Model
      */
     public function baseImage()
     {
-        return $this->images()->whereZone('base')->first();
+        return $this->images()->whereZone('base');
     }
 
     /**
@@ -52,17 +52,24 @@ class Product extends Model
      */
     public function additionalImages()
     {
-        return $this->images()->whereZone('additionals')->get();
+        return $this->images()->whereZone('additionals');
     }
 
     public function getBaseImageAttribute()
     {
-        return asset(optional($this->baseImage())->path);
+        if (! $this->relationLoaded('baseImage')) {
+            $this->load('baseImage');
+        }
+        return asset($this->getRelation('baseImage')?->first()?->path);
     }
 
     public function getAdditionalImagesAttribute()
     {
-        return $this->additionalImages()->map(function ($item) {
+        if (! $this->relationLoaded('additionalImages')) {
+            $this->load('additionalImages');
+        }
+
+        return $this->getRelation('additionalImages')->map(function ($item) {
             $item->path = asset($item->path);
 
             return $item;

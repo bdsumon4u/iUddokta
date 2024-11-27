@@ -20,7 +20,7 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         $categories = Category::formatted();
-        $products = Product::when($request->s, function ($query) use ($request) {
+        $products = Product::with('baseImage')->when($request->s, function ($query) use ($request) {
             return $query->where('name', 'like', "%{$request->s}%");
         })->latest()->paginate(18);
 
@@ -35,7 +35,7 @@ class ProductController extends Controller
     public function trashed(Request $request)
     {
         $categories = Category::formatted();
-        $products = Product::onlyTrashed()->when($request->s, function ($query) use ($request) {
+        $products = Product::with('baseImage')->onlyTrashed()->when($request->s, function ($query) use ($request) {
             return $query->where('name', 'like', "%{$request->s}%");
         })->latest()->paginate(18);
 
