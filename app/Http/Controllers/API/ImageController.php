@@ -14,7 +14,7 @@ class ImageController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            return Datatables::of(Image::latest()->get())
+            return Datatables::of(Image::latest())
                 ->addIndexColumn()
                 ->addColumn('empty', function ($row) {
                     return '';

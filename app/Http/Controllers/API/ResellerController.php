@@ -12,7 +12,7 @@ class ResellerController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            return DataTables::of(Reseller::latest()->get())
+            return DataTables::of(Reseller::latest())
                 ->addIndexColumn()
                 ->addColumn('empty', function ($row) {
                     return '';

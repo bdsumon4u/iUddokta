@@ -23,7 +23,7 @@ class TransactionController extends Controller
             $orders = Transaction::query();
         }
         if ($request->ajax()) {
-            return Datatables::of($orders->status($status)->latest()->with('reseller')->get())
+            return Datatables::of($orders->status($status)->latest()->with('reseller'))
                 ->addIndexColumn()
                 ->addColumn('empty', function ($row) {
                     return '';

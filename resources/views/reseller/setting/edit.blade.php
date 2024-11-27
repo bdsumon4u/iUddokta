@@ -1,7 +1,6 @@
 @extends('reseller.layout')
 
 @section('styles')
-@livewireStyles
 <style>
     .nav-tabs {
         border: 2px solid #ddd;
@@ -53,9 +52,9 @@
 @section('content')
 <div class="row">
     <div class="col-sm-12">
-        <div class="card rounded-0 shadow-sm">
-            <div class="card-header py-2">Reseller <strong>Setting</strong></div>
-            <div class="card-body p-2">
+        <div class="shadow-sm card rounded-0">
+            <div class="py-2 card-header">Reseller <strong>Setting</strong></div>
+            <div class="p-2 card-body">
                 <div class="row justify-content-center">
                     <div class="col-sm-6 col-md-4 col-xl-3">
                         <ul class="nav nav-tabs list-group" role="tablist">
@@ -82,7 +81,7 @@
                                         <div class="tab-pane active" id="item-1" role="tabpanel">
                                             <div class="row">
                                                 <div class="col-sm-12">
-                                                    <h4><small class="border-bottom mb-1">General</small></h4>
+                                                    <h4><small class="mb-1 border-bottom">General</small></h4>
                                                 </div>
                                             </div>
                                             
@@ -127,7 +126,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-12">
-                                                    <div class="form-group mb-0">
+                                                    <div class="mb-0 form-group">
                                                     <button type="submit" class="btn btn-success">Submit</button>
                                                     </div>
                                                 </div>
@@ -136,7 +135,7 @@
                                         <div class="tab-pane" id="item-2" role="tabpanel">
                                             <div class="row">
                                                 <div class="col-sm-12">
-                                                    <h4><small class="border-bottom mb-1">Documents</small></h4>
+                                                    <h4><small class="mb-1 border-bottom">Documents</small></h4>
                                                 </div>
                                             </div>
                                             
@@ -162,7 +161,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-12">
-                                                    <div class="form-group mb-0">
+                                                    <div class="mb-0 form-group">
                                                     <button type="submit" class="btn btn-success">Submit</button>
                                                     </div>
                                                 </div>
@@ -171,14 +170,14 @@
                                         <div class="tab-pane" id="item-3" role="tabpanel">
                                             <div class="row">
                                                 <div class="col-sm-12">
-                                                    <h4><small class="border-bottom mb-1">Transaction</small></h4>
+                                                    <h4><small class="mb-1 border-bottom">Transaction</small></h4>
                                                 </div>
                                                 <div class="col-sm-12">
                                                     <div class="form-group" id="ways">
                                                         <label for="payment">Payment Methods</label>
-                                                        <!-- <a href="" id="add-way" class="btn btn-primary btn-sm float-right mb-1"><strong>Add New</strong></a> -->
+                                                        <!-- <a href="" id="add-way" class="float-right mb-1 btn btn-primary btn-sm"><strong>Add New</strong></a> -->
                                                         @forelse($user->payment ?? [] as $payment)
-                                                        <div class="row border pt-2">
+                                                        <div class="pt-2 border row">
                                                             <div class="col-md-4">
                                                                 <div class="form-group">
                                                                     <label for="">Method</label>
@@ -229,12 +228,12 @@
                                                             </div>
                                                             @if (count($reseller->payment ?? []) > 1)
                                                             <div class="col-12">
-                                                                <button class="form-group btn btn-danger float-right remove-way">Remove</button>
+                                                                <button class="float-right form-group btn btn-danger remove-way">Remove</button>
                                                             </div>
                                                             @endif
                                                         </div>
                                                         @empty
-                                                        <div class="row border pt-2">
+                                                        <div class="pt-2 border row">
                                                             <div class="col-md-4">
                                                                 <div class="form-group">
                                                                     <label for="">Method</label>
@@ -288,7 +287,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-12">
-                                                    <div class="form-group mb-0">
+                                                    <div class="mb-0 form-group">
                                                         <button type="submit" class="btn btn-success">Submit</button>
                                                     </div>
                                                 </div>
@@ -297,7 +296,7 @@
                                         <div class="tab-pane" id="item-4" role="tabpanel">
                                             <div class="row">
                                                 <div class="col-sm-12">
-                                                    <h4><small class="border-bottom mb-1">Change Password</small></h4>
+                                                    <h4><small class="mb-1 border-bottom">Change Password</small></h4>
                                                 </div>
                                             </div>
                                             
@@ -324,7 +323,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-12">
-                                                    <div class="form-group mb-0">
+                                                    <div class="mb-0 form-group">
                                                     <button type="submit" formaction="{{ route('reseller.password.update') }}" class="btn btn-success">Change Password</button>
                                                     </div>
                                                 </div>

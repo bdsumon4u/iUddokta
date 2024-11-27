@@ -1,4 +1,4 @@
-<div class="card rounded-0 shadow-sm">
+<div class="shadow-sm card rounded-0">
     @php $is_reseller = ($user = auth('reseller')->user()) && ($user->id ?? 0) == request()->user('reseller')->id @endphp
     <div class="card-header">Pay To <strong>{{ $reseller->name }}</strong></div>
     <div class="card-body">
@@ -22,7 +22,7 @@
                         <label for="method">Method</label>
                         <input type="hidden" name="method" value="{{ old('method', request('method')) }}">
                         <!-- <input type="text" name="method" wire:model.live.debounce.250ms="method" value="{{ old('method', $method) }}" class="form-control @error('method') is-invalid @enderror"> -->
-                        <select name="method" wire:model.live.debounce.250ms="method" value="{{ old('method', request('method', $method)) }}" wire:change="chMethod" class="form-control @error('method') is-invalid @enderror" @if(!empty(request('method'))) disabled @endif>
+                        <select name="method" wire:model.live="method" wire:change="chMethod" class="form-control @error('method') is-invalid @enderror" @if(!empty(request('method'))) disabled @endif>
                             <option value="">Select Method</option>
                             @if($reseller->payment_methods)
                                 @foreach($reseller->payment_methods as $payment)
@@ -103,7 +103,7 @@
                 </div>
                 @endif
             </div>
-            <button type="submit" class="btn btn-sm btn-success ml-auto d-block">{{ $is_reseller ? 'Request' : 'Paid' }}</button>
+            <button type="submit" class="ml-auto btn btn-sm btn-success d-block">{{ $is_reseller ? 'Request' : 'Paid' }}</button>
         </form>
     </div>
 </div>

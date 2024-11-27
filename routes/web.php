@@ -127,14 +127,14 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin', 'as' => 'admin.'], fu
     });
 
     // Transaction Routes
+    Route::view('/transactions/history', 'admin.transactions.index')->name('transactions.index');
+    Route::view('/transactions/requests', 'admin.transactions.requests')->name('transactions.requests');
     Route::controller(\App\Http\Controllers\TransactionController::class)->group(function () {
         Route::get('/transactions/pay', 'pay')->name('transactions.pay');
         Route::get('/transactions/pay/{reseller}', 'payToReseller')->name('transactions.pay-to-reseller');
         Route::post('/transactions/pay/store', 'store')->name('transactions.pay.store');
         Route::get('/transactions/{transaction}', 'show')->name('transactions.show');
     });
-    Route::view('/transactions/history', 'admin.transactions.index')->name('transactions.index');
-    Route::view('/transactions/requests', 'admin.transactions.requests')->name('transactions.requests');
 
     // Notification Routes
     Route::controller(\App\Http\Controllers\NotificationController::class)->group(function () {
@@ -159,8 +159,8 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin', 'as' => 'admin.'], fu
     // Menu Routes
     Route::resource('hmenus', \App\Http\Controllers\MenuController::class);
     Route::controller(\App\Http\Controllers\MenuItemController::class)->group(function () {
-        Route::post('menuItems/{menu}/sort', 'sort')->name('menuItems.sort');
         Route::resource('/menuItems', \App\Http\Controllers\MenuItemController::class);
+        Route::post('menuItems/{menu}/sort', 'sort')->name('menuItems.sort');
     });
 
     // Setting Routes

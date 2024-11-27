@@ -1,7 +1,6 @@
 @extends('layouts.ready')
 
 @section('styles')
-@livewireStyles
 <style>
     .nav-tabs {
         border: 2px solid #ddd;
@@ -59,9 +58,9 @@
 @section('content')
 <div class="row">
     <div class="col-sm-12">
-        <div class="card rounded-0 shadow-sm">
-            <div class="card-header py-2">Admin <strong>Settings</strong></div>
-            <div class="card-body p-2">
+        <div class="shadow-sm card rounded-0">
+            <div class="py-2 card-header">Admin <strong>Settings</strong></div>
+            <div class="p-2 card-body">
                 <div class="row justify-content-center">
                     <div class="col-sm-6 col-md-4 col-xl-3">
                         <ul class="nav nav-tabs list-group" role="tablist">
@@ -82,7 +81,7 @@
                                         <div class="tab-pane active" id="item-1" role="tabpanel">
                                             <div class="row">
                                                 <div class="col-sm-12">
-                                                    <h4><small class="border-bottom mb-1">General</small></h4>
+                                                    <h4><small class="mb-1 border-bottom">General</small></h4>
                                                 </div>
                                             </div>
 
@@ -117,7 +116,7 @@
                                         <div class="tab-pane" id="item-5" role="tabpanel">
                                             <div class="row">
                                                 <div class="col-sm-12">
-                                                    <h4><small class="border-bottom mb-1">Branding</small></h4>
+                                                    <h4><small class="mb-1 border-bottom">Branding</small></h4>
                                                 </div>
                                             </div>
 
@@ -162,7 +161,7 @@
                                         <div class="tab-pane" id="item-2" role="tabpanel">
                                             <div class="row">
                                                 <div class="col-sm-12">
-                                                    <h4><small class="border-bottom mb-1">Social</small></h4>
+                                                    <h4><small class="mb-1 border-bottom">Social</small></h4>
                                                 </div>
                                             </div>
 
@@ -220,7 +219,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-12">
-                                                    <div class="form-group mb-0">
+                                                    <div class="mb-0 form-group">
                                                     <button type="submit" class="btn btn-success">Save</button>
                                                     </div>
                                                 </div>
@@ -229,7 +228,7 @@
                                         <div class="tab-pane" id="item-3" role="tabpanel">
                                             <div class="row">
                                                 <div class="col-sm-12">
-                                                    <h4><small class="border-bottom mb-1">Password</small></h4>
+                                                    <h4><small class="mb-1 border-bottom">Password</small></h4>
                                                 </div>
                                             </div>
                                             
@@ -256,7 +255,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-12">
-                                                    <div class="form-group mb-0">
+                                                    <div class="mb-0 form-group">
                                                     <button type="submit" formaction="{{ route('admin.password.update') }}" class="btn btn-success">Change Password</button>
                                                     </div>
                                                 </div>
@@ -265,7 +264,7 @@
                                         <div class="tab-pane" id="item-4" role="tabpanel">
                                             <div class="row">
                                                 <div class="col-sm-12">
-                                                    <h4><small class="border-bottom mb-1">Others</small></h4>
+                                                    <h4><small class="mb-1 border-bottom">Others</small></h4>
                                                 </div>
                                             </div>
                                             
@@ -321,7 +320,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-12">
-                                                    <div class="form-group mb-0">
+                                                    <div class="mb-0 form-group">
                                                     <button type="submit" class="btn btn-success">Save</button>
                                                     </div>
                                                 </div>
