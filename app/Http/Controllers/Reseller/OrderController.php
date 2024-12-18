@@ -68,20 +68,21 @@ class OrderController extends Controller
 
         $cart = CartFacade::session($reseller->id);
         $data['price'] = $cart->getTotal();
-        $products = $cart->getContent()
+        $data['products'] = $cart->getContent()
             ->map(function ($item) {
                 $product = $item->attributes->product;
-                $arr['id'] = $item->id;
-                $arr['quantity'] = is_numeric($product->stock) && $product->stock < $item->quantity ? $product->stock : $item->quantity;
-                $arr['name'] = $product->name;
-                $arr['code'] = $product->code;
-                $arr['slug'] = $product->slug;
-                $arr['wholesale'] = $product->wholesale;
-                $arr['retail'] = $product->retail;
 
-                return $arr;
-            });
-        $data['products'] = $products->toArray();
+                return [
+                    'id' => $product->id,
+                    'quantity' => is_numeric($product->stock) && $product->stock < $item->quantity ? $product->stock : $item->quantity,
+                    'image' => $product->base_image,
+                    'name' => $product->name,
+                    'code' => $product->code,
+                    'slug' => $product->slug,
+                    'wholesale' => $product->wholesale,
+                    'retail' => $product->retail,
+                ];
+            })->toArray();
 
         $order = Order::create([
             'reseller_id' => $reseller->id,

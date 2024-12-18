@@ -1,5 +1,5 @@
 <div class="card-body">
-    <div class="row mb-2">
+    <div class="mb-2 row">
         <div class="col-sm-7">
             <div class="shop-logo">
                 @if($logo = $shop->logo)
@@ -22,7 +22,7 @@
 
     </div>
 
-    <div class="row mb-3">
+    <div class="mb-3 row">
         <div class="col-sm-7">
             <strong>To,</strong>
             <br>
@@ -41,7 +41,7 @@
     </div>
 
     <div class="table-responsive-sm">
-        <table class="table table-sm table-bordered table-hover table-striped mb-0">
+        <table class="table mb-0 table-sm table-bordered table-hover table-striped">
             <thead>
                 <tr class="head-row">
                     <th class="center">#</th>
@@ -54,7 +54,10 @@
                 @foreach($order->data['products'] as $product)
                 <tr>
                     <td class="center">{{ $loop->index + 1 }}</td>
-                    <td class="left">{{ $product['name'] }}</td>
+                    <td class="left">
+                        <img src="{{$product['image']??''}}" alt="Image" height="80" width="80">
+                        <span>{{ $product['name'] }}</span>
+                    </td>
                     <td class="center text-uppercase">{{ $product['code'] }}</td>
                     <td class="right">{{ $product['quantity'] }}</td>
                 </tr>
@@ -62,16 +65,18 @@
             </tbody>
         </table>
     </div>
-    <div class="row mt-1">
+    <div class="mt-1 row">
         <div class="col-lg-4 col-sm-5">
-            <div class="qr-code">
-                {!! $qrcode ?? '' !!}
+            @isset($qrcode)
+            <div class="-qr-code">
+                <img src="{{ $qrcode }}" alt="QR Code" height="80">
             </div>
+            @endisset
             <p class="my-1 font-weight-bold">Additional Note:</p>
             {!! $order->data['note'] ?? '' !!}
         </div>
-        <div class="col-lg-4 col-sm-5 ml-auto">
-            <table class="table table-bordered table-sm table-hover table-striped table-sm mb-0">
+        <div class="ml-auto col-lg-4 col-sm-5">
+            <table class="table mb-0 table-bordered table-sm table-hover table-striped">
                 <tbody>
                     <tr class="subtotal">
                         <td class="left"><strong>Subtotal</strong></td>

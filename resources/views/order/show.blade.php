@@ -27,8 +27,8 @@
 <form action="{{ route('admin.order.update', $order->id) }}" method="post">
     @csrf
     <div class="row">
-        <div class="col-md-8 mx-auto mb-5">
-            <div class="card rounded-0 shadow-sm">
+        <div class="mx-auto mb-5 col-md-8">
+            <div class="shadow-sm card rounded-0">
                 <div class="card-header d-flex align-items-center justify-content-between">
                     <strong>Order Details</strong>
                     <span class="badge text-uppercase badge-{{$variant}}">{{ $order->status }}</span>
@@ -37,7 +37,7 @@
                 <div class="card-body">
                     <div class="wizard">
                         <div id="" class="" role="tabpanel">
-                            <div class="row box-wrapper address clearfix">
+                            <div class="clearfix row box-wrapper address">
                                 <div class="col-sm-12 box-header">
                                     <h5><span>Reseller Info</span></h5>
                                 </div>
@@ -93,7 +93,7 @@
 
                             <div class="row">
                                 <div class="col-md-6">
-                                    <div class="row box-wrapper address clearfix">
+                                    <div class="clearfix row box-wrapper address">
                                         <div class="col-sm-12 box-header">
                                             <h5><span>Customer Info</span></h5>
                                         </div>
@@ -320,18 +320,18 @@
                                                 @if($order->status == 'pending')
                                                 <input type="hidden" name="status" value="processing">
                                                 @else
-                                                <select name="status" id="status" class="form-control mr-1">
+                                                <select name="status" id="status" class="mr-1 form-control">
                                                     @foreach(config('order.statuses') as $status)
                                                     <option value="{{ $status }}" @if($status == $order->status) selected @endif class="text-capitalize">{{ ucfirst($status) }}</option>
                                                     @endforeach
                                                 </select>
                                                 @endif
-                                                <button type="submit" class="btn btn-success ml-1">{{ $order->status == 'pending' ? 'Accept' : 'Update' }}</button>
+                                                <button type="submit" class="ml-1 btn btn-success">{{ $order->status == 'pending' ? 'Accept' : 'Update' }}</button>
                                             </div>
                                             @elseif($order->status == 'pending')
                                                 <div class="d-flex justify-content-end">
                                                     @method('DELETE')
-                                                    <button type="submit" formaction="{{ route('reseller.order.destroy', $order->id) }}" class="btn btn-danger ml-1">Cancel</button>
+                                                    <button type="submit" formaction="{{ route('reseller.order.destroy', $order->id) }}" class="ml-1 btn btn-danger">Cancel</button>
                                                 </div>
                                             @endunless
                                         </div>
@@ -344,9 +344,9 @@
                 </div>
             </div>
             <hr>
-            <div class="card rounded-sm border-0">
+            <div class="border-0 rounded-sm card">
                 <div class="card-body">
-                    <div class="row box-wrapper address clearfix">
+                    <div class="clearfix row box-wrapper address">
                         <div class="col-sm-12 box-header">
                             <br>
                             <h5><span>Ordered Products</span></h5>
@@ -355,6 +355,7 @@
                             <table class="table table-bordered table-stripped table-hover table-narrow">
                                 <thead>
                                     <tr>
+                                        <th>Name</th>
                                         <th>Code</th>
                                         <th>Price[<small class="uppercase">WHOLESALE</small>]</th>
                                         <th>Quantity</th>
@@ -369,6 +370,7 @@
                                         $iw = $item['wholesale'];
                                     @endphp
                                     <tr>
+                                        <td><a href="{{ $is_reseller ? route('reseller.product.show', $item['slug']) : route('admin.products.show', $item['id']) }}">{{ $item['name'] ?? '-' }}</a></td>
                                         <td><a class="text-uppercase" href="{{ $is_reseller ? route('reseller.product.show', $item['slug']) : route('admin.products.show', $item['id']) }}">{{ $item['code'] }}</a></td>
                                         <td>
                                             <strong>Buy: </strong>{{ $iw }}

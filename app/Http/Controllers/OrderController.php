@@ -21,11 +21,11 @@ class OrderController extends Controller
      */
     public function index(Request $request)
     {
-        $filter = $request->filter ?? [];
+        // $filter = $request->filter ?? [];
 
-        $orders = Order::where($filter)->latest()->get();
+        // $orders = Order::where($filter)->latest()->get();
 
-        return view('admin.orders.list', compact('orders'));
+        return view('admin.orders.list');
     }
 
     /**

@@ -23,7 +23,7 @@ class OrderController extends Controller
             $orders = Order::has('reseller')->with('reseller');
         }
         if ($request->ajax()) {
-            return Datatables::of($orders->status($status)->latest()->with('reseller'))
+            return Datatables::of($orders->status($status)->latest('id')->with('reseller'))
                 ->addIndexColumn()
                     // ->addColumn('empty', function($row){
                     //     return '';
@@ -124,7 +124,7 @@ class OrderController extends Controller
         }
 
         if ($request->ajax()) {
-            return Datatables::of($orders->status($status)->latest()->with('reseller'))
+            return Datatables::of($orders->status($status)->latest('id')->with('reseller'))
                 ->addIndexColumn()
                 ->addColumn('empty', function ($row) {
                     return '';

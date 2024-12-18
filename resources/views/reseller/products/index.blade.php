@@ -11,30 +11,30 @@
 @section('content')
 <div class="row">
     <div class="col-sm-12">
-        <div class="card rounded-0 shadow-sm">
-            <div class="card-header py-2">All <strong>Products</strong></div>
-            <div class="card-body p-2">
+        <div class="shadow-sm card rounded-0">
+            <div class="py-2 card-header">All <strong>Products</strong></div>
+            <div class="p-2 card-body">
                 <div class="row justify-content-between">
                     <div class="col-md-5 offset-md-7">
                         <form action="" method="get">
                             <div class="form-group">
                                 <div class="input-group">
-                                    <input type="search" name="s" placeholder="Product Name" value="{{ request('s') }}" class="form-control px-2">
-                                    <div class="input-group-append"><span class="input-group-text p-0"><input type="submit" value="Search" class="h-100 px-1"></span></div>
+                                    <input type="search" name="s" placeholder="Product Name" value="{{ request('s') }}" class="px-2 form-control">
+                                    <div class="input-group-append"><span class="p-0 input-group-text"><input type="submit" value="Search" class="px-1 h-100"></span></div>
                                 </div>
                             </div>
                         </form>
                     </div>
                     @foreach($products as $product)
-                    <div class="col-md-3 col-lg-2 products mb-2">
-                        <div class="product-item border">
-                            <div class="card rounded-0 shadow-sm">
+                    <div class="mb-2 col-md-3 col-lg-2 products">
+                        <div class="border product-item">
+                            <div class="shadow-sm card rounded-0">
                                 <a href="{{ route('reseller.product.show', $product->slug) }}">
-                                    <img class="card-img-top p-2" src="{{ $product->base_image }}" alt="Base Image">
+                                    <img class="p-2 card-img-top" src="{{ $product->base_image }}" alt="Base Image">
                                 </a>
-                                <div class="card-body p-2">
+                                <div class="p-2 card-body">
                                     <a class="card-title" href="{{ route('reseller.product.show', $product->slug) }}">{{ $product->name }}</a>                                    
-                                    <div class="product-action-2 my-2 text-center w-100">
+                                    <div class="my-2 text-center product-action-2 w-100">
                                         <form method="POST" action="{{ route('cart.add', $product->id) }}">
                                             @csrf
                                             <button type="submit" class="btn btn-primary btn-add-to-cart">
