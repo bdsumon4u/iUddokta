@@ -22,7 +22,7 @@ class ProductController extends Controller
         $categories = Category::formatted();
         $products = Product::with('baseImage')->when($request->s, function ($query) use ($request) {
             return $query->where('name', 'like', "%{$request->s}%");
-        })->latest()->paginate(18);
+        })->orderBy('is_active', 'desc')->latest()->paginate(18);
 
         return view('admin.products.index', compact('categories', 'products'));
     }
@@ -76,6 +76,8 @@ class ProductController extends Controller
 
             'base_image' => 'required|integer',
             'additional_images' => 'nullable|string',
+
+            'is_active' => 'required|bool',
         ], [
             'stock.required_if' => 'Stock count is required when inventory tracking is enabled.',
         ]);
@@ -150,6 +152,8 @@ class ProductController extends Controller
 
             'base_image' => 'required|integer',
             'additional_images' => 'nullable|string',
+
+            'is_active' => 'required|bool',
         ], [
             'stock.required_if' => 'Stock count is required when inventory tracking is enabled.',
         ]);

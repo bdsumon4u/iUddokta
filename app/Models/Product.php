@@ -14,13 +14,20 @@ class Product extends Model
      */
     protected $currency = 'BDT';
 
+    protected function casts()
+    {
+        return [
+            'is_active' => 'boolean',
+        ];
+    }
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name', 'slug', 'code', 'stock', 'description', 'wholesale', 'retail',
+        'name', 'slug', 'code', 'stock', 'description', 'wholesale', 'retail', 'is_active',
     ];
 
     /**
