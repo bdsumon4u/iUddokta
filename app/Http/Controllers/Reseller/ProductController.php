@@ -33,20 +33,13 @@ class ProductController extends Controller
      */
     public function index(Request $request, $slug, ?Category $category = null)
     {
-        $products = Product::with('baseImage')->latest();
+        $products = Product::with('baseImage');
         if ($request->has('s')) {
             $products = $products->where('name', 'like', '%'.$request->s.'%');
         } elseif ($category?->getKey()) {
-            $products = $category->products()->latest();
+            $products = $category->products()->with('baseImage');
         }
-        // if($category->getKey()) {
-        //     $products = $category->products();
-        // } else {
-        //     $products = Product::latest();
-        // }
-        // $products = $request->has('s') ? $products->where('name', 'like', '%' . $request->s . '%') : $products;
-        // $products_count = $products->count();
-        $products = $products->paginate(24)->appends($request->query());
+        $products = $products->where('is_active', true)->latest()->paginate(24)->appends($request->query());
 
         return view('reseller.products.index', compact('products'));
     }

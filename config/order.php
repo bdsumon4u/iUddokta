@@ -2,10 +2,11 @@
 
 return [
     'statuses' => [
-        'pending',
-        'processing',
-        'shipping',
-        'completed',
-        'returned',
+        'PENDING',
+        'PROCESSING',
+        'INVOICED',
+        'SHIPPING',
+        'DELIVERED',
+        'FAILED',
     ],
 ];

@@ -55,56 +55,33 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
-        switch ($order->status) {
-            case 'pending':
-                $variant = 'secondary';
-                break;
-            case 'processing':
-                $variant = 'warning';
-                break;
-            case 'shipping':
-                $variant = 'primary';
-                break;
-            case 'completed':
-                $variant = 'success';
-                break;
-            case 'returned':
-                $variant = 'danger';
-                break;
-
-            default:
-                // code...
-                break;
-        }
+        $variant = $this->variant($order->status);
         $products = Product::withTrashed()->whereIn('id', array_keys($order->data['products']))->get();
         $cp = $order->current_price();
 
         return view('admin.orders.show', compact('order', 'products', 'cp', 'variant'));
     }
 
+    public function status(Request $request)
+    {
+        $request->validate([
+            'status' => 'required',
+            'order_id' => 'required|array',
+        ]);
+
+        $data['status'] = $request->status;
+        $data['completed_at'] = strtolower($request->status) == 'delivered' ? now()->toDateTimeString() : '';
+        $data['returned_at'] = strtolower($request->status) == 'failed' ? now()->toDateTimeString() : '';
+        $orders = Order::whereIn('id', $request->order_id)->where('status', '!=', $request->status)->get();
+
+        $orders->each->update($data);
+
+        return redirect()->back()->withSuccess('Order Status Has Been Updated.');
+    }
+
     public function invoice(Order $order)
     {
-        switch ($order->status) {
-            case 'pending':
-                $variant = 'secondary';
-                break;
-            case 'processing':
-                $variant = 'warning';
-                break;
-            case 'shipping':
-                $variant = 'primary';
-                break;
-            case 'completed':
-                $variant = 'success';
-                break;
-            case 'returned':
-                $variant = 'danger';
-                break;
-
-            default:
-                // code...
-                break;
-        }
+        $variant = $this->variant($order->status);
 
         return view('admin.orders.invoice', compact('order', 'variant'));
     }
@@ -189,5 +166,18 @@ class OrderController extends Controller
         $order->delete();
 
         return redirect()->back()->with('success', 'Order Cancelled');
+    }
+
+    private function variant($status): string
+    {
+        return match(strtolower($status)) {
+            'pending' => 'secondary',
+            'processing' => 'warning',
+            'invoiced' => 'info',
+            'shipping' => 'primary',
+            'completed' => 'success',
+            'failed' => 'danger',
+            default => 'default',
+        };
     }
 }

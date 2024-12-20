@@ -33,11 +33,11 @@
                                     <img class="p-2 card-img-top" src="{{ $product->base_image }}" alt="Base Image">
                                 </a>
                                 <div class="p-2 card-body">
-                                    <a class="card-title" href="{{ route('reseller.product.show', $product->slug) }}">{{ $product->name }}</a>                                    
+                                    <a href="{{ route('reseller.product.show', $product->slug) }}">{{ $product->name }}</a>                                    
                                     <div class="my-2 text-center product-action-2 w-100">
                                         <form method="POST" action="{{ route('cart.add', $product->id) }}">
                                             @csrf
-                                            <button type="submit" class="btn btn-primary btn-add-to-cart">
+                                            <button type="submit" class="btn btn-primary btn-add-to-cart btn-sm">
                                                 Add To Cart
                                             </button>
                                         </form>

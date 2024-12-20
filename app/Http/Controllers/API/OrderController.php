@@ -28,6 +28,12 @@ class OrderController extends Controller
                     // ->addColumn('empty', function($row){
                     //     return '';
                     // })
+                ->addColumn('checkbox', function ($row) {
+                    return '<input type="checkbox" class="form-control" name="order_id[]" value="'.$row->id.'" style="min-height: 20px;min-width: 20px;max-height: 20px;max-width: 20px;">';
+                })
+                ->editColumn('id', function ($row) {
+                    return '<a class="px-2 btn btn-light btn-sm text-nowrap" href="'.route('admin.order.show', $row->id).'">'.$row->id.'<i class="ml-1 fa fa-eye"></i></a>';
+                })
                 ->addColumn('reseller', function ($row) {
                     return '<a href="'.route('admin.resellers.show', $row->reseller->id ?? 0).'">
                             <strong>Name:</strong>'.optional($row->reseller)->name.'
@@ -59,48 +65,24 @@ class OrderController extends Controller
 
                     return $ret;
                 })
-                ->addColumn('status', function ($row) {
-                    switch ($row->status) {
-                        case 'pending':
-                            $variant = 'secondary';
-                            break;
-                        case 'processing':
-                            $variant = 'warning';
-                            break;
-                        case 'shipping':
-                            $variant = 'primary';
-                            break;
-                        case 'completed':
-                            $variant = 'success';
-                            break;
-                        case 'returned':
-                            $variant = 'danger';
-                            break;
-
-                        default:
-                            // code...
-                            break;
+                ->editColumn('status', function ($row) {
+                    $return = '<select data-id="'.$row->id.'" onchange="changeStatus" class="status-column form-control-sm">';
+                    foreach (config('order.statuses', []) as $status) {
+                        $return .= '<option value="'.$status.'" '.($status == strtoupper($row->status) ? 'selected' : '').'>'.$status.'</option>';
                     }
+                    $return .= '</select>';
 
-                    return '<span class="badge badge-square badge-'.$variant.' text-uppercase">'.$row->status.'</span>';
+                    return $return;
                 })
                 ->addColumn('ordered_at', function ($row) {
                     return '<span style="white-space: nowrap;">'.$row->created_at->format('d-M-Y').'</span><div class="my-1"></div><span>'.$row->created_at->format('h:i A').'</span>';
                 })
-                ->addColumn('completed_returned_at', function ($row) {
+                ->addColumn('completed_at', function ($row) {
                     $col = $row->status == 'returned' ? 'returned_at' : 'completed_at';
 
                     return isset($row->data[$col]) ? date('d-M-Y', strtotime($row->data[$col])) : 'N/A';
                 })
-                ->addColumn('action', function ($row) {
-                    $btn = '<div class="btn-group btn-group-sm d-flex justify-content-between">
-                            <a class="btn btn-sm btn-primary" href="'.route('admin.order.show', $row->id).'" noclick="window.open(\''.route('reseller.order.show', $row->id).'\', \'popup\', \'width=`100%`, height=`100%`\')">View</a>';
-                    in_array($row->status, ['completed', 'returned']) || $btn .= '<a class="btn btn-sm btn-danger" href="'.route('admin.order.cancel', $row->id).'" onclick="if (confirm(\'Are You Sure?\')){return true;}else{event.stopPropagation(); event.preventDefault(); return false;};">Cancel</a>';
-                    $btn .= '</div>';
-
-                    return $btn;
-                })
-                ->rawColumns(['reseller', 'customer', 'status', 'price', 'ordered_at', 'action'])
+                ->rawColumns(['checkbox', 'id', 'reseller', 'customer', 'status', 'price', 'ordered_at'])
                 ->setRowAttr([
                     'data-entry-id' => function ($row) {
                         return $row->id;

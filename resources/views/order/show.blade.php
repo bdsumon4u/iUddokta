@@ -317,16 +317,12 @@
                                         <div class="col-md-12">
                                             @unless($is_reseller)
                                             <div class="d-flex justify-content-end">
-                                                @if($order->status == 'pending')
-                                                <input type="hidden" name="status" value="processing">
-                                                @else
                                                 <select name="status" id="status" class="mr-1 form-control">
                                                     @foreach(config('order.statuses') as $status)
-                                                    <option value="{{ $status }}" @if($status == $order->status) selected @endif class="text-capitalize">{{ ucfirst($status) }}</option>
+                                                    <option value="{{ $status }}" @if($status == strtoupper($order->status)) selected @endif class="text-uppercase">{{ $status }}</option>
                                                     @endforeach
                                                 </select>
-                                                @endif
-                                                <button type="submit" class="ml-1 btn btn-success">{{ $order->status == 'pending' ? 'Accept' : 'Update' }}</button>
+                                                <button type="submit" class="ml-1 btn btn-success">Update</button>
                                             </div>
                                             @elseif($order->status == 'pending')
                                                 <div class="d-flex justify-content-end">

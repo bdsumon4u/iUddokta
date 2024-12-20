@@ -27,7 +27,9 @@ class SidebarComposer
                 'icon' => 'fa fa-th-list',
                 'style' => 'simple',
                 'name' => 'Orders',
-                'route' => 'admin.order.index',
+                'url' => route('admin.order.index', [
+                    'status' => 'PENDING',
+                ]),
             ],
             [
                 'icon' => 'fa fa-image',
