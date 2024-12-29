@@ -148,7 +148,7 @@
     <link rel="stylesheet" href="{{ asset('css/fcart.css') }}">
     <!-- End layout styles -->
     <link rel="shortcut icon" href="{{ asset($logo->favicon ?? '') ?? '' }}" type="image/x-icon">
-    @yield('styles')
+    @stack('styles')
 </head>
 
 <body>
@@ -233,7 +233,7 @@
     <script src="{{ asset('js/stellar.js') }}"></script>
     <!-- endinject -->
     <script src="{{ asset('js/misc.js') }}"></script>
-    @yield('scripts')
+    @stack('scripts')
     <script>
         function setSidebarHeight() {
             const viewportHeight = window.innerHeight;

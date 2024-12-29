@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     @section('title')
-    <title>{{ $company->name ?? config('app.name') }} - {{ $company->tagline ?? 'Make Your Business More Profitable.' }}</title>
+        <title>{{ $company->name ?? config('app.name') }} - {{ $company->tagline ?? 'Make Your Business More Profitable.' }}
+        </title>
     @show
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -18,9 +19,7 @@
     <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> -->
     <!-- <link rel="stylesheet" href="https://tonnicollection.com/themes/storefront/public/css/app.css?v=1.1.9"> -->
     <!-- <link rel="stylesheet" href="{{ asset('css/shop.css') }}"> -->
-    <link rel="shortcut icon"
-        href="{{ asset($logo->favicon ?? '') ?? '' }}"
-        type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset($logo->favicon ?? '') ?? '' }}" type="image/x-icon">
     <style>
         #overlayer {
             width: 100%;
@@ -33,6 +32,7 @@
             right: 0;
             bottom: 0;
         }
+
         .loader {
             z-index: 7700;
             position: fixed;
@@ -42,17 +42,19 @@
             -ms-transform: translate(-50%, -50%);
             transform: translate(-50%, -50%);
         }
+
         @-webkit-keyframes spinner-border {
-        to {
-            transform: rotate(360deg);
-        }
+            to {
+                transform: rotate(360deg);
+            }
         }
 
         @keyframes spinner-border {
-        to {
-            transform: rotate(360deg);
+            to {
+                transform: rotate(360deg);
+            }
         }
-        }
+
         .spinner-border {
             display: inline-block;
             width: 2rem;
@@ -68,40 +70,47 @@
         .mini-cart-title a {
             text-decoration: none;
         }
+
         .search-area .mobile-search .dropdown-menu {
             min-width: 280px;
         }
+
         .category-menu-wrapper.show .fa-angle-down {
             transform: rotate(180deg);
         }
-        @media screen and (min-width: 681px)
-        {
+
+        @media screen and (min-width: 681px) {
             .product-list-result .grid-products .product-card:nth-child(-n+4) {
                 margin-top: 20px;
             }
         }
-        @media screen and (min-width: 991px)
-        {
+
+        @media screen and (min-width: 991px) {
             .product-list-result .grid-products {
                 grid-template-columns: repeat(4, 1fr);
             }
         }
+
         .product-card .image-holder,
         .product-card .image-placeholder {
             /* border: 2px solid #ddd; */
         }
+
         .base-image-inner img {
             height: 100% !important;
             width: 100% !important;
         }
+
         .cart-list .table-responsive td:nth-child(6) {
             width: auto;
         }
+
         .charge-box {
             display: flex;
             align-items: center;
             margin-right: 0;
         }
+
         .charge-box input {
             width: 100px;
             margin-left: auto;
@@ -109,7 +118,7 @@
             max-height: 35px !important;
         }
     </style>
-    @yield('styles')
+    @stack('styles')
 </head>
 
 <body class="theme-navy-blue slider_with_banners ltr">
@@ -128,13 +137,17 @@
             @include('reseller.products.inc.sidebar')
             @include('reseller.products.inc.topbar')
             @include('reseller.products.inc.header')
-            
+
             @include('reseller.products.partials.mega-menu')
 
             <div class="content-wrapper clearfix ">
                 <div class="container">
-                    
-                    @unless (request()->routeIs('home') || request()->routeIs('login') || request()->routeIs('register') || request()->routeIs('reset') || request()->routeIs('reset.complete'))
+
+                    @unless (request()->routeIs('home') ||
+                            request()->routeIs('login') ||
+                            request()->routeIs('register') ||
+                            request()->routeIs('reset') ||
+                            request()->routeIs('reset.complete'))
                         @include('reseller.products.partials.notification')
                     @endunless
 
@@ -162,24 +175,25 @@
             </div>
         </div>
     </div>
-    
-<!-- jQuery library -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
-<!-- Popper JS -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-<!-- Latest compiled JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-<!-- Latest compiled JavaScript -->
-<!-- <script src="{{ asset('js/app.js') }}"></script> -->
-<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script> -->
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <!-- Latest compiled JavaScript -->
+    <!-- <script src="{{ asset('js/app.js') }}"></script> -->
+    <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script> -->
     <!-- <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script> -->
     <!-- <script src="https://tonnicollection.com/themes/storefront/public/js/app.js?v=1.1.9"></script> -->
     <script src="{{ asset('js/fleetcart.js') }}"></script>
-    @yield('scripts')
+    @stack('scripts')
     <script>
-        $(document).ready(function(){
-            $(".loader").delay(1000).fadeOut("slow"); $("#overlayer").delay(1000).fadeOut("slow");
+        $(document).ready(function() {
+            $(".loader").delay(1000).fadeOut("slow");
+            $("#overlayer").delay(1000).fadeOut("slow");
         });
     </script>
 </body>

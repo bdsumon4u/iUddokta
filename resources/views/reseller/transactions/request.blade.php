@@ -1,19 +1,19 @@
 @extends('reseller.layout')
 
-@section('styles')
-@livewireStyles
-@endsection
+@push('styles')
+    @livewireStyles
+@endpush
 
 @section('content')
-<div class="row justify-content-center">
-    <div class="col-md-6">
-        @livewire('payment-calculator', [
-            'reseller' => $reseller,
-        ])
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            @livewire('payment-calculator', [
+                'reseller' => $reseller,
+            ])
+        </div>
     </div>
-</div>
 @endsection
 
-@section('scripts')
-@livewireScripts
-@endsection
+@push('scripts')
+    @livewireScripts
+@endpush

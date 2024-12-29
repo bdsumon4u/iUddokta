@@ -43,7 +43,7 @@ class SidebarComposer
                 ],
                 [
                     'name' => 'Settings',
-                    'route' => 'reseller.setting.edit',
+                    'route' => 'reseller.setting.payment',
                 ],
                 [
                     'name' => 'Money Request',

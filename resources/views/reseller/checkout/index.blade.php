@@ -1,19 +1,19 @@
 @extends('reseller.products.layout')
 
-@section('styles')
-@livewireStyles
-@endsection
+@push('styles')
+    @livewireStyles
+@endpush
 
 @section('content')
-@livewire('live-cart', [
-    'type' => 'checkout',
-    'sell' => $sell,
-    'shipping' => $shipping,
-    'advanced' => $advanced,
-    'cart' => $cart->toArray()
-])
+    @livewire('live-cart', [
+        'type' => 'checkout',
+        'sell' => $sell,
+        'shipping' => $shipping,
+        'advanced' => $advanced,
+        'cart' => $cart->toArray(),
+    ])
 @endsection
 
-@section('scripts')
-@livewireScripts
-@endsection
+@push('scripts')
+    @livewireScripts
+@endpush

@@ -16,9 +16,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/coreui.css') }}" rel="stylesheet">
-    <link rel="shortcut icon"
-        href="{{ asset($logo->favicon ?? '') ?? '' }}"
-        type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset($logo->favicon ?? '') ?? '' }}" type="image/x-icon">
     <style>
         #overlayer {
             width: 100%;
@@ -32,6 +30,7 @@
             bottom: 0;
             opacity: 0.9;
         }
+
         .loader {
             z-index: 7700;
             position: fixed;
@@ -41,12 +40,15 @@
             -ms-transform: translate(-50%, -50%);
             transform: translate(-50%, -50%);
         }
+
         .nav-dropdown-items .nav-link {
             padding-left: 5px !important;
         }
+
         .navbar-toggler .fa {
             color: #444;
         }
+
         i.fa.fa-user.r {
             font-size: 20px;
             border-radius: 10px;
@@ -55,17 +57,19 @@
             color: #444;
             border: 3px double red;
         }
+
         label {
             font-weight: bold;
             font-family: cursive, monospace;
             font-size: 14px;
         }
+
         #base-setting .form-group {
             padding: 2px 3px;
             border: 1px solid #ddd;
         }
     </style>
-    @yield('styles')
+    @stack('styles')
 </head>
 
 <body class="app header-fixed sidebar-fixed aside-menu-fixed sidebar-lg-show">
@@ -82,11 +86,11 @@
             <!-- Breadcrumb-->
             <div class="container-fluid">
                 <div class="animated fadeIn">
-                    @if($message = Session::get('success'))
-                    <div class="alert alert-success py-2"><strong>{{ $message }}</strong></div>
+                    @if ($message = Session::get('success'))
+                        <div class="alert alert-success py-2"><strong>{{ $message }}</strong></div>
                     @endif
-                    @if($message = Session::get('error'))
-                    <div class="alert alert-danger py-2"><strong>{{ $message }}</strong></div>
+                    @if ($message = Session::get('error'))
+                        <div class="alert alert-danger py-2"><strong>{{ $message }}</strong></div>
                     @endif
                     @yield('content')
                 </div>
@@ -117,22 +121,23 @@
         }
 
         // window.Echo.channel('admin-notice-count')
-            // .listen('.admin.notice.count', function (data) {
-                // console.log(data);
-                // var now = $('.notice-count').first().text();
-                // $('.notice-count').text(parseInt(now) + 1);
-            // });
-        $(document).ready(function(){
-            $(".loader").delay(1000).fadeOut("slow"); $("#overlayer").delay(1000).fadeOut("slow");
+        // .listen('.admin.notice.count', function (data) {
+        // console.log(data);
+        // var now = $('.notice-count').first().text();
+        // $('.notice-count').text(parseInt(now) + 1);
+        // });
+        $(document).ready(function() {
+            $(".loader").delay(1000).fadeOut("slow");
+            $("#overlayer").delay(1000).fadeOut("slow");
 
-            $('#color-logo, #white-logo, #footer-logo, #favicon-logo').change(function(e){
+            $('#color-logo, #white-logo, #footer-logo, #favicon-logo').change(function(e) {
                 console.log('changed')
                 renderLogo(this);
             });
 
             function renderLogo(input) {
                 console.log('rendering')
-                if(input.files.length) {
+                if (input.files.length) {
                     console.log('has length')
                     var reader = new FileReader;
                     reader.readAsDataURL(input.files[0]);
@@ -142,11 +147,11 @@
                     }
                 }
             }
-            
-            
+
+
             $(document).on('click', '.btn-danger', function(e) {
                 e.preventDefault();
-                
+
                 if ($(this).is('a')) {
                     document.location = $(this).attr('href');
                 } else {
@@ -158,7 +163,7 @@
                                 _method: 'DELETE',
                                 _token: '{{ csrf_token() }}',
                             },
-                            success: function () {
+                            success: function() {
                                 location.reload();
                             }
                         });
@@ -167,7 +172,7 @@
             });
         });
     </script>
-    @yield('scripts')
+    @stack('scripts')
 </body>
 
 </html>

@@ -4,7 +4,7 @@
 <div class="row">
     <div class="col-md-6">
         <div class="orders-table">
-            <div class="card rounded-0 shadow-sm">
+            <div class="shadow-sm card rounded-0">
                 <div class="card-header"><strong>Pending Orders</strong></div>
                 <div class="card-body">
                     <div class="table-responive">
@@ -41,7 +41,7 @@
     </div>
     <div class="col-md-6">
         <div class="transactions-table">
-            <div class="card rounded-0 shadow-sm">
+            <div class="shadow-sm card rounded-0">
                 <div class="card-header"><strong>Recent Transactions</strong></div>
                 <div class="card-body">
                     <div class="table-responive">
@@ -92,7 +92,7 @@
     </div>
     <div class="col-md-12">
         <div class="pending-resellers">
-            <div class="card rounded-0 shadow-sm">
+            <div class="shadow-sm card rounded-0">
                 <div class="card-header"><strong>Non-Verified</strong> Resellers</div>
                 <div class="card-body">
                     <table class="table table-bordered table-striped table-hover datatable" style="width: 100%;">
@@ -130,7 +130,7 @@
 </div>
 @endsection
 
-@section('scripts')
+@push('scripts')
 <script>
     $.extend(true, $.fn.dataTable.Buttons.defaults.dom.button, { className: 'btn btn-sm' });
     
@@ -163,4 +163,4 @@
     $('.datatable').DataTable({
     });
 </script>
-@endsection
+@endpush

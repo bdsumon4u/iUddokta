@@ -1,6 +1,6 @@
 @extends('layouts.ready')
 
-@section('styles')
+@push('styles')
     <style>
         .nav-tabs .nav-item .nav-link {
             border-top-left-radius: 0;
@@ -37,19 +37,19 @@
             width: 100% !important;
         }
     </style>
-@endsection
+@endpush
 
 @section('content')
     <div class="row justify-content-center">
         <div class="col-sm-12">
-            <div class="card rounded-0 shadow-sm">
+            <div class="shadow-sm card rounded-0">
                 <div class="card-header"><strong>All</strong> <small><i>Categories</i></small></div>
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-7">
                             <div class="formatted-categories">
                                 @if ($categories->isEmpty())
-                                    <div class="alert alert-danger py-2"><strong>No Categories Found.</strong></div>
+                                    <div class="py-2 alert alert-danger"><strong>No Categories Found.</strong></div>
                                 @else
                                     <x-categories.tree :categories="$categories" />
                                 @endif
@@ -57,7 +57,7 @@
                         </div>
                         <div class="col-md-5">
                             <div class="nav-tabs-boxed">
-                                <div class="card rounded-0 shadow-sm">
+                                <div class="shadow-sm card rounded-0">
                                     <div class="card-header">
                                         <ul class="nav nav-tabs" role="tablist">
                                             <li class="nav-item">
@@ -71,7 +71,7 @@
                                                         role="tab" aria-controls="edit-category"
                                                         aria-selected="false">Edit</a>
                                                 </li>
-                                                <li class="nav-item ml-auto">
+                                                <li class="ml-auto nav-item">
                                                     <form
                                                         action="{{ route('admin.categories.destroy', request('active_id', 0)) }}"
                                                         method="post">
@@ -86,13 +86,14 @@
                                     </div>
                                     <div class="card-body">
                                         @if ($message = Session::get('success'))
-                                            <div class="alert alert-info py-2"><strong>{{ $message }}</strong></div>
+                                            <div class="py-2 alert alert-info"><strong>{{ $message }}</strong></div>
                                         @endif
                                         @php $active = App\Models\Category::find(request('active_id')) @endphp
                                         <div class="tab-content">
                                             <div class="tab-pane active" id="create-category" role="tabpanel">
                                                 <p class="text-info">Create
-                                                    <strong>{{ $active ? 'Child' : 'Root' }}</strong> Category</p>
+                                                    <strong>{{ $active ? 'Child' : 'Root' }}</strong> Category
+                                                </p>
                                                 <form action="{{ route('admin.categories.store') }}" method="post">
                                                     @csrf
                                                     <div class="form-group">
@@ -119,7 +120,7 @@
                                                             placeholder="Select parent" id="create-parent-id"
                                                             :selected="request('active_id', 0)" />
                                                     </div>
-                                                    <button type="submit" class="btn btn-sm btn-success d-block ml-auto"><i
+                                                    <button type="submit" class="ml-auto btn btn-sm btn-success d-block"><i
                                                             class="fa fa-check"></i> Submit</button>
                                                 </form>
                                             </div>
@@ -159,7 +160,7 @@
                                                                 :selected="$active->parent->id ?? 0" :disabled="$active->id" />
                                                         </div>
                                                         <button type="submit"
-                                                            class="btn btn-sm btn-success d-block ml-auto"><i
+                                                            class="ml-auto btn btn-sm btn-success d-block"><i
                                                                 class="fa fa-check"></i> Submit</button>
                                                     </form>
                                                 </div>
@@ -176,7 +177,7 @@
     </div>
 @endsection
 
-@section('scripts')
+@push('scripts')
     <script>
         $(document).ready(function() {
             $('[name="name"]').keyup(function() {
@@ -184,4 +185,4 @@
             });
         });
     </script>
-@endsection
+@endpush
