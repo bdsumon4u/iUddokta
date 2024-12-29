@@ -113,27 +113,7 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
-        switch ($order->status) {
-            case 'pending':
-                $variant = 'secondary';
-                break;
-            case 'processing':
-                $variant = 'warning';
-                break;
-            case 'shipping':
-                $variant = 'primary';
-                break;
-            case 'completed':
-                $variant = 'success';
-                break;
-            case 'returned':
-                $variant = 'danger';
-                break;
-
-            default:
-                // code...
-                break;
-        }
+        $variant = $this->variant($order->status);
         // if($order->status == 'completed' | $order->status == 'returned') {
         $products = Product::withTrashed()->whereIn('id', array_keys($order->data['products']))->get();
         $cp = $order->current_price();
@@ -145,27 +125,7 @@ class OrderController extends Controller
 
     public function invoice(Order $order)
     {
-        switch ($order->status) {
-            case 'pending':
-                $variant = 'secondary';
-                break;
-            case 'processing':
-                $variant = 'warning';
-                break;
-            case 'shipping':
-                $variant = 'primary';
-                break;
-            case 'completed':
-                $variant = 'success';
-                break;
-            case 'returned':
-                $variant = 'danger';
-                break;
-
-            default:
-                $variant = '';
-                break;
-        }
+        $variant = $this->variant($order->status);
 
         // if($order->status == 'completed' | $order->status == 'returned') {
         return view('reseller.orders.invoice', compact('order', 'variant'));
@@ -229,5 +189,18 @@ class OrderController extends Controller
         }
 
         return redirect()->back()->with('error', "Order Can\'t be Cancelled.");
+    }
+
+    private function variant($status): string
+    {
+        return match(strtolower($status)) {
+            'pending' => 'secondary',
+            'processing' => 'warning',
+            'invoiced' => 'info',
+            'shipping' => 'primary',
+            'completed' => 'success',
+            'failed' => 'danger',
+            default => 'default',
+        };
     }
 }

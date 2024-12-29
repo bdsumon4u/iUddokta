@@ -136,27 +136,7 @@ class OrderController extends Controller
                     return $ret;
                 })
                 ->addColumn('status', function ($row) {
-                    switch ($row->status) {
-                        case 'pending':
-                            $variant = 'secondary';
-                            break;
-                        case 'processing':
-                            $variant = 'warning';
-                            break;
-                        case 'shipping':
-                            $variant = 'primary';
-                            break;
-                        case 'completed':
-                            $variant = 'success';
-                            break;
-                        case 'returned':
-                            $variant = 'danger';
-                            break;
-
-                        default:
-                            // code...
-                            break;
-                    }
+                    $variant = $this->variant($row->status);
 
                     return '<span class="badge badge-square badge-'.$variant.' text-uppercase">'.$row->status.'</span>';
                 })
@@ -248,5 +228,18 @@ class OrderController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    private function variant($status): string
+    {
+        return match(strtolower($status)) {
+            'pending' => 'secondary',
+            'processing' => 'warning',
+            'invoiced' => 'info',
+            'shipping' => 'primary',
+            'completed' => 'success',
+            'failed' => 'danger',
+            default => 'default',
+        };
     }
 }
