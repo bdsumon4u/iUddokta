@@ -28,12 +28,26 @@ class PaymentCalculator extends Component
 
     public $number;
 
+    public $order_ids;
+
     public function mount(Reseller $reseller, $amount = null, $method = null)
     {
         $this->reseller = $reseller;
         $this->amount = $amount;
         $this->method = $method;
+        $this->chMethod();
         $this->calc();
+
+        $orders = $reseller->orders()
+            ->where('status', 'DELIVERED')
+            ->whereDoesntHave('transactions')
+            ->get();
+
+        $this->order_ids = $orders->pluck('id')->implode(',');
+
+        $this->amount = $orders->sum(function ($item) {
+            return $item->data['profit'] - $item->data['advanced'];
+        });
     }
 
     public function render()
@@ -53,7 +67,6 @@ class PaymentCalculator extends Component
                 return $payment->method == $this->method;
             });
 
-            // dd($arr);
             $this->bank_name = $arr->bank_name ?? '';
             $this->account_name = $arr->account_name ?? '';
             $this->type = $arr->type ?? '';

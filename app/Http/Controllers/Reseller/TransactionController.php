@@ -6,6 +6,7 @@ use App\Events\TransactionRequestRecieved;
 use App\Http\Controllers\Controller;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class TransactionController extends Controller
 {
@@ -41,6 +42,19 @@ class TransactionController extends Controller
     public function store(Request $request)
     {
         $reseller = auth('reseller')->user();
+        
+        $orders = $reseller->orders()
+            ->where('status', 'DELIVERED')
+            ->whereDoesntHave('transactions')
+            ->whereIn('id', explode(',', $request->order_ids))
+            ->get();
+
+        $order_ids = $orders->pluck('id')->implode(',');
+
+        $amount = $orders->sum(function ($item) {
+            return $item->data['profit'] - $item->data['advanced'];
+        });
+
         $data = $request->validate([
             'amount' => 'required|integer',
             'method' => 'required',
@@ -51,11 +65,16 @@ class TransactionController extends Controller
             'account_type' => 'required',
             'account_number' => 'nullable',
         ]);
+        $data['amount'] = $amount;
         $data['reseller_id'] = $reseller->id;
 
-        if($transaction = Transaction::create($data)) {
-            event(new TransactionRequestRecieved($transaction));
-        }
+        DB::transaction(function () use ($data, $order_ids) {
+            if($transaction = Transaction::create($data)) {
+                $transaction->orders()->attach($order_ids);
+                event(new TransactionRequestRecieved($transaction));
+            }
+        });
+
         return redirect()->back()->with('success', 'Money Request Sent.');
     }
 

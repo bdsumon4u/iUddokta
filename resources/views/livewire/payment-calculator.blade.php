@@ -2,16 +2,18 @@
     @php $is_reseller = ($user = auth('reseller')->user()) && ($user->id ?? 0) == request()->user('reseller')->id @endphp
     <div class="card-header">Pay To <strong>{{ $reseller->name }}</strong></div>
     <div class="card-body">
+        @php($transaction = \App\Models\Transaction::find(request('transaction_id', 0)))
         <form action="{{ route($is_reseller ? 'reseller.transactions.store' : 'admin.transactions.pay.store') }}" method="post">
             @csrf
             <!-- <h4 class="text-center balance">Balance: {{ $balance }}</h4> -->
             <input type="hidden" name="reseller_id" value="{{ $reseller->id }}">
             <input type="hidden" name="transaction_id" value="{{ request('transaction_id', 0) }}">
+            <input type="hidden" name="order_ids" value="{{ old('order_ids', $order_ids)}}">
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="amount">Amount</label>
-                        <input type="text" name="amount" data-balance="{{ $reseller->balance }}" value="{{ old('amount', request('amount', $amount)) }}" class="form-control @error('amount') is-invalid @enderror" @if(!empty(request('method'))) readonly @endif>
+                        <input type="text" name="amount" data-balance="{{ $reseller->balance }}" value="{{ old('amount', request('amount', $amount)) }}" class="form-control @error('amount') is-invalid @enderror" readonly>
                         @error('amount')
                         <span class="invalid-feedback">{{ $message }}</span>
                         @enderror
@@ -39,7 +41,7 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         <label for="bank_name">Bank Name</label>
-                        <input type="text" name="bank_name" value="{{ old('bank_name', request('bank_name', $bank_name)) }}" class="form-control @error('bank_name') is-invalid @enderror" @if(!empty(request('method'))) readonly @endif>
+                        <input type="text" name="bank_name" value="{{ old('bank_name', request('bank_name', $bank_name)) }}" class="form-control @error('bank_name') is-invalid @enderror" readonly>
                         @error('bank_name')
                         <span class="invalid-feedback">{{ $message }}</span>
                         @enderror
@@ -48,7 +50,7 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         <label for="account_name">Account Name</label>
-                        <input type="text" name="account_name" value="{{ old('account_name', request('account_name', $account_name)) }}" class="form-control @error('account_name') is-invalid @enderror" @if(!empty(request('method'))) readonly @endif>
+                        <input type="text" name="account_name" value="{{ old('account_name', request('account_name', $account_name)) }}" class="form-control @error('account_name') is-invalid @enderror" readonly>
                         @error('account_name')
                         <span class="invalid-feedback">{{ $message }}</span>
                         @enderror
@@ -57,7 +59,7 @@
                 <div class="col-md-2">
                     <div class="form-group">
                         <label for="branch">Branch</label>
-                        <input type="text" name="branch" value="{{ old('branch', request('branch', $branch)) }}" class="form-control @error('branch') is-invalid @enderror" @if(!empty(request('method'))) readonly @endif>
+                        <input type="text" name="branch" value="{{ old('branch', request('branch', $branch)) }}" class="form-control @error('branch') is-invalid @enderror" readonly>
                         @error('branch')
                         <span class="invalid-feedback">{{ $message }}</span>
                         @enderror
@@ -66,7 +68,7 @@
                 <div class="col-md-2">
                     <div class="form-group">
                         <label for="routing_no">Routing No</label>
-                        <input type="text" name="routing_no" value="{{ old('routing_no', request('routing_no', $routing_no)) }}" class="form-control @error('routing_no') is-invalid @enderror" @if(!empty(request('method'))) readonly @endif>
+                        <input type="text" name="routing_no" value="{{ old('routing_no', request('routing_no', $routing_no)) }}" class="form-control @error('routing_no') is-invalid @enderror" readonly>
                         @error('routing_no')
                         <span class="invalid-feedback">{{ $message }}</span>
                         @enderror
@@ -76,7 +78,7 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         <label for="account_type">Account Type</label>
-                        <input type="text" name="account_type" value="{{ old('account_type', request('account_type', $type)) }}" class="form-control @error('account_type') is-invalid @enderror" @if(!empty(request('method'))) readonly @endif>
+                        <input type="text" name="account_type" value="{{ old('account_type', request('account_type', $type)) }}" class="form-control @error('account_type') is-invalid @enderror" readonly>
                         @error('account_type')
                         <span class="invalid-feedback">{{ $message }}</span>
                         @enderror
@@ -85,7 +87,7 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         <label for="account_number">Account Number</label>
-                        <input type="text" name="account_number" value="{{ old('account_number', request('account_number', $number)) }}" class="form-control @error('account_number') is-invalid @enderror" @if(!empty(request('method'))) readonly @endif>
+                        <input type="text" name="account_number" value="{{ old('account_number', request('account_number', $number)) }}" class="form-control @error('account_number') is-invalid @enderror" readonly>
                         @error('account_number')
                         <span class="invalid-feedback">{{ $message }}</span>
                         @enderror
@@ -103,7 +105,9 @@
                 </div>
                 @endif
             </div>
+            @if($transaction?->status == 'pending')
             <button type="submit" class="ml-auto btn btn-sm btn-success d-block">{{ $is_reseller ? 'Request' : 'Paid' }}</button>
+            @endif
         </form>
     </div>
 </div>

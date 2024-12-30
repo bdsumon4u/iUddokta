@@ -43,7 +43,6 @@ class TransactionController extends Controller
         $resellers = $resellers->filter(function (Reseller $reseller) {
             $lastPaidAt = optional($reseller->lastPaid->created_at)->toDateString();
             if (! is_null($reseller->payment) && ($lastPaidAt <= $this->timezone[1])) {
-                // if($reseller->balance > 0) {
                 $com = $ret = 0;
                 $reseller->orders
                     ->each(function (Order $item) use (&$com, &$ret) {
@@ -57,7 +56,6 @@ class TransactionController extends Controller
                 if ($reseller->payNow !== 0) {
                     return $reseller;
                 }
-                // }
             }
         });
 
@@ -153,5 +151,12 @@ class TransactionController extends Controller
             'timezone' => $this->timezone,
             'orders' => $orders,
         ]);
+    }
+
+    public function destroy(Request $request, Transaction $transaction)
+    {
+        $transaction->delete();
+
+        return back();
     }
 }

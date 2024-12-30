@@ -9,6 +9,7 @@
         <div class="col-md-8">
             @livewire('payment-calculator', [
                 'reseller' => $reseller,
+                'method' => current($reseller->payment_methods ?? [])->method ?? null,
             ])
         </div>
     </div>

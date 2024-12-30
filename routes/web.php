@@ -131,10 +131,11 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin', 'as' => 'admin.'], fu
     Route::view('/transactions/history', 'admin.transactions.index')->name('transactions.index');
     Route::view('/transactions/requests', 'admin.transactions.requests')->name('transactions.requests');
     Route::controller(\App\Http\Controllers\TransactionController::class)->group(function () {
-        Route::get('/transactions/pay', 'pay')->name('transactions.pay');
+        // Route::get('/transactions/pay', 'pay')->name('transactions.pay');
         Route::get('/transactions/pay/{reseller}', 'payToReseller')->name('transactions.pay-to-reseller');
         Route::post('/transactions/pay/store', 'store')->name('transactions.pay.store');
         Route::get('/transactions/{transaction}', 'show')->name('transactions.show');
+        Route::get('/transactions/{transaction}/delete', 'destroy')->name('transactions.destroy');
     });
 
     // Notification Routes

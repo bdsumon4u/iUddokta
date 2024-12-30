@@ -80,4 +80,9 @@ class Order extends Model
     {
         return $this->belongsTo(Reseller::class);
     }
+
+    public function transactions()
+    {
+        return $this->belongsToMany(Transaction::class);
+    }
 }

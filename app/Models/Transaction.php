@@ -23,4 +23,9 @@ class Transaction extends Model
     {
         return $this->belongsTo(Reseller::class);
     }
+
+    public function orders()
+    {
+        return $this->belongsToMany(Order::class);
+    }
 }

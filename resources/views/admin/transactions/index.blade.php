@@ -26,7 +26,6 @@
                                         <th>Amount</th>
                                         <th>Date</th>
                                         <th>Via</th>
-                                        <th>Account Number</th>
                                         <th>Transaction Number</th>
                                     </tr>
                                 </thead>
@@ -162,10 +161,6 @@
                 {
                     data: 'way',
                     name: 'way'
-                },
-                {
-                    data: 'account_number',
-                    name: 'account_number'
                 },
                 {
                     data: 'transaction_number',

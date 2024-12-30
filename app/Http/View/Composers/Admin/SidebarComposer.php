@@ -100,10 +100,10 @@ class SidebarComposer
                 'style' => 'dropdown',
                 'name' => 'Transactions',
                 'items' => [
-                    [
-                        'name' => 'Pay',
-                        'route' => 'admin.transactions.pay',
-                    ],
+                    // [
+                    //     'name' => 'Pay',
+                    //     'route' => 'admin.transactions.pay',
+                    // ],
                     [
                         'name' => 'History',
                         'route' => 'admin.transactions.index',

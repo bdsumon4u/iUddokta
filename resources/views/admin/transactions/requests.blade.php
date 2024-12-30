@@ -23,12 +23,11 @@
                                         <th></th>
                                         <th>ID</th>
                                         <th>Reseller</th>
-                                        <th>Amount</th>
                                         <th>Date</th>
                                         <th>Way</th>
-                                        <th>Account Number</th>
                                         <th>Transaction Number</th>
-                                        <th>Action</th>
+                                        <th>Pay</th>
+                                        <th>Delete</th>
                                     </tr>
                                 </thead>
                             </table>
@@ -153,10 +152,6 @@
                     name: 'reseller'
                 },
                 {
-                    data: 'amount',
-                    name: 'amount'
-                },
-                {
                     data: 'date',
                     name: 'date'
                 },
@@ -165,16 +160,16 @@
                     name: 'way'
                 },
                 {
-                    data: 'account_number',
-                    name: 'account_number'
-                },
-                {
                     data: 'transaction_number',
                     name: 'transaction_number'
                 },
                 {
                     data: 'pay',
                     name: 'pay'
+                },
+                {
+                    data: 'delete',
+                    name: 'delete'
                 },
             ],
             order: [

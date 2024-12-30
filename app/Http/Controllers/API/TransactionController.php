@@ -49,7 +49,9 @@ class TransactionController extends Controller
                         '<br>
                         <strong>Branch:</strong> '.$row->branch.
                         '<br>
-                        <strong>Routing No:</strong> '.$row->routing_no;
+                        <strong>Routing No:</strong> '.$row->routing_no.
+                        '<br>
+                        <strong>Account No:</strong> '.$row->account_number;
                     }
 
                     return $ret;
@@ -65,9 +67,12 @@ class TransactionController extends Controller
                         'routing_no' => $row->routing_no,
                         'account_type' => $row->account_type,
                         'account_number' => $row->account_number,
-                    ]).'">Pay</a>';
+                    ]).'">Pay ৳'.$row->amount.'</a>';
                 })
-                ->rawColumns(['id', 'reseller', 'way', 'pay'])
+                ->addColumn('delete', function ($row) {
+                    return '<a class="btn btn-sm btn-block btn-danger" href="'.route('admin.transactions.destroy', $row->id).'">Delete</a>';
+                })
+                ->rawColumns(['id', 'reseller', 'way', 'pay', 'delete'])
                 ->setRowAttr([
                     'data-entry-id' => function ($row) {
                         return $row->id;
