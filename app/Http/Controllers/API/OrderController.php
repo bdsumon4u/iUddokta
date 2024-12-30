@@ -78,7 +78,7 @@ class OrderController extends Controller
                     return '<span style="white-space: nowrap;">'.$row->created_at->format('d-M-Y').'</span><div class="my-1"></div><span>'.$row->created_at->format('h:i A').'</span>';
                 })
                 ->addColumn('completed_at', function ($row) {
-                    $col = $row->status == 'RETURNED' ? 'returned_at' : 'completed_at';
+                    $col = $row->status == 'FAILED' ? 'returned_at' : 'completed_at';
 
                     return isset($row->data[$col]) ? date('d-M-Y', strtotime($row->data[$col])) : 'N/A';
                 })
@@ -144,7 +144,7 @@ class OrderController extends Controller
                     return '<span style="white-space: nowrap;">'.$row->created_at->format('d-M-Y').'</span><div class="my-1"></div><span>'.$row->created_at->format('h:i A').'</span>';
                 })
                 ->addColumn('completed_returned_at', function ($row) {
-                    $col = $row->status == 'RETURNED' ? 'returned_at' : 'completed_at';
+                    $col = $row->status == 'FAILED' ? 'returned_at' : 'completed_at';
 
                     return isset($row->data[$col]) ? date('d-M-Y', strtotime($row->data[$col])) : 'N/A';
                 })

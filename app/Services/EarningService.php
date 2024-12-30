@@ -100,7 +100,7 @@ class EarningService
         }
 
         return $this->orders->filter(function ($order) {
-            return $order->status == 'RETURNED';
+            return $order->status == 'FAILED';
         });
     }
 

@@ -104,7 +104,7 @@ class OrderController extends Controller
     public function update(Request $request, Order $order)
     {
         // dump($order->data);
-        if ($order->status == 'DELIVERED' || $order->status == 'RETURNED') {
+        if ($order->status == 'DELIVERED' || $order->status == 'FAILED') {
             return back()->with('error', 'Order Can\'t be Updated');
         }
 
@@ -131,8 +131,8 @@ class OrderController extends Controller
             $before = $order->status;
             $data['profit'] = $data['sell'] - $data['buy_price'] - ($data['packaging'] + $data['delivery_charge'] + $data['cod_charge']) + $data['shipping'];
             $order->status = $data['status'];
-            $data['completed_at'] = $data['status'] == 'completed' ? now()->toDateTimeString() : null;
-            $data['returned_at'] = $data['status'] == 'returned' ? now()->toDateTimeString() : null;
+            $data['completed_at'] = $data['status'] == 'delivered' ? now()->toDateTimeString() : null;
+            $data['returned_at'] = $data['status'] == 'failed' ? now()->toDateTimeString() : null;
             unset($data['status']);
             foreach ($order->data as $key => $val) {
                 $data[$key] = isset($data[$key]) ? $data[$key] : $val;
@@ -154,7 +154,7 @@ class OrderController extends Controller
 
     public function cancel(Order $order)
     {
-        if (in_array($order->status, ['DELIVERED', 'RETURNED'])) {
+        if (in_array($order->status, ['DELIVERED', 'FAILED'])) {
             return redirect()->back()->with('error', "Order Can\'t be Cancelled.");
         }
 

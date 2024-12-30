@@ -143,7 +143,7 @@ class Reseller extends Authenticatable implements MustVerifyEmail
 
     public function getReturnedOrdersAttribute()
     {
-        return $this->orders->where('status', 'RETURNED');
+        return $this->orders->where('status', 'FAILED');
     }
 
     public function getTotalSellAttribute()

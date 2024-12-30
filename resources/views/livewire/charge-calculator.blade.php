@@ -55,7 +55,7 @@
                     {!! $errors->first('sell', '<span class="error-message">:message</span>') !!}
                 </div>
             </div>
-            @if(! $is_reseller || ($is_reseller && ($order->status == 'DELIVERED' | $order->status == 'RETURNED')))
+            @if(! $is_reseller || ($is_reseller && ($order->status == 'DELIVERED' | $order->status == 'FAILED')))
                 <div class="col-sm-12 box-header">
                     <h5><span>Charges</span></h5>
                 </div>
@@ -103,7 +103,7 @@
                         {!! $errors->first('payable', '<span class="error-message">:message</span>') !!}
                     </div>
                 </div>
-                @unless($order->status == 'RETURNED')
+                @unless($order->status == 'FAILED')
                     <div class="col-md-6">
                         <div class="form-group {{ $errors->has('profit') ? 'has-error': '' }}">
                             <label for="profit">
@@ -159,7 +159,7 @@
                 </div>
             </div>
             @endunless
-            @unless($order->status == 'COMPLETED' || $order->status == 'RETURNED')
+            @unless($order->status == 'DELIVERED' || $order->status == 'FAILED')
             <div class="col-md-12">
                 @unless($is_reseller)
                 <div class="mt-2 d-flex justify-content-between">

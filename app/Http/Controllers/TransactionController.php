@@ -48,7 +48,7 @@ class TransactionController extends Controller
                     ->each(function (Order $item) use (&$com, &$ret) {
                         if ($item->status === 'DELIVERED') {
                             $com += $item->data['profit'] - $item->data['advanced'];
-                        } elseif ($item->status === 'RETURNED') {
+                        } elseif ($item->status === 'FAILED') {
                             $ret += $item->data['delivery_charge'] + $item->data['packaging'] + $item->data['cod_charge'];
                         }
                     });
