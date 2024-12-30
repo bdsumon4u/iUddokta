@@ -108,10 +108,10 @@ class SidebarComposer
                         'name' => 'History',
                         'route' => 'admin.transactions.index',
                     ],
-                    // [
-                    //     'name' => 'Requests',
-                    //     'route' => 'admin.transactions.requests',
-                    // ],
+                    [
+                        'name' => 'Requests',
+                        'route' => 'admin.transactions.requests',
+                    ],
                 ],
             ],
             [

@@ -13,7 +13,7 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="orders-table">
-                <div class="card rounded-0 shadow-sm">
+                <div class="shadow-sm card rounded-0">
                     <div class="card-header"><strong>Transaction</strong></div>
                     <div class="card-body">
                         <div class="table-responive">
@@ -137,7 +137,7 @@
         $('.datatable').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{!! route('api.transactions.index', request()->only(['status', 'reseller'])) !!}",
+            ajax: "{!! route('api.transactions.index', request()->only(['status', 'reseller']) + ['status' => 'paid']) !!}",
             buttons: dt_buttons,
             columns: [{
                     data: 'empty',

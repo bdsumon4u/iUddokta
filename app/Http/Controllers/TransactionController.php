@@ -32,18 +32,6 @@ class TransactionController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        $transactions = Transaction::with('reseller')->where('status', 'paid')->get();
-
-        return view('admin.transactions.index', compact('transactions'));
-    }
-
-    /**
      * Pay
      */
     public function pay()
@@ -150,13 +138,6 @@ class TransactionController extends Controller
         event(new TransactionCompleted($transaction, $transaction_type, $this->timezone));
 
         return Redirect::back()->with('success', 'Transaction Details Stored.');
-    }
-
-    public function requests()
-    {
-        $transactions = Transaction::with('reseller')->where('status', 'pending')->get();
-
-        return view('admin.transactions.requests', compact('transactions'));
     }
 
     public function show(Transaction $transaction)

@@ -38,7 +38,7 @@
                                     @endforeach
                                 </select>
                             </div>
-                            @unless (request('status') == 'SHIPPING')
+                            @unless (request()->query('status') == 'SHIPPING')
                                 <div class="col-auto px-1">
                                     <select name="courier" id="courier" onchange="changeCourier()"
                                         class="text-white form-control form-control-sm bg-primary">
@@ -50,10 +50,10 @@
                                 </div>
                             @endunless
                             <div class="col-auto pl-0 ml-auto">
-                                @if (request('status') == 'CONFIRMED')
+                                @if (request()->query('status') == 'CONFIRMED')
                                     <button onclick="printInvoice()" id="invoice"
                                         class="ml-1 btn btn-sm btn-primary">Print Invoice</button>
-                                @elseif(request('status') == 'INVOICED')
+                                @elseif(request()->query('status') == 'INVOICED')
                                     <button onclick="courier()" id="courier" class="ml-1 btn btn-sm btn-primary">Send to
                                         Courier</button>
                                 @endif
@@ -174,14 +174,14 @@
                 @foreach (config('order.statuses', []) as $status)
                     {
                         text: '{{ $status }}',
-                        className: 'px-1 py-1 {{ request('status') == $status ? 'btn-primary' : 'btn-outline-primary' }}',
+                        className: 'px-1 py-1 {{ request()->query('status') == $status ? 'btn-primary' : 'btn-outline-primary' }}',
                         action: function(e, dt, node, config) {
                             window.location = '{!! request()->fullUrlWithQuery(['status' => $status]) !!}'
                         }
                     },
                 @endforeach {
                     text: 'All',
-                    className: 'px-1 py-1 {{ request('status') == '' ? 'btn-primary' : 'btn-outline-primary' }}',
+                    className: 'px-1 py-1 {{ request()->query('status') == '' ? 'btn-primary' : 'btn-outline-primary' }}',
                     action: function(e, dt, node, config) {
                         window.location = '{!! request()->fullUrlWithQuery(['status' => '']) !!}'
                     }
