@@ -10,6 +10,7 @@
         'sell' => $sell,
         'shipping' => $shipping,
         'advanced' => $advanced,
+        'discount' => $discount,
         'cart' => $cart->toArray(),
     ])
 @endsection

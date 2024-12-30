@@ -22,7 +22,7 @@
         $buy_price = $buy_price ?? $price;
         $delivery_charge = $delivery_charge ?? 100;
         $cod_charge = $cod_charge ?? 0;
-        $profit = $profit ?? 0;
+        $profit = ($profit ?? 0) - ($discount ?? 0);
         $booking_number = $booking_number ?? '';
     @endphp
     <form action="{{ route('admin.order.update', $order->id) }}" method="post">
@@ -166,7 +166,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="row">
-                                            <div class="col-md-6">
+                                            <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label for="shipping">
                                                         Shipping<span>*</span>
@@ -176,7 +176,7 @@
                                                         id="shipping" value="{{ $shipping }}" {{ $a_only }}>
                                                 </div>
                                             </div>
-                                            <div class="col-md-6">
+                                            <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label for="advanced">
                                                         Advanced<span>*</span>
@@ -184,6 +184,16 @@
 
                                                     <input type="text" name="advanced" class="form-control"
                                                         id="advanced" value="{{ $advanced }}" {{ $a_only }}>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="discount">
+                                                        Discount<span>*</span>
+                                                    </label>
+
+                                                    <input type="text" name="discount" class="form-control"
+                                                        id="discount" value="{{ $discount ?? 0 }}" {{ $a_only }}>
                                                 </div>
                                             </div>
                                             <div class="col-sm-12 box-header">
@@ -249,7 +259,7 @@
                                                             wire:model.live.debounce.250ms="packaging"
                                                             wire:change="changed" class="form-control"
                                                             id="packaging-charge"
-                                                            value="{{ old('packaging', $packaging ?? $quantity * 20) }}"
+                                                            value="{{ old('packaging', $packaging ?? 0) }}"
                                                             {{ $a_only }}>
 
                                                         {!! $errors->first('packaging', '<span class="error-message">:message</span>') !!}
@@ -302,7 +312,7 @@
                                                         {!! $errors->first('payable', '<span class="error-message">:message</span>') !!}
                                                     </div>
                                                 </div>
-                                                @php $loss = ($packaging ?? $quantity * 20) + $delivery_charge + $cod_charge - $data['advanced'] @endphp
+                                                @php $loss = ($packaging ?? 0) + $delivery_charge + $cod_charge - $data['advanced'] @endphp
                                                 @unless ($order->status == 'FAILED')
                                                     <div class="col-md-4">
                                                         <div
@@ -339,7 +349,7 @@
                                                         <input type="text" name="receivable" class="form-control"
                                                             id="receivable" data-loss="{{ $loss }}"
                                                             data-status="{{ $order->status }}"
-                                                            value="{{ old('receivable', $order->status == 'FAILED' ? -($loss + $order->data['advanced']) : $profit - $order->data['advanced']) }}"
+                                                            value="{{ old('receivable', $order->status == 'FAILED' ? -($loss + $order->data['advanced'] + $order->data['discount']) : $profit - $order->data['advanced']) }}"
                                                             readonly>
                                                     </div>
                                                 </div>
@@ -501,6 +511,7 @@
 
             function calculate() {
                 var advanced = $('[name="advanced"]').val()
+                var discount = $('[name="discount"]').val()
                 shipping = parseInt($('[name="shipping"]').val()),
                     buy_price = parseInt($('[name="buy_price"]').val()),
                     sell = parseInt($('[name="sell"]').val()),
@@ -512,7 +523,7 @@
                 status = $receivable.data('status');
 
                 $profit.val(
-                    sell - buy_price - packaging - delivery_charge - additional + shipping
+                    sell - buy_price - packaging - delivery_charge - additional + shipping - discount
                 );
 
                 $receivable.val(

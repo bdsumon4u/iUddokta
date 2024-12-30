@@ -26,13 +26,15 @@ class LiveCart extends Component
 
     public $advanced;
 
+    public $discount;
+
     public $shops;
 
     public $success;
 
     public $delete;
 
-    public function mount($type, $cart, $sell = 0, $shipping = 100, $advanced = 100)
+    public function mount($type, $cart, $sell = 0, $shipping = 100, $advanced = 100, $discount = 0)
     {
         $this->type = $type;
         $this->cart = $cart;
@@ -40,6 +42,7 @@ class LiveCart extends Component
         $this->sell = $sell;
         $this->shipping = $shipping;
         $this->advanced = $advanced;
+        $this->discount = $discount;
         $this->theMoney();
         $this->shops = auth('reseller')->user()->shops;
     }
@@ -105,6 +108,7 @@ class LiveCart extends Component
         $this->total = theMoney(Cart::session($this->user_id)->getTotal());
         $this->payable = $this->sell
                         + (empty($this->shipping) ? 0 : round($this->shipping))
-                        - (empty($this->advanced) ? 0 : round($this->advanced));
+                        - (empty($this->advanced) ? 0 : round($this->advanced))
+                        - (empty($this->discount) ? 0 : round($this->discount));
     }
 }

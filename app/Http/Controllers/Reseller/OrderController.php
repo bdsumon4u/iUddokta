@@ -59,12 +59,14 @@ class OrderController extends Controller
             'sell' => 'required|integer',
             'shipping' => 'required|integer',
             'advanced' => 'required|integer',
+            'discount' => 'required|integer',
         ], [
             'sell.required' => 'The :key field must be at least 0.',
             'shipping.required' => 'The :key field must be at least 0.',
             'advanced.required' => 'The :key field must be at least 0.',
+            'discount.required' => 'The :key field must be at least 0.',
         ]);
-        $data['payable'] = $data['sell'] + $data['shipping'] - $data['advanced'];
+        $data['payable'] = $data['sell'] + $data['shipping'] - $data['advanced'] - $data['discount'];
 
         $cart = CartFacade::session($reseller->id);
         $data['price'] = $cart->getTotal();

@@ -1,5 +1,5 @@
 <div class="card-body">
-    <div class="mb-2 row">
+    <div class="row">
         <div class="col-sm-7">
             <div class="shop-logo">
                 @if($logo = $shop->logo)
@@ -8,7 +8,7 @@
                 <h1 class="my-2">{{ $shop->name }}</h1>
                 @endif
             </div>
-            <h2 class="my-2"><strong>INVOICE</strong></h2>
+            <h4 class="my-0"><strong>INVOICE</strong></h4>
         </div>
 
         <div class="col-sm-5">
@@ -22,7 +22,7 @@
 
     </div>
 
-    <div class="mb-3 row">
+    <div class="mb-1 row">
         <div class="col-sm-7">
             <strong>To,</strong>
             <br>
@@ -93,6 +93,10 @@
                     <tr>
                         <td class="left"><strong>Advanced</strong></td>
                         <td class="right">{{ $order->data['advanced'] }}</td>
+                    </tr>
+                    <tr>
+                        <td class="left"><strong>Discount</strong></td>
+                        <td class="right">{{ $order->data['discount'] ?? 0 }}</td>
                     </tr>
                     <tr class="payable">
                         <td class="left"><strong>Payable</strong></td>

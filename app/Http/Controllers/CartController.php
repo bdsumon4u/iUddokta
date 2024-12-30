@@ -80,6 +80,7 @@ class CartController extends Controller
             'sell' => $request->sell,
             'shipping' => $request->shipping,
             'advanced' => $request->advanced,
+            'discount' => $request->discount,
         ]);
     }
 }
