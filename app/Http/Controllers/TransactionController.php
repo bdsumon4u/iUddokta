@@ -135,21 +135,21 @@ class TransactionController extends Controller
 
         event(new TransactionCompleted($transaction, $transaction_type, $this->timezone));
 
-        return Redirect::back()->with('success', 'Transaction Details Stored.');
+        return Redirect::route('admin.transactions.requests')->with('success', 'Transaction Details Stored.');
     }
 
     public function show(Transaction $transaction)
     {
-        $query = $transaction->reseller->orders()->whereIn('status', ['completed', 'returned']);
-        $orders = $query->where(function ($query) {
-            return $query->whereBetween('data->completed_at', $this->timezone)
-                ->orWhereBetween('data->returned_at', $this->timezone);
-        })->get();
+        // $query = $transaction->reseller->orders()->whereIn('status', ['completed', 'returned']);
+        // $orders = $query->where(function ($query) {
+        //     return $query->whereBetween('data->completed_at', $this->timezone)
+        //         ->orWhereBetween('data->returned_at', $this->timezone);
+        // })->get();
 
         return view('admin.transactions.show', [
             'data' => $transaction->toArray(),
             'timezone' => $this->timezone,
-            'orders' => $orders,
+            'orders' => $transaction->orders,
         ]);
     }
 

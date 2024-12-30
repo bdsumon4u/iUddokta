@@ -4,7 +4,7 @@
             <tr>
                 <th>ID</th>
                 <th>Status</th>
-                <th>Date</th>
+                <th>Order Date</th>
             </tr>
         </thead>
         <tbody>
@@ -14,7 +14,7 @@
                     <a href="{{route(auth('reseller')->check() ? 'reseller.order.show' : 'admin.order.show',$order->id)}}">{{$order->id}}</a>
                 </td>
                 <td>{{ucwords($order->status)}}</td>
-                <td>{{date('d-M-Y',strtotime($order->data[$order->status . '_at']))}}</td>
+                <td>{{$order->created_at->format('d-M-Y')}}</td>
             </tr>
             @endforeach
         </tbody>

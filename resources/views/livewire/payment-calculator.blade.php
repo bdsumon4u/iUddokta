@@ -13,7 +13,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="amount">Amount</label>
-                        <input type="text" name="amount" data-balance="{{ $reseller->balance }}" value="{{ old('amount', request('amount', $amount)) }}" class="form-control @error('amount') is-invalid @enderror" readonly>
+                        <input type="text" name="amount" data-balance="{{ $reseller->balance }}" value="{{ $amount = old('amount', request('amount', $amount)) }}" class="form-control @error('amount') is-invalid @enderror" readonly>
                         @error('amount')
                         <span class="invalid-feedback">{{ $message }}</span>
                         @enderror
@@ -105,7 +105,7 @@
                 </div>
                 @endif
             </div>
-            @if($transaction?->status == 'pending')
+            @if($amount && (!$transaction || $transaction->status == 'pending'))
             <button type="submit" class="ml-auto btn btn-sm btn-success d-block">{{ $is_reseller ? 'Request' : 'Paid' }}</button>
             @endif
         </form>

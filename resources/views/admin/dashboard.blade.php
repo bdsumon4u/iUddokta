@@ -48,27 +48,16 @@
                         <table class="table table-bordered table-striped table-hover datatable" style="width: 100%;">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
+                                    <th>Amount</th>
                                     <th>Reseller</th>
                                     <th>Amount</th>
                                     <th>Date</th>
-                                    <!-- <th>Action</th> -->
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach($transactions as $transaction)
                                 <tr data-row-id="{{ $transaction->id }}">
-                                    <td><a href="{{ route('admin.transactions.show', $transaction->id) }}">{{ $transaction->id }}</a></td>
                                     <td>
-                                        <a href="{{ route('admin.resellers.show', $transaction->reseller->id) }}">
-                                            <strong>Name:</strong> {{ $transaction->reseller->name }}
-                                            <br>
-                                            <strong>Phone:</strong> {{ $transaction->reseller->phone }}
-                                        </a>
-                                    </td>
-                                    <td>{{ theMoney($transaction->amount) }}</td>
-                                    <td>{{ $transaction->created_at->format('d-M-Y') }}</td>
-                                    <!-- <td>
                                         <a class="btn btn-sm btn-block btn-primary" href="{{ route('admin.transactions.pay-to-reseller', [$transaction->reseller->id,
                                             'transaction_id' => $transaction->id,
                                             'amount' => $transaction->amount,
@@ -79,8 +68,17 @@
                                             'routing_no' => $transaction->routing_no,
                                             'account_type' => $transaction->account_type,
                                             'account_number' => $transaction->account_number,
-                                        ]) }}">Pay</a>
-                                    </td> -->
+                                        ]) }}">{{$transaction->amount}}</a>
+                                    </td>
+                                    <td>
+                                        <a href="{{ route('admin.resellers.show', $transaction->reseller->id) }}">
+                                            <strong>Name:</strong> {{ $transaction->reseller->name }}
+                                            <br>
+                                            <strong>Phone:</strong> {{ $transaction->reseller->phone }}
+                                        </a>
+                                    </td>
+                                    <td>{{ theMoney($transaction->amount) }}</td>
+                                    <td>{{ $transaction->created_at->format('d-M-Y') }}</td>
                                 </tr>
                                 @endforeach
                             </tbody>

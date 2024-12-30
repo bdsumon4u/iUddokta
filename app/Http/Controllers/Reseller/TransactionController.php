@@ -49,8 +49,6 @@ class TransactionController extends Controller
             ->whereIn('id', explode(',', $request->order_ids))
             ->get();
 
-        $order_ids = $orders->pluck('id')->implode(',');
-
         $amount = $orders->sum(function ($item) {
             return $item->data['profit'] - $item->data['advanced'];
         });
@@ -68,10 +66,14 @@ class TransactionController extends Controller
         $data['amount'] = $amount;
         $data['reseller_id'] = $reseller->id;
 
-        DB::transaction(function () use ($data, $order_ids) {
+        DB::transaction(function () use ($data, $orders) {
             if($transaction = Transaction::create($data)) {
-                $transaction->orders()->attach($order_ids);
+                $transaction->orders()->attach($orders->pluck('id'));
                 event(new TransactionRequestRecieved($transaction));
+
+                if ($transaction->orders->count() != $orders->count()) {
+                    throw new \Exception('Transaction not created.');
+                }
             }
         });
 
@@ -99,16 +101,16 @@ class TransactionController extends Controller
             $fOfCurrMonth->toDateTimeString(), $mOfCurrMonth->endOfDay()->toDateTimeString(),
         ];
 
-        $query = $transaction->reseller->orders()->whereIn('status', ['completed', 'returned']);
-        $orders = $query->where(function ($query) {
-            return $query->whereBetween('data->completed_at', $this->timezone)
-                ->orWhereBetween('data->returned_at', $this->timezone);
-        })->get();
+        // $query = $transaction->reseller->orders()->whereIn('status', ['completed', 'returned']);
+        // $orders = $query->where(function ($query) {
+        //     return $query->whereBetween('data->completed_at', $this->timezone)
+        //         ->orWhereBetween('data->returned_at', $this->timezone);
+        // })->get();
 
         return view('reseller.transactions.show', [
             'data' => $transaction->toArray(),
             'timezone' => $this->timezone,
-            'orders' => $orders,
+            'orders' => $transaction->orders,
         ]);
     }
 
