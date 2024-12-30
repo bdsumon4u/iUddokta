@@ -91,7 +91,7 @@
                                         @php $transaction = \App\Models\Transaction::findOrFail($data['transaction_id']) @endphp
                                         <hr class="my-1">
                                         <div class="d-flex justify-content-center">
-                                            @if ($transaction->status == 'pending')
+                                            @if ($transaction->status == 'PENDING')
                                                 <a class="btn btn-sm btn-primary"
                                                     href="{{ route('admin.transactions.pay-to-reseller', [
                                                         $data['reseller_id'],
@@ -129,7 +129,7 @@
                                             Has Recieved.<br>
                                             <hr class="my-1">
                                             <div class="d-flex justify-content-center">
-                                                @if ($order->status == 'pending')
+                                                @if ($order->status == 'PENDING')
                                                     <a href="{{ route('admin.order.show', $order->id) }}"
                                                         class="btn btn-sm btn-primary">View Details</a>
                                                 @else

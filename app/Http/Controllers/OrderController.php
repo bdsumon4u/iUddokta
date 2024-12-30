@@ -104,7 +104,7 @@ class OrderController extends Controller
     public function update(Request $request, Order $order)
     {
         // dump($order->data);
-        if ($order->status == 'completed' || $order->status == 'returned') {
+        if ($order->status == 'DELIVERED' || $order->status == 'RETURNED') {
             return back()->with('error', 'Order Can\'t be Updated');
         }
 
@@ -154,7 +154,7 @@ class OrderController extends Controller
 
     public function cancel(Order $order)
     {
-        if (in_array($order->status, ['completed', 'returned'])) {
+        if (in_array($order->status, ['DELIVERED', 'RETURNED'])) {
             return redirect()->back()->with('error', "Order Can\'t be Cancelled.");
         }
 

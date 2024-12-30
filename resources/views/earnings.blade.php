@@ -5,8 +5,8 @@
                 <strong>Earning Status [{{ $period }}]</strong>
                 <div class="badge badge-{{ $howPaid ? 'success' : 'secondary' }} p-2 ml-auto" style="font-size: 100%; vertical-align: middle;">{{ $howPaid ? "Paid $howPaid" : "Unpaid" }}</div>
             </div>
-            <div class="card-body p-2">
-                <div class="row mr-0 mb-2">
+            <div class="p-2 card-body">
+                <div class="mb-2 mr-0 row">
                     @foreach($periods as $period)
                         <div class="col-md-4">
                             <a class="w-100 badge @if(request('period') === $period) badge-success @else badge-primary @endif m-1 p-2" href="{{ route('earnings', ['reseller_id' => request('reseller_id'), 'period' => $period]) }}">{{ $period }}</a>
@@ -32,9 +32,9 @@
                                     @php $profit = $loss = $advanced = $receivable = 0 @endphp
                                     @foreach($orders as $order)
                                     @php
-                                        $p = $order->status == 'completed' ? $order->data['profit'] : 0;
-                                        $l = $order->status == 'completed' ? 0 : ($order->data['packaging'] + $order->data['delivery_charge'] + $order->data['cod_charge'] - $order->data['advanced']);
-                                        $r = $order->status == 'completed' ? ($p - $order->data['advanced']) : (-$l - $order->data['advanced']);
+                                        $p = $order->status == 'DELIVERED' ? $order->data['profit'] : 0;
+                                        $l = $order->status == 'DELIVERED' ? 0 : ($order->data['packaging'] + $order->data['delivery_charge'] + $order->data['cod_charge'] - $order->data['advanced']);
+                                        $r = $order->status == 'DELIVERED' ? ($p - $order->data['advanced']) : (-$l - $order->data['advanced']);
                                         $profit += $p;
                                         $advanced += $order->data['advanced'];
                                         $loss += $l;

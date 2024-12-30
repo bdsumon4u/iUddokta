@@ -228,7 +228,7 @@
                                                     {!! $errors->first('sell', '<span class="error-message">:message</span>') !!}
                                                 </div>
                                             </div>
-                                            @if (!$is_reseller || ($is_reseller && ($order->status == 'completed') | ($order->status == 'returned')))
+                                            @if (!$is_reseller || ($is_reseller && ($order->status == 'DELIVERED') | ($order->status == 'RETURNED')))
                                                 @php
                                                     $quantity = 0;
                                                     foreach ($order->data['products'] as $item) {
@@ -303,7 +303,7 @@
                                                     </div>
                                                 </div>
                                                 @php $loss = ($packaging ?? $quantity * 20) + $delivery_charge + $cod_charge - $data['advanced'] @endphp
-                                                @unless ($order->status == 'returned')
+                                                @unless ($order->status == 'RETURNED')
                                                     <div class="col-md-4">
                                                         <div
                                                             class="form-group {{ $errors->has('profit') ? 'has-error' : '' }}">
@@ -339,7 +339,7 @@
                                                         <input type="text" name="receivable" class="form-control"
                                                             id="receivable" data-loss="{{ $loss }}"
                                                             data-status="{{ $order->status }}"
-                                                            value="{{ old('receivable', $order->status == 'returned' ? -($loss + $order->data['advanced']) : $profit - $order->data['advanced']) }}"
+                                                            value="{{ old('receivable', $order->status == 'RETURNED' ? -($loss + $order->data['advanced']) : $profit - $order->data['advanced']) }}"
                                                             readonly>
                                                     </div>
                                                 </div>
@@ -372,7 +372,7 @@
                                                     {!! $errors->first('delivery_method', '<span class="error-message">:message</span>') !!}
                                                 </div>
                                             </div>
-                                            @unless ($order->status == 'pending')
+                                            @unless ($order->status == 'PENDING')
                                                 <div class="col-md-12">
                                                     <div
                                                         class="form-group {{ $errors->has('booking_number') ? 'has-error' : '' }}">
@@ -389,7 +389,7 @@
                                                     </div>
                                                 </div>
                                             @endunless
-                                            @unless ($order->status == 'completed' || $order->status == 'returned')
+                                            @unless ($order->status == 'DELIVERED' || $order->status == 'RETURNED')
                                                 <div class="col-md-12">
                                                     @unless ($is_reseller)
                                                         <div class="d-flex justify-content-end">
@@ -402,7 +402,7 @@
                                                             </select>
                                                             <button type="submit" class="ml-1 btn btn-success">Update</button>
                                                         </div>
-                                                    @elseif($order->status == 'pending')
+                                                    @elseif($order->status == 'PENDING')
                                                         <div class="d-flex justify-content-end">
                                                             @method('DELETE')
                                                             <button type="submit"
@@ -516,7 +516,7 @@
                 );
 
                 $receivable.val(
-                    status == 'returned' ? -(Number(advanced) + $receivable.data('loss')) : (Number($profit
+                    status == 'RETURNED' ? -(Number(advanced) + $receivable.data('loss')) : (Number($profit
                         .val()) - Number(advanced))
                 )
             }

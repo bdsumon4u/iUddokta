@@ -118,32 +118,32 @@ class Reseller extends Authenticatable implements MustVerifyEmail
 
     public function getPendingOrdersAttribute()
     {
-        return $this->orders->where('status', 'pending');
+        return $this->orders->where('status', 'PENDING');
     }
 
     public function getNonPendingOrdersAttribute()
     {
-        return $this->orders->where('status', '!=', 'pending');
+        return $this->orders->where('status', '!=', 'PENDING');
     }
 
     public function getProcessingOrdersAttribute()
     {
-        return $this->orders->where('status', 'processing');
+        return $this->orders->where('status', 'PROCESSING');
     }
 
     public function getShippingOrdersAttribute()
     {
-        return $this->orders->where('status', 'shipping');
+        return $this->orders->where('status', 'SHIPPING');
     }
 
     public function getCompletedOrdersAttribute()
     {
-        return $this->orders->where('status', 'completed');
+        return $this->orders->where('status', 'DELIVERED');
     }
 
     public function getReturnedOrdersAttribute()
     {
-        return $this->orders->where('status', 'returned');
+        return $this->orders->where('status', 'RETURNED');
     }
 
     public function getTotalSellAttribute()

@@ -26,8 +26,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $orders = Order::has('reseller')->with('reseller')->status('pending')->latest()->take(10)->get();
-        $transactions = Transaction::has('reseller')->with('reseller')->status('pending')->latest()->take(10)->get();
+        $orders = Order::has('reseller')->with('reseller')->status('PENDING')->latest()->take(10)->get();
+        $transactions = Transaction::has('reseller')->with('reseller')->status('PENDING')->latest()->take(10)->get();
         $resellers = Reseller::whereNull('verified_at')->take(10)->get();
         return view('admin.dashboard', compact('orders', 'transactions', 'resellers'));
     }

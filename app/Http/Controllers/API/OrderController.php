@@ -48,9 +48,9 @@ class OrderController extends Controller
                 })
                 ->addColumn('price', function ($row) {
                     $ret = '
-                        <strong style="white-space: nowrap;">Buy:</strong> '.theMoney($row->status == 'pending' ? $row->data['price'] : $row->data['buy_price'])."
+                        <strong style="white-space: nowrap;">Buy:</strong> '.theMoney($row->status == 'PENDING' ? $row->data['price'] : $row->data['buy_price'])."
                         <div class='my-1'></div>";
-                    if ($row->status == 'pending') {
+                    if ($row->status == 'PENDING') {
                         $current_price = $row->current_price();
                         if ($row->data['price'] != $current_price) {
                             $ret .= '<strong style="white-space: nowrap;">Current:</strong> '.theMoney($current_price)."
@@ -78,7 +78,7 @@ class OrderController extends Controller
                     return '<span style="white-space: nowrap;">'.$row->created_at->format('d-M-Y').'</span><div class="my-1"></div><span>'.$row->created_at->format('h:i A').'</span>';
                 })
                 ->addColumn('completed_at', function ($row) {
-                    $col = $row->status == 'returned' ? 'returned_at' : 'completed_at';
+                    $col = $row->status == 'RETURNED' ? 'returned_at' : 'completed_at';
 
                     return isset($row->data[$col]) ? date('d-M-Y', strtotime($row->data[$col])) : 'N/A';
                 })
@@ -118,9 +118,9 @@ class OrderController extends Controller
                 })
                 ->addColumn('price', function ($row) {
                     $ret = '
-                        <strong style="white-space: nowrap;">Buy:</strong> '.theMoney($row->status == 'pending' ? $row->data['price'] : $row->data['buy_price'])."
+                        <strong style="white-space: nowrap;">Buy:</strong> '.theMoney($row->status == 'PENDING' ? $row->data['price'] : $row->data['buy_price'])."
                         <div class='my-1'></div>";
-                    if ($row->status == 'pending') {
+                    if ($row->status == 'PENDING') {
                         $current_price = $row->current_price();
                         if ($row->data['price'] != $current_price) {
                             $ret .= '<strong style="white-space: nowrap;">Current:</strong> '.theMoney($current_price)."
@@ -144,14 +144,14 @@ class OrderController extends Controller
                     return '<span style="white-space: nowrap;">'.$row->created_at->format('d-M-Y').'</span><div class="my-1"></div><span>'.$row->created_at->format('h:i A').'</span>';
                 })
                 ->addColumn('completed_returned_at', function ($row) {
-                    $col = $row->status == 'returned' ? 'returned_at' : 'completed_at';
+                    $col = $row->status == 'RETURNED' ? 'returned_at' : 'completed_at';
 
                     return isset($row->data[$col]) ? date('d-M-Y', strtotime($row->data[$col])) : 'N/A';
                 })
                 ->addColumn('action', function ($row) {
                     $btn = '<div class="btn-group btn-group-sm d-flex justify-content-between">
                             <a class="btn btn-sm btn-primary" href="'.route('reseller.order.show', $row->id).'" noclick="window.open(\''.route('reseller.order.show', $row->id).'\', \'popup\', \'width=`100%`, height=`100%`\')">View</a>';
-                    $row->status == 'pending' && $btn .= '<a class="btn btn-sm btn-danger" href="'.route('reseller.order.cancel', $row->id).'" onclick="if (confirm(\'Are You Sure?\')){return true;}else{event.stopPropagation(); event.preventDefault(); return false;};">Cancel</a>';
+                    $row->status == 'PENDING' && $btn .= '<a class="btn btn-sm btn-danger" href="'.route('reseller.order.cancel', $row->id).'" onclick="if (confirm(\'Are You Sure?\')){return true;}else{event.stopPropagation(); event.preventDefault(); return false;};">Cancel</a>';
                     $btn .= '</div>';
 
                     return $btn;

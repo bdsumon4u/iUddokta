@@ -105,7 +105,7 @@
                 </div>
                 @endif
             </div>
-            @if($amount && (!$transaction || $transaction->status == 'pending'))
+            @if($amount && (!$transaction || $transaction->status == 'PENDING'))
             <button type="submit" class="ml-auto btn btn-sm btn-success d-block">{{ $is_reseller ? 'Request' : 'Paid' }}</button>
             @endif
         </form>

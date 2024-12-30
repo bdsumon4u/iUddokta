@@ -53,7 +53,7 @@ class TransactionCompleted extends Notification
     public function toMail($notifiable)
     {
         $timezone = $this->event->timezone;
-        $query = $this->event->transaction->reseller->orders()->whereIn('status', ['completed', 'returned']);
+        $query = $this->event->transaction->reseller->orders()->whereIn('status', ['DELIVERED', 'RETURNED']);
         $orders = $query->where(function ($query) use ($timezone) {
             return $query->whereBetween('data->completed_at', $timezone)
                 ->orWhereBetween('data->returned_at', $timezone);

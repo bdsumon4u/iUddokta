@@ -3,7 +3,7 @@
 @section('content')
 <div class="row fade-in justify-content-center">
     <div class="col-md-8">
-        <div class="card rounded-0 shadow-sm">
+        <div class="shadow-sm card rounded-0">
             <div class="card-header">Profile: <strong>{{ $reseller->name }}</strong></div>
             <div class="card-body">
                 <div class="row">
@@ -41,23 +41,23 @@
                                 <td>{{ theMoney($reseller->total_sell) }}</td>
                             </tr>
                             <tr>
-                                <th class="text-nowrap"><a href="{{ route('admin.order.index', ['status' => 'pending', 'reseller' => $reseller->id]) }}">Pending Orders</a>:</th>
+                                <th class="text-nowrap"><a href="{{ route('admin.order.index', ['status' => 'PENDING', 'reseller' => $reseller->id]) }}">Pending Orders</a>:</th>
                                 <td>{{ theMoney($reseller->pending_sell) }}</td>
                             </tr>
                             <tr>
-                                <th class="text-nowrap"><a href="{{ route('admin.order.index', ['status' => 'processing', 'reseller' => $reseller->id]) }}">Processing Orders</a>:</th>
+                                <th class="text-nowrap"><a href="{{ route('admin.order.index', ['status' => 'PROCESSING', 'reseller' => $reseller->id]) }}">Processing Orders</a>:</th>
                                 <td>{{ theMoney($reseller->processing_sell) }}</td>
                             </tr>
                             <tr>
-                                <th class="text-nowrap"><a href="{{ route('admin.order.index', ['status' => 'shipping', 'reseller' => $reseller->id]) }}">Shipping Orders</a>:</th>
+                                <th class="text-nowrap"><a href="{{ route('admin.order.index', ['status' => 'SHIPPING', 'reseller' => $reseller->id]) }}">Shipping Orders</a>:</th>
                                 <td>{{ theMoney($reseller->shipping_sell) }}</td>
                             </tr>
                             <tr>
-                                <th class="text-nowrap"><a href="{{ route('admin.order.index', ['status' => 'completed', 'reseller' => $reseller->id]) }}">Completed Orders</a>:</th>
+                                <th class="text-nowrap"><a href="{{ route('admin.order.index', ['status' => 'DELIVERED', 'reseller' => $reseller->id]) }}">Completed Orders</a>:</th>
                                 <td>{{ theMoney($reseller->completed_sell) }}</td>
                             </tr>
                             <tr>
-                                <th class="text-nowrap"><a href="{{ route('admin.order.index', ['status' => 'returned', 'reseller' => $reseller->id]) }}">Returned Orders</a>:</th>
+                                <th class="text-nowrap"><a href="{{ route('admin.order.index', ['status' => 'RETURNED', 'reseller' => $reseller->id]) }}">Returned Orders</a>:</th>
                                 <td>{{ theMoney($reseller->returned_sell) }}</td>
                             </tr>
                             <tr>
@@ -78,7 +78,7 @@
                                 <th class="text-nowrap">Earning Status:</th>
                                 <td class="d-flex" style="flex-wrap: wrap-reverse;">
                                     @foreach((new App\Services\EarningService($reseller))->periods as $period)
-                                        <a class="badge badge-primary m-1 p-2" href="{{ route('earnings', ['reseller_id' => $reseller, 'period' => $period]) }}">{{ $period }}</a>
+                                        <a class="p-2 m-1 badge badge-primary" href="{{ route('earnings', ['reseller_id' => $reseller, 'period' => $period]) }}">{{ $period }}</a>
                                     @endforeach
                                 </td>
                             </tr>
@@ -132,12 +132,12 @@
                     </table>
                 </div>
                 <hr>
-                <div class="row mt-3">
+                <div class="mt-3 row">
                     <div class="col-12"><h4 class="text-center">NID Photo</h4></div>
-                    <div class="col-md-6 border">
+                    <div class="border col-md-6">
                         <img class="m-2" src="{{ asset(optional($reseller->documents)->nid_front) }}" alt="NID Front" style="height: 100%; max-height: 5.5cm; width: 100%; max-width: 8.5cm;">
                     </div>
-                    <div class="col-md-6 border">
+                    <div class="border col-md-6">
                         <img class="m-2" src="{{ asset(optional($reseller->documents)->nid_back) }}" alt="NID Back" style="height: 100%; max-height: 5.5cm; width: 100%; max-width: 8.5cm;">
                     </div>
                 </div>

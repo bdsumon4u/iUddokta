@@ -161,7 +161,7 @@ class OrderController extends Controller
      */
     public function destroy(Order $order)
     {
-        if ($order->status == 'pending') {
+        if ($order->status == 'PENDING') {
             foreach ($order->data['products'] as $item) {
                 $product = Product::findOrFail($item['id']);
                 $product->stock = is_numeric($product->stock) ? $product->stock + $item['quantity'] : $product->stock;
@@ -177,7 +177,7 @@ class OrderController extends Controller
 
     public function cancel(Order $order)
     {
-        if ($order->status == 'pending') {
+        if ($order->status == 'PENDING') {
             foreach ($order->data['products'] as $item) {
                 $product = Product::findOrFail($item['id']);
                 $product->stock = is_numeric($product->stock) ? $product->stock + $item['quantity'] : $product->stock;

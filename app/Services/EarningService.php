@@ -89,7 +89,7 @@ class EarningService
         }
 
         return $this->orders->filter(function ($order) {
-            return $order->status == 'completed';
+            return $order->status == 'DELIVERED';
         });
     }
 
@@ -100,7 +100,7 @@ class EarningService
         }
 
         return $this->orders->filter(function ($order) {
-            return $order->status == 'returned';
+            return $order->status == 'RETURNED';
         });
     }
 

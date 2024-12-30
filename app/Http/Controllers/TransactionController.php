@@ -46,9 +46,9 @@ class TransactionController extends Controller
                 $com = $ret = 0;
                 $reseller->orders
                     ->each(function (Order $item) use (&$com, &$ret) {
-                        if ($item->status === 'completed') {
+                        if ($item->status === 'DELIVERED') {
                             $com += $item->data['profit'] - $item->data['advanced'];
-                        } elseif ($item->status === 'returned') {
+                        } elseif ($item->status === 'RETURNED') {
                             $ret += $item->data['delivery_charge'] + $item->data['packaging'] + $item->data['cod_charge'];
                         }
                     });
