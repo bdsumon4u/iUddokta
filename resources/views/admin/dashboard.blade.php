@@ -42,7 +42,7 @@
     <div class="col-md-6">
         <div class="transactions-table">
             <div class="shadow-sm card rounded-0">
-                <div class="card-header"><strong>Recent Transactions</strong></div>
+                <div class="card-header"><strong>Pending Transactions</strong></div>
                 <div class="card-body">
                     <div class="table-responive">
                         <table class="table table-bordered table-striped table-hover datatable" style="width: 100%;">
