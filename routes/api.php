@@ -3,6 +3,7 @@
 use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Str;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,7 +35,37 @@ Route::group(['as' => 'api.'], function () {
 
 
 Route::get('/pathao', function () {
-    $orders = Order::where('status', 'INVOICED')->get();
+    Order::where('status', 'INVOICED')->get()->each(function (Order $order) {
+        $description = implode('\n', array_map(function ($item) {
+            return $item['quantity'] . ' x ' . $item['name'];
+        }, $order->data['products']));
 
-    dd($orders);
+        $data = [
+            "store_id"            => config('pathao.store_id'), // Find in store list,
+            "merchant_order_id"   => $order->id, // Unique order id
+            "recipient_name"      => $order->data['customer_name'] ?? 'N/A', // Customer name
+            "recipient_phone"     => Str::after($order->data['customer_phone'], '+88') ?? '', // Customer phone
+            "recipient_address"   => $order->data['customer_address'] ?? 'N/A', // Customer address
+            "recipient_city"      => $order->data['city_id'], // Find in city method
+            "recipient_zone"      => $order->data['area_id'], // Find in zone method
+            // "recipient_area"      => "", // Find in Area method
+            "delivery_type"       => 48, // 48 for normal delivery or 12 for on demand delivery
+            "item_type"           => 2, // 1 for document, 2 for parcel
+            // "special_instruction" => $order->note,
+            "item_quantity"       => 1, // item quantity
+            "item_weight"         => $order->data['weight'] ?? 0.5, // parcel weight
+            "amount_to_collect"   => intval($order->data['payable']),
+            "item_description"    => $description, // product details
+        ];
+
+        $data = \App\Pathao\Facade\Pathao::order()->create($data);
+
+        $order->update([
+            'status' => 'SHIPPING',
+            'status_at' => now()->toDateTimeString(),
+            'data' => [
+                'booking_number' => $data->consignment_id,
+            ],
+        ]);
+    });
 });

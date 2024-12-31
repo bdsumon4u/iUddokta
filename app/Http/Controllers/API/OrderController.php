@@ -72,6 +72,10 @@ class OrderController extends Controller
                     }
                     $return .= '</select>';
 
+                    if (isset($row->data['booking_number'])) {
+                        $return .= '<div><a target="_blank" href="https://merchant.pathao.com/tracking?consignment_id='.$row->data['booking_number'].'">'.$row->data['booking_number'].'</a></div>';
+                    }
+
                     return $return;
                 })
                 ->addColumn('ordered_at', function ($row) {
@@ -138,7 +142,13 @@ class OrderController extends Controller
                 ->addColumn('status', function ($row) {
                     $variant = $this->variant($row->status);
 
-                    return '<span class="badge badge-square badge-'.$variant.' text-uppercase">'.$row->status.'</span>';
+                    $return = '<span class="badge badge-square badge-'.$variant.' text-uppercase">'.$row->status.'</span>';
+
+                    if (isset($row->data['booking_number'])) {
+                        $return .= '<div><a target="_blank" href="https://merchant.pathao.com/tracking?consignment_id='.$row->data['booking_number'].'">'.$row->data['booking_number'].'</a></div>';
+                    }
+
+                    return $return;
                 })
                 ->addColumn('ordered_at', function ($row) {
                     return '<span style="white-space: nowrap;">'.$row->created_at->format('d-M-Y').'</span><div class="my-1"></div><span>'.$row->created_at->format('h:i A').'</span>';

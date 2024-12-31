@@ -17,8 +17,7 @@ class Order extends Model
 
     public function setDataAttribute($data)
     {
-        // $this->attributes['data'] = serialize($data);
-        $this->attributes['data'] = json_encode($data);
+        $this->attributes['data'] = json_encode(array_merge($this->data, $data));
     }
 
     public function getDataAttribute($data)
