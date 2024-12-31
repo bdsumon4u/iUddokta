@@ -387,6 +387,22 @@
                                                                 class="form-control @error('form_title.registration') is-invalid @enderror">
                                                             {!! $errors->first('form_title.registration', '<span class="invalid-feedback">:message</span>') !!}
                                                         </div>
+                                                        <div class="form-group">
+                                                            <label for="inside-dhaka">Shipping Charge (Inside Dhaka)</label>
+                                                            <input type="text" name="shipping_charge[inside_dhaka]"
+                                                                value="{{ old('shipping_charge.inside_dhaka', $shipping_charge->inside_dhaka ?? '80') }}"
+                                                                id="inside-dhaka"
+                                                                class="form-control @error('shipping_charge.inside_dhaka') is-invalid @enderror">
+                                                            {!! $errors->first('shipping_charge.inside_dhaka', '<span class="invalid-feedback">:message</span>') !!}
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="outside-dhaka">Shipping Charge (Outside Dhaka)</label>
+                                                            <input type="text" name="shipping_charge[outside_dhaka]"
+                                                                value="{{ old('shipping_charge.outside_dhaka', $shipping_charge->outside_dhaka ?? '150') }}"
+                                                                id="outside-dhaka"
+                                                                class="form-control @error('shipping_charge.outside_dhaka') is-invalid @enderror">
+                                                            {!! $errors->first('shipping_charge.outside_dhaka', '<span class="invalid-feedback">:message</span>') !!}
+                                                        </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">

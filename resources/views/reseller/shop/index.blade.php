@@ -3,21 +3,23 @@
 @section('content')
 <div class="row justify-content-center">
     <div class="col-md-10">
-        <div class="card rounded-0 shadow-sm">
+        <div class="shadow-sm card rounded-0">
             <div class="card-header">
                 <strong>My Shops</strong>
+                @if($shops->isEmpty())
                 <div class="card-header-actions"><a href="{{ route('reseller.shops.create') }}" class="card-header-action btn btn-sm btn-primary text-light">Add New</a></div>
+                @endif
             </div>
             <div class="card-body">
                 <div class="row justify-content-around">
                     @foreach($shops as $shop)
                     <div class="col-md-6">
-                        <div class="card rounded-0 shadow-sm">
-                            <div class="card-header py-2">{{ $shop->name }}
+                        <div class="shadow-sm card rounded-0">
+                            <div class="py-2 card-header">{{ $shop->name }}
                                 <div class="card-header-actions"><a href="{{ route('reseller.shops.edit', $shop->id) }}" class="card-header-action btn btn-sm btn-primary text-light">Edit</a></div>
                             </div>
-                            <div class="card-body p-2">
-                                <img src="{{ asset($shop->logo) }}" alt="" class="img-responsive thumbnail d-block mx-auto">
+                            <div class="p-2 card-body">
+                                <img src="{{ asset($shop->logo) }}" alt="" class="mx-auto img-responsive thumbnail d-block">
                                 <table class="table table-sm table-borderless">
                                     <tr>
                                         <th>Email:</th>

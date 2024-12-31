@@ -22,6 +22,7 @@ class SettingController extends Controller
         'footer_menu' => 'sometimes|array',
         'courier' => 'sometimes|array',
         'form_title' => 'sometimes|array',
+        'shipping_charge' => 'sometimes|array',
     ];
 
     /**

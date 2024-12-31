@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Reseller;
 use App\Http\Controllers\Controller;
 use App\Models\Shop;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 
@@ -27,6 +28,7 @@ class ShopController extends Controller
      */
     public function create()
     {
+        Gate::allowIf(auth('reseller')->user()->shops->isEmpty(), 'You already have a shop.');
         return view('reseller.shop.create');
     }
 
@@ -37,6 +39,7 @@ class ShopController extends Controller
      */
     public function store(Request $request)
     {
+        Gate::allowIf(auth('reseller')->user()->shops->isEmpty(), 'You already have a shop.');
         tap($request->validate([
             'name' => 'required|max:255',
             'email' => 'required|email',
@@ -44,6 +47,8 @@ class ShopController extends Controller
             'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'address' => 'required',
             'website' => 'nullable',
+            'inside_dhaka' => 'required|integer',
+            'outside_dhaka' => 'required|integer',
         ]) + [
             'reseller_id' => auth('reseller')->user()->id,
         ], function ($data) use ($request) {

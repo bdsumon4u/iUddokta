@@ -1,4 +1,4 @@
-<section class="checkout mb-5">
+<section class="mb-5 checkout">
     <form method="POST" action="{{ route('reseller.order.store') }}" id="checkout-form">
         @csrf
 
@@ -101,7 +101,7 @@
                 <div class="card">
                   <div class="card-body">
                     @include('reseller.cart.sidebar')
-                    <button type="submit" class="btn btn-primary btn-checkout mt-3" data-loading="Loading">
+                    <button type="submit" class="mt-3 btn btn-primary btn-checkout" data-loading="Loading">
                         Place Order
                     </button>
                   </div>

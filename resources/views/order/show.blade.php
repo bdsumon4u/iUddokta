@@ -20,7 +20,8 @@
         unset($data['products']);
         extract($data);
         $buy_price = $buy_price ?? $price;
-        $delivery_charge = $delivery_charge ?? 100;
+        $shipping_setting = optional(\App\Models\Setting::whereName('shipping_charge')->first())->value;
+        $delivery_charge = $delivery_charge ?? $shipping_setting->{$shipping_area ?? ''} ?? 100;
         $cod_charge = $cod_charge ?? 0;
         $profit = ($profit ?? 0) - ($discount ?? 0);
         $booking_number = $booking_number ?? '';
