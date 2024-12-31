@@ -58,14 +58,18 @@ Route::get('/pathao', function () {
             "item_description"    => $description, // product details
         ];
 
-        $data = \App\Pathao\Facade\Pathao::order()->create($data);
+        try {
+            $data = \App\Pathao\Facade\Pathao::order()->create($data);
 
-        $order->update([
-            'status' => 'SHIPPING',
-            'status_at' => now()->toDateTimeString(),
-            'data' => [
-                'booking_number' => $data->consignment_id,
-            ],
-        ]);
+            $order->update([
+                'status' => 'SHIPPING',
+                'status_at' => now()->toDateTimeString(),
+                'data' => [
+                    'booking_number' => $data->consignment_id,
+                ],
+            ]);
+        } catch (\Exception $e) {
+            dump($order, $e->getMessage());
+        }
     });
 });
