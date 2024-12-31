@@ -210,7 +210,7 @@ class Reseller extends Authenticatable implements MustVerifyEmail
         });
 
         $completed_buy = $completed->sum(function ($order) {
-            return $order->data['buy_price'];
+            return $order->data['buy_price'] ?? $order->data['price'];
         });
         // $non_pending_charges = $non_pending->sum(function($order){ return $order->data['delivery_charge'] + $order->data['packaging'] + $order->data['cod_charge']; });
         $completed_charges = $completed->sum(function ($order) {

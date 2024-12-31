@@ -48,7 +48,7 @@ class OrderController extends Controller
                 })
                 ->addColumn('price', function ($row) {
                     $ret = '
-                        <strong style="white-space: nowrap;">Buy:</strong> '.theMoney($row->status == 'PENDING' ? $row->data['price'] : $row->data['buy_price'])."
+                        <strong style="white-space: nowrap;">Buy:</strong> '.theMoney($row->status == 'PENDING' ? $row->data['price'] : ($row->data['buy_price'] ?? $row->data['price']))."
                         <div class='my-1'></div>";
                     if ($row->status == 'PENDING') {
                         $current_price = $row->current_price();
@@ -56,7 +56,7 @@ class OrderController extends Controller
                             $ret .= '<strong style="white-space: nowrap;">Current:</strong> '.theMoney($current_price)."
                                 <div class='my-1'></div>";
                         }
-                    } elseif ($row->data['price'] != $row->data['buy_price']) {
+                    } elseif ($row->data['price'] != ($row->data['buy_price'] ?? $row->data['price'])) {
                         $ret .= '<del style="white-space: nowrap;"><strong>Order:</strong> '.theMoney($row->data['price'])."</del>
                             <div class='my-1'></div>";
                     }
@@ -118,7 +118,7 @@ class OrderController extends Controller
                 })
                 ->addColumn('price', function ($row) {
                     $ret = '
-                        <strong style="white-space: nowrap;">Buy:</strong> '.theMoney($row->status == 'PENDING' ? $row->data['price'] : $row->data['buy_price'])."
+                        <strong style="white-space: nowrap;">Buy:</strong> '.theMoney($row->status == 'PENDING' ? $row->data['price'] : ($row->data['buy_price'] ?? $row->data['price']))."
                         <div class='my-1'></div>";
                     if ($row->status == 'PENDING') {
                         $current_price = $row->current_price();
@@ -126,7 +126,7 @@ class OrderController extends Controller
                             $ret .= '<strong style="white-space: nowrap;">Current:</strong> '.theMoney($current_price)."
                                 <div class='my-1'></div>";
                         }
-                    } elseif ($row->data['price'] != $row->data['buy_price']) {
+                    } elseif ($row->data['price'] != ($row->data['buy_price'] ?? $row->data['price'])) {
                         $ret .= '<del style="white-space: nowrap;"><strong>Order:</strong> '.theMoney($row->data['price'])."</del>
                             <div class='my-1'></div>";
                     }
