@@ -2,12 +2,19 @@
 
 namespace App\Livewire;
 
+use App\Models\Order;
+use App\Pathao\Facade\Pathao;
 use Cart;
 use Darryldecode\Cart\Facades\CartFacade;
 use Livewire\Component;
 
 class LiveCart extends Component
 {
+    public Order $order;
+
+    public $city_id = 0;
+    public $area_id = 0;
+
     public $type;
 
     public $cart;
@@ -36,6 +43,7 @@ class LiveCart extends Component
 
     public function mount($type, $cart, $sell = 0, $shipping = 100, $advanced = 100, $discount = 0)
     {
+        $this->order = new Order();
         $this->type = $type;
         $this->cart = $cart;
         $this->user_id = auth('reseller')->user()->id;
@@ -110,5 +118,43 @@ class LiveCart extends Component
                         + (empty($this->shipping) ? 0 : round($this->shipping))
                         - (empty($this->advanced) ? 0 : round($this->advanced))
                         - (empty($this->discount) ? 0 : round($this->discount));
+    }
+
+
+    public function getCityList()
+    {
+        $exception = false;
+        $cityList = cache()->remember('pathao_cities', now()->addDay(), function () use (&$exception) {
+            try {
+                return Pathao::area()->city()->data;
+            } catch (\Exception $e) {
+                $exception = true;
+                return [];
+            }
+        });
+
+        if ($exception) cache()->forget('pathao_cities');
+
+        return $cityList;
+    }
+
+    public function getAreaList()
+    {
+        $areaList = [];
+        $exception = false;
+        if ($this->city_id ?? false) {
+            $areaList = cache()->remember('pathao_areas:' . $this->city_id, now()->addDay(), function () use (&$exception) {
+                try {
+                    return Pathao::area()->zone($this->city_id)->data;
+                } catch (\Exception $e) {
+                    $exception = true;
+                    return [];
+                }
+            });
+        }
+
+        if ($exception) cache()->forget('pathao_areas:' . $this->city_id);
+
+        return $areaList;
     }
 }

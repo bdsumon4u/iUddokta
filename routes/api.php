@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -29,4 +30,11 @@ Route::group(['as' => 'api.'], function () {
 
     Route::get('resellers', [\App\Http\Controllers\API\ResellerController::class, 'index'])->name('resellers.index');
     Route::get('resellers/edit', [\App\Http\Controllers\API\ResellerController::class, 'edit'])->name('resellers.edit');
+});
+
+
+Route::get('/pathao', function () {
+    $orders = Order::where('status', 'INVOICED')->get();
+
+    dd($orders);
 });

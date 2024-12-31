@@ -1,6 +1,6 @@
 <div>
     @if($success)
-    <div class="alert alert-success fade in clearfix">
+    <div class="clearfix alert alert-success fade in">
         <button type="button" class="close" data-dismiss="alert" aria-label="close">&times;</button>
         <div class="alert-icon">
             <i class="fa fa-check" aria-hidden="true"></i>

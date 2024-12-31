@@ -44,47 +44,40 @@
                             </div>
                         </div>
                     </div>
-                    <p class="card-description"> Order Info</p>
+                    <input type="hidden" name="shop" value="{{ old('shop', $shops->first()->id) }}" readonly>
+                    <input type="hidden" name="delivery_method" id="delivery_method" class="form-control" value="Pathao" readonly>
                     <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group {{ $errors->has('shop') ? 'has-error': '' }}">
-                                <label for="reseller-shop">
-                                    Select Shop<span>*</span>
-                                </label>
-
-                                @if($shops->count() == 1)
-                                <input type="text" name="shop" id="reseller-shop" class="form-control" value="{{ old('shop') ? $shops->find(old('shop'))->name : $shops->first()->name }}" readonly>
-                                <input type="hidden" name="shop" value="{{ old('shop', $shops->first()->id) }}" readonly>
-                                @else
-                                <select name="shop" id="reseller-shop" class="form-control" @if($shops->count() == 1) readonly @endif>
-                                    <option value="">Select Shop</option>
-                                    @foreach($shops as $shop)
-                                    <option value="{{ $shop->id }}" @if(old('shop') == $shop->id) selected @endif>{{ $shop->name }}</option>
-                                    @endforeach
-                                </select>
-                                @endif
-
-                                {!! $errors->first('shop', '<span class="error-message">:message</span>') !!}
-                            </div>
+                        <div class="form-group col-md-4">
+                            <label for="">City</label><span>*</span>
+                            <select name="city_id" class="form-control" wire:model.live="city_id">
+                                <option value="" selected>Select City</option>
+                                @foreach ($this->getCityList() as $city)
+                                    <option value="{{ $city->city_id }}">
+                                        {{ $city->city_name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            {!! $errors->first('city_id', '<span class="error-message">:message</span>') !!}
                         </div>
-                        <div class="col-md-6">
-                            <div class="form-group {{ $errors->has('delivery_method') ? 'has-error': '' }}">
-                                <label for="delivery-method">
-                                    Delivery Method<span>*</span>
-                                </label>
-
-                                @if(count($courier) == 1)
-                                <input type="text" name="delivery_method" id="delivery_method" class="form-control" value="{{ old('delivery_method', reset($courier)) }}" readonly>
-                                @else
-                                <select name="delivery_method" id="delivery_method" class="form-control" @if(count($courier) == 1) readonly @endif>
-                                    <option value="">Select Method</option>
-                                    @foreach($courier as $name)
-                                    <option value="{{ $name }}" @if(old('courier') == $name) selected @endif>{{ $name }}</option>
-                                    @endforeach
-                                </select>
-                                @endif
-                                {!! $errors->first('delivery_method', '<span class="error-message">:message</span>') !!}
+                        <div class="form-group col-md-4">
+                            <label for="">Area</label><span>*</span>
+                            <div wire:loading.class="d-flex" wire:target="city_id" class="d-none h-100 align-items-center">
+                                Loading Area...
                             </div>
+                            <input type="hidden" name="area_id" value="{{ old('area_id', $area_id ?? '') }}">
+                            <select wire:loading.remove wire:target="city_id" class="form-control" wire:model.live="area_id">
+                                <option value="" selected>Select Area</option>
+                                @foreach ($this->getAreaList() as $area)
+                                    <option value="{{ $area->zone_id }}">
+                                        {{ $area->zone_name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            {!! $errors->first('area_id', '<span class="error-message">:message</span>') !!}
+                        </div>
+                        <div class="col-md-4">
+                            <label for="weight" class="mb-0">Weight</label>
+                            <input type="number" value="0.5" class="form-control" placeholder="Weight in KG">
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
