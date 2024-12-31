@@ -5,7 +5,7 @@
         @iverified
             <div class="col-md-6">
                 <div class="orders-table">
-                    <div class="card rounded-0 shadow-sm">
+                    <div class="shadow-sm card rounded-0">
                         <div class="card-header"><strong>Pending Orders</strong></div>
                         <div class="card-body">
                             <div class="table-responive">
@@ -38,7 +38,7 @@
             </div>
             <div class="col-md-6">
                 <div class="transactions-table">
-                    <div class="card rounded-0 shadow-sm">
+                    <div class="shadow-sm card rounded-0">
                         <div class="card-header"><strong>Recent Transactions</strong></div>
                         <div class="card-body">
                             <div class="table-responive">
@@ -67,18 +67,19 @@
                     </div>
                 </div>
             </div>
+            @if(false)
             <div class="col-md-12">
                 <hr>
             </div>
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">Earnings</div>
-                    <div class="card-body p-2">
+                    <div class="p-2 card-body">
                         <div class="row">
                             @foreach (array_reverse((new App\Services\EarningService(auth('reseller')->user()))->periods) ?? [] as $period)
                                 <div class="col-md-4 col-xl-2">
                                     <a href="{{ route('earnings', ['reseller_id' => auth('reseller')->user(), 'period' => $period]) }}"
-                                        class="btn my-1 btn-sm btn-block btn-light text-center">{{ $period }}</a>
+                                        class="my-1 text-center btn btn-sm btn-block btn-light">{{ $period }}</a>
                                 </div>
                             @endforeach
                         </div>
@@ -88,6 +89,7 @@
             <div class="col-md-12">
                 <hr>
             </div>
+            @endif
         @else
             <div class="col-12">
                 <div class="alert alert-warning">
