@@ -152,6 +152,17 @@ class OrderController extends Controller
         return back()->with('success', 'Order Updated');
     }
 
+    public function invoices(Request $request)
+    {
+        $request->validate(['order_id' => 'required']);
+        $order_ids = explode(',', $request->order_id);
+        $order_ids = array_map('trim', $order_ids);
+        $order_ids = array_filter($order_ids);
+
+        $orders = Order::whereIn('id', $order_ids)->get();
+        return view('admin.orders.invoices', compact('orders'));
+    }
+
     public function cancel(Order $order)
     {
         if (in_array($order->status, ['DELIVERED', 'FAILED'])) {

@@ -22,10 +22,6 @@
                     <div class="p-2 card-header">
                         <div class="px-3 row justify-content-between align-items-center">
                             <div>All Orders</div>
-                            <div>
-                                <a href="" class="btn btn-sm btn-primary">New Order</a>
-                                <a href="" class="ml-1 btn btn-sm btn-primary">Pathao CSV</a>
-                            </div>
                         </div>
                         <div class="row d-none" style="row-gap: .25rem;">
                             <div class="col-auto pr-0 d-flex align-items-center" check-count></div>
@@ -38,25 +34,9 @@
                                     @endforeach
                                 </select>
                             </div>
-                            @unless (request()->query('status') == 'SHIPPING')
-                                <div class="col-auto px-1">
-                                    <select name="courier" id="courier" onchange="changeCourier()"
-                                        class="text-white form-control form-control-sm bg-primary">
-                                        <option value="">Change Courier</option>
-                                        @foreach (['Pathao', 'SteadFast', 'Other'] as $provider)
-                                            <option value="{{ $provider }}">{{ $provider }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            @endunless
                             <div class="col-auto pl-0 ml-auto">
-                                @if (request()->query('status') == 'CONFIRMED')
-                                    <button onclick="printInvoice()" id="invoice"
-                                        class="ml-1 btn btn-sm btn-primary">Print Invoice</button>
-                                @elseif(request()->query('status') == 'INVOICED')
-                                    <button onclick="courier()" id="courier" class="ml-1 btn btn-sm btn-primary">Send to
-                                        Courier</button>
-                                @endif
+                                <button onclick="printInvoice()" id="invoice"
+                                    class="ml-1 btn btn-sm btn-primary">Print Invoice</button>
                             </div>
                         </div>
                     </div>
@@ -126,6 +106,11 @@
         });
 
 
+        function printInvoice() {
+            window.open('{{ route('admin.order.invoices') }}?order_id=' + $('[name="order_id[]"]:checked').map(function () {
+                return $(this).val();
+            }).get().join(','), '_blank');
+        }
 
         $.extend(true, $.fn.dataTable.Buttons.defaults.dom.button, {
             className: 'btn btn-sm'

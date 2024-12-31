@@ -120,6 +120,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin', 'as' => 'admin.'], fu
     // Order Routes
     Route::controller(\App\Http\Controllers\OrderController::class)->group(function () {
         Route::view('orders', 'admin.orders.list')->name('order.index');
+        Route::get('order/invoices', 'invoices')->name('order.invoices');
         Route::post('order/status', 'status')->name('order.status');
         Route::get('order/{order}', 'show')->name('order.show');
         Route::post('order/{order}/update', 'update')->name('order.update');
