@@ -145,7 +145,7 @@
     <!-- Layout styles -->
     <link rel="stylesheet" href="{{ asset('css/stellar.css') }}">
     <link rel="stylesheet" href="{{ asset('css/stellar-style.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/fcart.css') }}">
+    {{-- <link rel="stylesheet" href="{{ asset('css/fcart.css') }}"> --}}
     <!-- End layout styles -->
     <link rel="shortcut icon" href="{{ asset($logo->favicon ?? '') ?? '' }}" type="image/x-icon">
     @stack('styles')
@@ -214,10 +214,10 @@
             <div class="main-panel">
                 <div class="content-wrapper">
                     @if ($message = Session::get('success'))
-                        <div class="alert alert-success py-2"><strong>{{ $message }}</strong></div>
+                        <div class="py-2 alert alert-success"><strong>{{ $message }}</strong></div>
                     @endif
                     @if ($message = Session::get('error'))
-                        <div class="alert alert-danger py-2"><strong>{{ $message }}</strong></div>
+                        <div class="py-2 alert alert-danger"><strong>{{ $message }}</strong></div>
                     @endif
                     @yield('content')
                 </div>
