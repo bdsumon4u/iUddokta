@@ -16,7 +16,7 @@ class PageController extends Controller
     {
         $pages = cache('pages', function () {
             $pages = Page::all();
-            $pages->each(function ($page) {
+            $pages->each(function ($page): void {
                 cache(["page.{$page->slug}" => $page]);
             });
             cache(['pages' => $pages]);

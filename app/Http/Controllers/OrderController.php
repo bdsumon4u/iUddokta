@@ -127,7 +127,7 @@ class OrderController extends Controller
             'delivery_method' => 'required',
             'booking_number' => 'nullable',
             'status' => 'required',
-        ]), function ($data) use ($order) {
+        ]), function ($data) use ($order): void {
             $before = $order->status;
             $data['profit'] = $data['sell'] - ($data['buy_price'] ?? $data['price']) - ($data['packaging'] + $data['delivery_charge'] + $data['cod_charge']) + $data['shipping'];
             $order->status = $data['status'];

@@ -67,7 +67,7 @@ class TransactionController extends Controller
         $data['amount'] = $amount;
         $data['reseller_id'] = $reseller->id;
 
-        DB::transaction(function () use ($data, $orders) {
+        DB::transaction(function () use ($data, $orders): void {
             if ($transaction = Transaction::create($data)) {
                 $transaction->orders()->attach($orders->pluck('id'));
                 event(new TransactionRequestRecieved($transaction));

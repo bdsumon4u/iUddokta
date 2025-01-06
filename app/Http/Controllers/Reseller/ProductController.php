@@ -15,7 +15,7 @@ class ProductController extends Controller
         $rows = 20;
         $cols = 5;
         $per_page = $request->get('per_page', $rows * $cols);
-        $products = Product::with('baseImage')->when($request->search, function ($query) use ($request) {
+        $products = Product::with('baseImage')->when($request->search, function ($query) use ($request): void {
             $query->search($request->search, null, true);
         })
             ->latest('id')

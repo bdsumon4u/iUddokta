@@ -34,7 +34,7 @@ class ViewComposerServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        View::composer('*', function ($view) {
+        View::composer('*', function ($view): void {
             $parameters = optional(Route::current())
                 ->parameters();
 
@@ -53,7 +53,7 @@ class ViewComposerServiceProvider extends ServiceProvider
         ];
 
         foreach ($menus as $name => $view) {
-            View::composer("partials.{$view}", function ($view) use ($name) {
+            View::composer("partials.{$view}", function ($view) use ($name): void {
                 // dd(cache()->get(
                 //     'menus:' . $name));
                 $view->withMenuItems(cache()->rememberForever('menus:'.$name, function () use ($name) {
@@ -62,7 +62,7 @@ class ViewComposerServiceProvider extends ServiceProvider
             });
         }
 
-        View::composer('faqs', function ($view) {
+        View::composer('faqs', function ($view): void {
             $view->with('faqs', Faq::all());
         });
 

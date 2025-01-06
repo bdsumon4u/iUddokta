@@ -20,7 +20,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::group(['as' => 'api.'], function () {
+Route::group(['as' => 'api.'], function (): void {
     Route::get('images', [\App\Http\Controllers\API\ImageController::class, 'index'])->name('images.index');
     Route::delete('images/destroy', [\App\Http\Controllers\API\ImageController::class, 'destroy'])->name('images.destroy');
 
@@ -33,8 +33,8 @@ Route::group(['as' => 'api.'], function () {
     Route::get('resellers/edit', [\App\Http\Controllers\API\ResellerController::class, 'edit'])->name('resellers.edit');
 });
 
-Route::get('/pathao', function () {
-    Order::where('status', 'INVOICED')->get()->each(function (Order $order) {
+Route::get('/pathao', function (): void {
+    Order::where('status', 'INVOICED')->get()->each(function (Order $order): void {
         $description = implode('\n', array_map(function ($item) {
             return $item['quantity'].' x '.$item['name'];
         }, $order->data['products']));

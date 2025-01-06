@@ -13,7 +13,7 @@ return Application::configure(basePath: dirname(__DIR__))
         commands: __DIR__.'/../routes/console.php',
         health: '/up',
     )
-    ->withMiddleware(function (Middleware $middleware) {
+    ->withMiddleware(function (Middleware $middleware): void {
         $middleware->replace(Authenticate::class, \App\Http\Middleware\Authenticate::class)
             ->replace(RedirectIfAuthenticated::class, \App\Http\Middleware\RedirectIfAuthenticated::class)
             ->alias([
@@ -21,6 +21,6 @@ return Application::configure(basePath: dirname(__DIR__))
                 'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
             ]);
     })
-    ->withExceptions(function (Exceptions $exceptions) {
+    ->withExceptions(function (Exceptions $exceptions): void {
         //
     })->create();

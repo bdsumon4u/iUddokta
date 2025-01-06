@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/dev', function () {
+Route::get('/dev', function (): void {
     Artisan::call('config:cache');
     Artisan::call('view:cache');
     Artisan::call('cache:clear');
@@ -36,7 +36,7 @@ Route::get('/', function (Request $request) {
 
     return view('home', compact('slides'))->withFaqs(cache('faqs', function () {
         $faqs = Faq::all();
-        $faqs->each(function ($faq) {
+        $faqs->each(function ($faq): void {
             cache(["faq.{$faq->id}" => $faq]);
         });
 
@@ -47,7 +47,7 @@ Route::get('/', function (Request $request) {
 Route::get('/faqs', function (Request $request) {
     return view('faqs')->withFaqs(cache('faqs', function () {
         $faqs = Faq::all();
-        $faqs->each(function ($faq) {
+        $faqs->each(function ($faq): void {
             cache(["faq.{$faq->id}" => $faq]);
         });
 
@@ -55,7 +55,7 @@ Route::get('/faqs', function (Request $request) {
     }));
 })->name('faqs');
 
-Route::get('derning', function () {
+Route::get('derning', function (): void {
     foreach (Reseller::whereNotNull('verified_at')->get() as $reseller) {
         dump($reseller->created_at->format('d-M-Y'));
         $service = new EarningService($reseller);
@@ -64,7 +64,7 @@ Route::get('derning', function () {
 });
 
 // Installation Routes
-Route::controller(\App\Http\Controllers\InstallController::class)->group(function () {
+Route::controller(\App\Http\Controllers\InstallController::class)->group(function (): void {
     Route::get('install/pre-installation', 'preInstallation');
     Route::get('install/configuration', 'getConfiguration');
     Route::post('install/configuration', 'postConfiguration');
@@ -72,7 +72,7 @@ Route::controller(\App\Http\Controllers\InstallController::class)->group(functio
 });
 
 // Product Routes
-Route::controller(\App\Http\Controllers\Reseller\ProductController::class)->group(function () {
+Route::controller(\App\Http\Controllers\Reseller\ProductController::class)->group(function (): void {
     Route::get('/products', 'products')->name('products');
 });
 
@@ -80,7 +80,7 @@ Route::controller(\App\Http\Controllers\Reseller\ProductController::class)->grou
 Route::get('checkout', fn () => [])->name('checkout');
 
 // Authentication Routes
-Route::controller(\App\Http\Controllers\Auth\LoginController::class)->group(function () {
+Route::controller(\App\Http\Controllers\Auth\LoginController::class)->group(function (): void {
     Route::get('getpass', 'showLoginForm')->name('login');
     Route::post('getpass', 'login')->name('login');
 });
@@ -93,22 +93,22 @@ Route::match(['get'/*'post'*/], '/login', fn () => abort(404));
 Route::get('/dashboard', [\App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 // Reseller Routes
-Route::group(['prefix' => 'reseller', 'as' => 'reseller.'], function () {
-    Route::group(['namespace' => 'App\Http\Controllers\Reseller'], function () {
+Route::group(['prefix' => 'reseller', 'as' => 'reseller.'], function (): void {
+    Route::group(['namespace' => 'App\Http\Controllers\Reseller'], function (): void {
         Auth::routes(['verify' => true]);
     });
     Route::get('/dashboard', [\App\Http\Controllers\Reseller\HomeController::class, 'index'])->name('home');
 });
 
 // Admin Routes Group with Middleware and Prefix
-Route::group(['middleware' => 'auth', 'prefix' => 'admin', 'as' => 'admin.'], function () {
+Route::group(['middleware' => 'auth', 'prefix' => 'admin', 'as' => 'admin.'], function (): void {
 
     // Slide and Category Resources
     Route::resource('slides', \App\Http\Controllers\SlideController::class);
     Route::resource('categories', \App\Http\Controllers\CategoryController::class);
 
     // Product Routes
-    Route::controller(\App\Http\Controllers\ProductController::class)->group(function () {
+    Route::controller(\App\Http\Controllers\ProductController::class)->group(function (): void {
         Route::get('/products/trashed', 'trashed')->name('products.trashed');
         Route::post('/products/{product}/restore', 'restore')->name('products.restore');
         Route::resource('/products', \App\Http\Controllers\ProductController::class);
@@ -118,7 +118,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin', 'as' => 'admin.'], fu
     Route::resource('images', \App\Http\Controllers\ImageController::class);
 
     // Order Routes
-    Route::controller(\App\Http\Controllers\OrderController::class)->group(function () {
+    Route::controller(\App\Http\Controllers\OrderController::class)->group(function (): void {
         Route::view('orders', 'admin.orders.list')->name('order.index');
         Route::get('order/invoices', 'invoices')->name('order.invoices');
         Route::post('order/status', 'status')->name('order.status');
@@ -131,7 +131,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin', 'as' => 'admin.'], fu
     // Transaction Routes
     Route::view('/transactions/history', 'admin.transactions.index')->name('transactions.index');
     Route::view('/transactions/requests', 'admin.transactions.requests')->name('transactions.requests');
-    Route::controller(\App\Http\Controllers\TransactionController::class)->group(function () {
+    Route::controller(\App\Http\Controllers\TransactionController::class)->group(function (): void {
         // Route::get('/transactions/pay', 'pay')->name('transactions.pay');
         Route::get('/transactions/pay/{reseller}', 'payToReseller')->name('transactions.pay-to-reseller');
         Route::post('/transactions/pay/store', 'store')->name('transactions.pay.store');
@@ -140,7 +140,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin', 'as' => 'admin.'], fu
     });
 
     // Notification Routes
-    Route::controller(\App\Http\Controllers\NotificationController::class)->group(function () {
+    Route::controller(\App\Http\Controllers\NotificationController::class)->group(function (): void {
         Route::get('/notifications', 'index')->name('notifications.index');
         Route::patch('/notifications/read/{notification?}', 'update')->name('notifications.update');
         Route::delete('/notifications/destroy/{notification?}', 'destroy')->name('notifications.destroy');
@@ -150,7 +150,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin', 'as' => 'admin.'], fu
     Route::resource('/resellers', \App\Http\Controllers\ResellerController::class);
 
     // Page Routes
-    Route::controller(\App\Http\Controllers\PageController::class)->group(function () {
+    Route::controller(\App\Http\Controllers\PageController::class)->group(function (): void {
         Route::get('/pages', 'index')->name('pages.index');
         Route::get('/pages/create', 'create')->name('pages.create');
         Route::post('/pages/create', 'store')->name('pages.store');
@@ -161,13 +161,13 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin', 'as' => 'admin.'], fu
 
     // Menu Routes
     Route::resource('hmenus', \App\Http\Controllers\MenuController::class);
-    Route::controller(\App\Http\Controllers\MenuItemController::class)->group(function () {
+    Route::controller(\App\Http\Controllers\MenuItemController::class)->group(function (): void {
         Route::resource('/menuItems', \App\Http\Controllers\MenuItemController::class);
         Route::post('menuItems/{menu}/sort', 'sort')->name('menuItems.sort');
     });
 
     // Setting Routes
-    Route::controller(\App\Http\Controllers\SettingController::class)->group(function () {
+    Route::controller(\App\Http\Controllers\SettingController::class)->group(function (): void {
         Route::get('/settings', 'edit')->name('settings.edit');
         Route::patch('/settings', 'update')->name('settings.update');
     });
@@ -179,7 +179,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin', 'as' => 'admin.'], fu
     Route::resource('/faqs', \App\Http\Controllers\FaqController::class);
 
     // Admin Routes
-    Route::controller(\App\Http\Controllers\AdminController::class)->group(function () {
+    Route::controller(\App\Http\Controllers\AdminController::class)->group(function (): void {
         Route::get('/admins', 'index')->name('admins.index');
         Route::get('/admins/create', 'create')->name('admins.create');
         Route::post('/admins/create', 'store')->name('admins.store');
@@ -196,8 +196,8 @@ Route::get('/page/{page:slug}', [\App\Http\Controllers\PageController::class, 's
 
 Route::post('/contact', \App\Http\Controllers\ContactController::class)->name('contact');
 
-Route::group(['middleware' => 'auth:reseller'], function () {
-    Route::controller(\App\Http\Controllers\CartController::class)->group(function () {
+Route::group(['middleware' => 'auth:reseller'], function (): void {
+    Route::controller(\App\Http\Controllers\CartController::class)->group(function (): void {
         Route::get('/cart', 'index')->name('cart.index');
         Route::get('/cart/clear', 'clear')->name('cart.clear');
         Route::post('/cart/add/{product}', 'add')->name('cart.add');
@@ -212,17 +212,17 @@ Route::group([
     'middleware' => 'auth:reseller',
     'prefix' => 'reseller',
     'as' => 'reseller.',
-], function () {
+], function (): void {
     Route::resource('shops', \App\Http\Controllers\Reseller\ShopController::class);
 
-    Route::controller(\App\Http\Controllers\Reseller\ProductController::class)->group(function () {
+    Route::controller(\App\Http\Controllers\Reseller\ProductController::class)->group(function (): void {
         Route::get('/products/category/{slug}/id/{category}', 'index')->name('product.by-category');
         Route::get('/products', 'index')->name('product.index')->middleware(\App\Http\Middleware\IsVerified::class);
         Route::get('/product/{product:slug}', 'show')->name('product.show');
     });
 
     Route::view('/orders', 'reseller.orders.list')->name('order.index');
-    Route::controller(\App\Http\Controllers\Reseller\OrderController::class)->group(function () {
+    Route::controller(\App\Http\Controllers\Reseller\OrderController::class)->group(function (): void {
         Route::post('/order/store', 'store')->name('order.store');
         Route::get('/order/{order}', 'show')->name('order.show');
         Route::get('/order/{order}/invoice', 'invoice')->name('order.invoice');
@@ -231,13 +231,13 @@ Route::group([
     });
 
     Route::view('/transactions/history', 'reseller.transactions.index')->name('transactions.index');
-    Route::controller(\App\Http\Controllers\Reseller\TransactionController::class)->group(function () {
+    Route::controller(\App\Http\Controllers\Reseller\TransactionController::class)->group(function (): void {
         Route::get('/transactions/request', 'request')->name('transactions.request');
         Route::post('/transactions/request', 'store')->name('transactions.store');
         Route::get('/transactions/{transaction}', 'show')->name('transactions.show');
     });
 
-    Route::controller(\App\Http\Controllers\Reseller\SettingController::class)->group(function () {
+    Route::controller(\App\Http\Controllers\Reseller\SettingController::class)->group(function (): void {
         Route::get('/setting', 'edit')->name('setting.edit');
         Route::patch('/setting', 'update')->name('setting.update');
         Route::patch('/setting/profile', 'profile')->name('setting.profile');
@@ -252,7 +252,7 @@ Route::group([
 
     Route::get('/profile/{reseller}', \App\Http\Controllers\Reseller\ProfileController::class)->name('profile.show');
 
-    Route::controller(\App\Http\Controllers\Reseller\NotificationController::class)->group(function () {
+    Route::controller(\App\Http\Controllers\Reseller\NotificationController::class)->group(function (): void {
         Route::get('/notifications', 'index')->name('notifications.index');
         Route::patch('/notifications/read/{notification?}', 'update')->name('notifications.update');
         Route::delete('/notifications/destroy/{notification?}', 'destroy')->name('notifications.destroy');

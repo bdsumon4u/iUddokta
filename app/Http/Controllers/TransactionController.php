@@ -36,7 +36,7 @@ class TransactionController extends Controller
      */
     public function pay()
     {
-        $resellers = Reseller::with(['transactions', 'orders' => function ($query) {
+        $resellers = Reseller::with(['transactions', 'orders' => function ($query): void {
             $query->whereBetween('data->completed_at', $this->timezone)
                 ->orWhereBetween('data->returned_at', $this->timezone);
         }])->get()->sortByDesc('balance');
@@ -45,7 +45,7 @@ class TransactionController extends Controller
             if (! is_null($reseller->payment) && ($lastPaidAt <= $this->timezone[1])) {
                 $com = $ret = 0;
                 $reseller->orders
-                    ->each(function (Order $item) use (&$com, &$ret) {
+                    ->each(function (Order $item) use (&$com, &$ret): void {
                         if ($item->status === 'DELIVERED') {
                             $com += $item->data['profit'] - $item->data['advanced'];
                         } elseif ($item->status === 'FAILED') {

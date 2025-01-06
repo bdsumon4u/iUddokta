@@ -16,7 +16,7 @@ class FaqController extends Controller
     {
         $faqs = cache('faqs', function () {
             $faqs = Faq::all();
-            $faqs->each(function (Faq $faq) {
+            $faqs->each(function (Faq $faq): void {
                 cache(["faq.{$faq->id}" => $faq]);
             });
             cache(['faqs' => $faqs]);

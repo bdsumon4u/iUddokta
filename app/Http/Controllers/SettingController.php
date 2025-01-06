@@ -80,7 +80,7 @@ class SettingController extends Controller
             'all_pages' => Page::all(),
         ];
         collect(array_keys($this->rules))
-            ->map(function ($item) use (&$compact, $settingsRepo) {
+            ->map(function ($item) use (&$compact, $settingsRepo): void {
                 $compact[$item] = $settingsRepo->first($item)->value ?? new Setting;
             });
 
@@ -102,7 +102,7 @@ class SettingController extends Controller
         }
         $data = $request->validate($this->rules);
 
-        tap($settingsRepo->first('logo')->value, function ($logo) use ($request, &$data) {
+        tap($settingsRepo->first('logo')->value, function ($logo) use ($request, &$data): void {
             foreach ($request->logo ?? [] as $type => $item) {
                 if (! is_null($item)) {
                     $oldPath = $logo->$type;

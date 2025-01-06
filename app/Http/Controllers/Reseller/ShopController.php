@@ -52,7 +52,7 @@ class ShopController extends Controller
             'outside_dhaka' => 'required|integer',
         ]) + [
             'reseller_id' => auth('reseller')->user()->id,
-        ], function ($data) use ($request) {
+        ], function ($data) use ($request): void {
 
             if ($request->hasFile('logo')) {
                 $filenameWithExt = $request->file('logo')->getClientOriginalName();
@@ -123,7 +123,7 @@ class ShopController extends Controller
             'website' => 'nullable',
         ]) + [
             'reseller_id' => auth('reseller')->user()->id,
-        ], function ($data) use ($request, $shop) {
+        ], function ($data) use ($request, $shop): void {
 
             if ($request->hasFile('logo')) {
                 $filenameWithExt = $request->file('logo')->getClientOriginalName();

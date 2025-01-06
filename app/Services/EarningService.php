@@ -75,7 +75,7 @@ class EarningService
     public function orders($period)
     {
         return $this->orders = $this->reseller->orders()
-            ->where(function ($query) use ($period) {
+            ->where(function ($query) use ($period): void {
                 [$start_date, $end_date] = explode($this->seperator, $period);
                 $start_date = Carbon::parse($start_date);
                 $end_date = Carbon::parse($end_date)->endOfDay();
