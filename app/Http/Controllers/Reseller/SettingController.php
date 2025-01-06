@@ -71,7 +71,7 @@ class SettingController extends Controller
         return back()->with('success', 'Payment Method Updatd.');
     }
 
-    public function update(Request $request)
+    public function update(Request $request): never
     {
         dd($request->all());
     }

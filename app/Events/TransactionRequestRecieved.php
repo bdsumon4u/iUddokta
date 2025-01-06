@@ -11,16 +11,13 @@ class TransactionRequestRecieved
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $transaction;
-
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($transaction)
+    public function __construct(public $transaction)
     {
-        $this->transaction = $transaction;
     }
 
     /**

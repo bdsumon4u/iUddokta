@@ -23,19 +23,19 @@ class PageMiddleware
 
         $content = $response->content();
 
-        if (strpos($content, '[!PAGE_TITLE]') != false) {
+        if (str_contains((string) $content, '[!PAGE_TITLE]')) {
             $content = str_replace('[!PAGE_TITLE]', '', $content);
             $content = preg_replace("~<h2\sclass=\"section-title\">.*?</h2>~", '', $content);
         }
 
-        if (strpos($content, '[CONTACT_FORM]') != false) {
+        if (str_contains((string) $content, '[CONTACT_FORM]')) {
             $content = str_replace(
                 '[CONTACT_FORM]',
                 View::make('contact-form'),
                 $content
             );
         }
-        if (strpos($content, '[FAQs]') != false) {
+        if (str_contains((string) $content, '[FAQs]')) {
             $content = str_replace(
                 '[FAQs]',
                 View::make('faqs'),

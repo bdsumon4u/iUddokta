@@ -56,9 +56,7 @@ class ViewComposerServiceProvider extends ServiceProvider
             View::composer("partials.{$view}", function ($view) use ($name): void {
                 // dd(cache()->get(
                 //     'menus:' . $name));
-                $view->withMenuItems(cache()->rememberForever('menus:'.$name, function () use ($name) {
-                    return optional(Menu::whereName($name)->first())->items ?: collect();
-                }));
+                $view->withMenuItems(cache()->rememberForever('menus:'.$name, fn() => optional(Menu::whereName($name)->first())->items ?: collect()));
             });
         }
 

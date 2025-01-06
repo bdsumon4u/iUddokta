@@ -23,7 +23,7 @@ class Order extends Model
     public function getDataAttribute($data)
     {
         // return unserialize($data);
-        return json_decode($data, true);
+        return json_decode((string) $data, true);
     }
 
     public function getShopAttribute()
@@ -65,9 +65,7 @@ class Order extends Model
     public function current_price()
     {
         $products = Product::whereIn('id', array_keys($this->data['products']))->get();
-        $sum = $products->sum(function ($product) {
-            return $product->wholesale * $this->data['products'][$product->id]['quantity'];
-        });
+        $sum = $products->sum(fn($product) => $product->wholesale * $this->data['products'][$product->id]['quantity']);
 
         return $sum;
     }

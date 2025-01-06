@@ -28,24 +28,16 @@ class OrderController extends Controller
                     // ->addColumn('empty', function($row){
                     //     return '';
                     // })
-                ->addColumn('checkbox', function ($row) {
-                    return '<input type="checkbox" class="form-control" name="order_id[]" value="'.$row->id.'" style="min-height: 20px;min-width: 20px;max-height: 20px;max-width: 20px;">';
-                })
-                ->editColumn('id', function ($row) {
-                    return '<a class="px-2 btn btn-light btn-sm text-nowrap" href="'.route('admin.order.show', $row->id).'">'.$row->id.'<i class="ml-1 fa fa-eye"></i></a>';
-                })
-                ->addColumn('reseller', function ($row) {
-                    return '<a href="'.route('admin.resellers.show', $row->reseller->id ?? 0).'">
+                ->addColumn('checkbox', fn($row) => '<input type="checkbox" class="form-control" name="order_id[]" value="'.$row->id.'" style="min-height: 20px;min-width: 20px;max-height: 20px;max-width: 20px;">')
+                ->editColumn('id', fn($row) => '<a class="px-2 btn btn-light btn-sm text-nowrap" href="'.route('admin.order.show', $row->id).'">'.$row->id.'<i class="ml-1 fa fa-eye"></i></a>')
+                ->addColumn('reseller', fn($row) => '<a href="'.route('admin.resellers.show', $row->reseller->id ?? 0).'">
                             <strong>Name:</strong>'.optional($row->reseller)->name.'
                             <div class="my-1"></div>
                             <strong>Phone:</strong>'.optional($row->reseller)->phone.'
-                        </a>';
-                })
-                ->addColumn('customer', function ($row) {
-                    return '<strong>Name:</strong>'.$row->data['customer_name'].'
+                        </a>')
+                ->addColumn('customer', fn($row) => '<strong>Name:</strong>'.$row->data['customer_name'].'
                             <div class="my-1"></div>
-                            <strong>Phone:</strong>'.$row->data['customer_phone'];
-                })
+                            <strong>Phone:</strong>'.$row->data['customer_phone'])
                 ->addColumn('price', function ($row) {
                     $ret = '
                         <strong style="white-space: nowrap;">Buy:</strong> '.theMoney($row->status == 'PENDING' ? $row->data['price'] : ($row->data['buy_price'] ?? $row->data['price']))."
@@ -78,19 +70,15 @@ class OrderController extends Controller
 
                     return $return;
                 })
-                ->addColumn('ordered_at', function ($row) {
-                    return '<span style="white-space: nowrap;">'.$row->created_at->format('d-M-Y').'</span><div class="my-1"></div><span>'.$row->created_at->format('h:i A').'</span>';
-                })
+                ->addColumn('ordered_at', fn($row) => '<span style="white-space: nowrap;">'.$row->created_at->format('d-M-Y').'</span><div class="my-1"></div><span>'.$row->created_at->format('h:i A').'</span>')
                 ->addColumn('completed_at', function ($row) {
                     $col = $row->status == 'FAILED' ? 'returned_at' : 'completed_at';
 
-                    return isset($row->data[$col]) ? date('d-M-Y', strtotime($row->data[$col])) : 'N/A';
+                    return isset($row->data[$col]) ? date('d-M-Y', strtotime((string) $row->data[$col])) : 'N/A';
                 })
                 ->rawColumns(['checkbox', 'id', 'reseller', 'customer', 'status', 'price', 'ordered_at'])
                 ->setRowAttr([
-                    'data-entry-id' => function ($row) {
-                        return $row->id;
-                    },
+                    'data-entry-id' => fn($row) => $row->id,
                 ])
                 ->make(true);
         }
@@ -112,14 +100,10 @@ class OrderController extends Controller
         if ($request->ajax()) {
             return Datatables::of($orders->status($status)->latest('id')->with('reseller'))
                 ->addIndexColumn()
-                ->addColumn('empty', function ($row) {
-                    return '';
-                })
-                ->addColumn('customer', function ($row) {
-                    return '<strong>Name:</strong>'.$row->data['customer_name'].'
+                ->addColumn('empty', fn($row) => '')
+                ->addColumn('customer', fn($row) => '<strong>Name:</strong>'.$row->data['customer_name'].'
                             <div class="my-1">
-                            <strong>Phone:</strong>'.$row->data['customer_phone'];
-                })
+                            <strong>Phone:</strong>'.$row->data['customer_phone'])
                 ->addColumn('price', function ($row) {
                     $ret = '
                         <strong style="white-space: nowrap;">Buy:</strong> '.theMoney($row->status == 'PENDING' ? $row->data['price'] : ($row->data['buy_price'] ?? $row->data['price']))."
@@ -150,13 +134,11 @@ class OrderController extends Controller
 
                     return $return;
                 })
-                ->addColumn('ordered_at', function ($row) {
-                    return '<span style="white-space: nowrap;">'.$row->created_at->format('d-M-Y').'</span><div class="my-1"></div><span>'.$row->created_at->format('h:i A').'</span>';
-                })
+                ->addColumn('ordered_at', fn($row) => '<span style="white-space: nowrap;">'.$row->created_at->format('d-M-Y').'</span><div class="my-1"></div><span>'.$row->created_at->format('h:i A').'</span>')
                 ->addColumn('completed_returned_at', function ($row) {
                     $col = $row->status == 'FAILED' ? 'returned_at' : 'completed_at';
 
-                    return isset($row->data[$col]) ? date('d-M-Y', strtotime($row->data[$col])) : 'N/A';
+                    return isset($row->data[$col]) ? date('d-M-Y', strtotime((string) $row->data[$col])) : 'N/A';
                 })
                 ->addColumn('action', function ($row) {
                     $btn = '<div class="btn-group btn-group-sm d-flex justify-content-between">
@@ -168,9 +150,7 @@ class OrderController extends Controller
                 })
                 ->rawColumns(['customer', 'status', 'price', 'ordered_at', 'action'])
                 ->setRowAttr([
-                    'data-entry-id' => function ($row) {
-                        return $row->id;
-                    },
+                    'data-entry-id' => fn($row) => $row->id,
                 ])
                 ->make(true);
         }
@@ -242,7 +222,7 @@ class OrderController extends Controller
 
     private function variant($status): string
     {
-        return match (strtolower($status)) {
+        return match (strtolower((string) $status)) {
             'pending' => 'secondary',
             'processing' => 'warning',
             'invoiced' => 'info',

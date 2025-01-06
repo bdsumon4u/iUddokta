@@ -12,22 +12,13 @@ class TransactionCompleted //implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $transaction;
-
-    public $type;
-
-    public $timezone;
-
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($transaction, $type, $timezone)
+    public function __construct(public $transaction, public $type, public $timezone)
     {
-        $this->transaction = $transaction;
-        $this->type = $type;
-        $this->timezone = $timezone;
     }
 
     /**

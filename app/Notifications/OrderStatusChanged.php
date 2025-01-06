@@ -13,16 +13,13 @@ class OrderStatusChanged extends Notification
 {
     use Queueable;
 
-    protected $event;
-
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($event)
+    public function __construct(protected $event)
     {
-        $this->event = $event;
     }
 
     /**

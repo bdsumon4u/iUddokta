@@ -12,19 +12,13 @@ class NewOrderRecieved //implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $order;
-
-    public $reseller;
-
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($order, $reseller)
+    public function __construct(public $order, public $reseller)
     {
-        $this->order = $order;
-        $this->reseller = $reseller;
     }
 
     /**

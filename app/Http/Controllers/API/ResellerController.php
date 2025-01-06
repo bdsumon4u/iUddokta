@@ -14,28 +14,18 @@ class ResellerController extends Controller
         if ($request->ajax()) {
             return DataTables::of(Reseller::latest())
                 ->addIndexColumn()
-                ->addColumn('empty', function ($row) {
-                    return '';
-                })
-                ->addColumn('name', function ($row) {
-                    return '<a href="'.route('admin.resellers.show', $row->id).'">'.$row->name.'</a>';
-                })
-                ->addColumn('status', function ($row) {
-                    return '<span class="badge badge-'.($row->verified_at ? 'success' : 'secondary').'">'.($row->verified_at ? 'Verified' : 'Non-Verified').'</span>';
-                })
-                ->addColumn('action', function ($row) {
-                    return '<form action="'.route('admin.resellers.destroy', $row->id).'" method="post">
+                ->addColumn('empty', fn($row) => '')
+                ->addColumn('name', fn($row) => '<a href="'.route('admin.resellers.show', $row->id).'">'.$row->name.'</a>')
+                ->addColumn('status', fn($row) => '<span class="badge badge-'.($row->verified_at ? 'success' : 'secondary').'">'.($row->verified_at ? 'Verified' : 'Non-Verified').'</span>')
+                ->addColumn('action', fn($row) => '<form action="'.route('admin.resellers.destroy', $row->id).'" method="post">
                             <div class="btn-group btn-group-inline">
                                 <a class="btn btn-sm btn-primary" target="_blank" href="'.route('admin.resellers.edit', $row->id).'">Edit</a>
                                 <button class="btn btn-sm btn-danger">Delete</button>
                             </div>
-                        </form>';
-                })
+                        </form>')
                 ->rawColumns(['name', 'status', 'action'])
                 ->setRowAttr([
-                    'data-entry-id' => function ($row) {
-                        return $row->id;
-                    },
+                    'data-entry-id' => fn($row) => $row->id,
                 ])
                 ->make(true);
         }

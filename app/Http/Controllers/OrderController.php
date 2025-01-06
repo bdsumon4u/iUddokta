@@ -135,7 +135,7 @@ class OrderController extends Controller
             $data['returned_at'] = $data['status'] == 'failed' ? now()->toDateTimeString() : null;
             unset($data['status']);
             foreach ($order->data as $key => $val) {
-                $data[$key] = isset($data[$key]) ? $data[$key] : $val;
+                $data[$key] ??= $val;
             }
             // dd($data);
             $order->data = $data;
@@ -182,7 +182,7 @@ class OrderController extends Controller
 
     private function variant($status): string
     {
-        return match (strtolower($status)) {
+        return match (strtolower((string) $status)) {
             'pending' => 'secondary',
             'processing' => 'warning',
             'invoiced' => 'info',

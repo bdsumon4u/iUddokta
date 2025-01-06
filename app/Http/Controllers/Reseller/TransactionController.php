@@ -50,9 +50,7 @@ class TransactionController extends Controller
             ->whereIn('id', explode(',', $request->order_ids))
             ->get();
 
-        $amount = $orders->sum(function ($item) {
-            return $item->data['profit'] - $item->data['advanced'];
-        });
+        $amount = $orders->sum(fn($item) => $item->data['profit'] - $item->data['advanced']);
 
         $data = $request->validate([
             'amount' => 'required|integer',

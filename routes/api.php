@@ -16,9 +16,7 @@ use Illuminate\Support\Str;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::middleware('auth:api')->get('/user', fn(Request $request) => $request->user());
 
 Route::group(['as' => 'api.'], function (): void {
     Route::get('images', [\App\Http\Controllers\API\ImageController::class, 'index'])->name('images.index');
@@ -35,9 +33,7 @@ Route::group(['as' => 'api.'], function (): void {
 
 Route::get('/pathao', function (): void {
     Order::where('status', 'INVOICED')->get()->each(function (Order $order): void {
-        $description = implode('\n', array_map(function ($item) {
-            return $item['quantity'].' x '.$item['name'];
-        }, $order->data['products']));
+        $description = implode('\n', array_map(fn($item) => $item['quantity'].' x '.$item['name'], $order->data['products']));
 
         $data = [
             'store_id' => config('pathao.store_id'), // Find in store list,

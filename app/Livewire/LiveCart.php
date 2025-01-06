@@ -103,9 +103,7 @@ class LiveCart extends Component
     {
         return Cart::session($this->user_id)
             ->getContent()
-            ->sum(function ($item) {
-                return $item->attributes->product->retail * $item->quantity;
-            });
+            ->sum(fn($item) => $item->attributes->product->retail * $item->quantity);
     }
 
     protected function theMoney()
@@ -127,7 +125,7 @@ class LiveCart extends Component
         $cityList = cache()->remember('pathao_cities', now()->addDay(), function () use (&$exception) {
             try {
                 return Pathao::area()->city()->data;
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 $exception = true;
 
                 return [];
@@ -149,7 +147,7 @@ class LiveCart extends Component
             $areaList = cache()->remember('pathao_areas:'.$this->city_id, now()->addDay(), function () use (&$exception) {
                 try {
                     return Pathao::area()->zone($this->city_id)->data;
-                } catch (\Exception $e) {
+                } catch (\Exception) {
                     $exception = true;
 
                     return [];

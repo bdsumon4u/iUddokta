@@ -14,13 +14,6 @@ class ResetPassword extends Notification
     use Queueable;
 
     /**
-     * The password reset token.
-     *
-     * @var string
-     */
-    public $token;
-
-    /**
      * The callback that should be used to create the reset password URL.
      *
      * @var \Closure|null
@@ -40,9 +33,13 @@ class ResetPassword extends Notification
      * @param  string  $token
      * @return void
      */
-    public function __construct($token)
+    public function __construct(
+        /**
+         * The password reset token.
+         */
+        public $token
+    )
     {
-        $this->token = $token;
     }
 
     /**

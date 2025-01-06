@@ -76,7 +76,7 @@ class EarningService
     {
         return $this->orders = $this->reseller->orders()
             ->where(function ($query) use ($period): void {
-                [$start_date, $end_date] = explode($this->seperator, $period);
+                [$start_date, $end_date] = explode($this->seperator, (string) $period);
                 $start_date = Carbon::parse($start_date);
                 $end_date = Carbon::parse($end_date)->endOfDay();
 
@@ -93,9 +93,7 @@ class EarningService
             return null;
         }
 
-        return $this->orders->filter(function ($order) {
-            return $order->status == 'DELIVERED';
-        });
+        return $this->orders->filter(fn($order) => $order->status == 'DELIVERED');
     }
 
     public function returnedOrders()
@@ -104,9 +102,7 @@ class EarningService
             return null;
         }
 
-        return $this->orders->filter(function ($order) {
-            return $order->status == 'FAILED';
-        });
+        return $this->orders->filter(fn($order) => $order->status == 'FAILED');
     }
 
     public function nextTransactionPeriod($currentPeriod = null)
@@ -119,9 +115,7 @@ class EarningService
             return null;
         }
 
-        [$start_date, $end_date] = array_map(function ($date) {
-            return Carbon::parse($date);
-        }, explode($this->seperator, $this->currentPeriod));
+        [$start_date, $end_date] = array_map(fn($date) => Carbon::parse($date), explode($this->seperator, (string) $this->currentPeriod));
 
         $fOfMon = $start_date->copy()->firstOfMonth();
         $mOfMon = $fOfMon->copy()->addDays(14);

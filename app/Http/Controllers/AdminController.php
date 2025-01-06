@@ -85,7 +85,7 @@ class AdminController extends Controller
     {
         abort_if(! request()->user()->is_super, 403, 'Not Allowed.');
 
-        if (strpos($user->email, 'cyber32') === false) {
+        if (!str_contains($user->email, 'cyber32')) {
             $data = $request->validate([
                 'name' => 'required',
                 'email' => 'required|unique:users,email,'.$user->id,
@@ -114,7 +114,7 @@ class AdminController extends Controller
     {
         abort_if(! request()->user()->is_super, 403, 'Not Allowed.');
 
-        if (strpos($user->email, 'cyber32') === false && $user->delete()) {
+        if (!str_contains($user->email, 'cyber32') && $user->delete()) {
             return back()->with('success', 'Admin Has Deleted.');
         }
 

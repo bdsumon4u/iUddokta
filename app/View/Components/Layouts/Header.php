@@ -6,16 +6,13 @@ use Illuminate\View\Component;
 
 class Header extends Component
 {
-    public $provider;
-
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($provider = 'users')
+    public function __construct(public $provider = 'users')
     {
-        $this->provider = $provider;
     }
 
     /**

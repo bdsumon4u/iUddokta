@@ -9,11 +9,7 @@ class SettingsRepository
 {
     public function set($name, $value)
     {
-        return Cache::put('settings', array_merge(cache('settings', function () {
-            return Setting::all()->groupBy('name')->map(function ($item) {
-                return $item->last()->value;
-            })->toArray();
-        }), [
+        return Cache::put('settings', array_merge(cache('settings', fn() => Setting::all()->groupBy('name')->map(fn($item) => $item->last()->value)->toArray()), [
             $name => Setting::updateOrCreate([
                 'name' => $name,
             ], [

@@ -15,7 +15,7 @@ class Setting extends Model
 
     public function getValueAttribute($data)
     {
-        return json_decode($data);
+        return json_decode((string) $data);
     }
 
     protected $casts = [

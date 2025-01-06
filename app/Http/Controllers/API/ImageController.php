@@ -16,15 +16,9 @@ class ImageController extends Controller
         if ($request->ajax()) {
             return Datatables::of(Image::latest())
                 ->addIndexColumn()
-                ->addColumn('empty', function ($row) {
-                    return '';
-                })
-                ->addColumn('preview', function ($row) {
-                    return '<img src="'.asset($row->path).'" class="img-preview img-responsive img-thumbnail" width="150" height="150">';
-                })
-                ->addColumn('size', function ($row) {
-                    return bytesToHuman($row->size);
-                })
+                ->addColumn('empty', fn($row) => '')
+                ->addColumn('preview', fn($row) => '<img src="'.asset($row->path).'" class="img-preview img-responsive img-thumbnail" width="150" height="150">')
+                ->addColumn('size', fn($row) => bytesToHuman($row->size))
                 ->addColumn('delete', function ($row) {
                     $btn = '<a href="'.route('admin.images.show', $row->id).'" class="select-item btn btn-danger btn-sm">Delete</a>';
 
@@ -37,9 +31,7 @@ class ImageController extends Controller
                 })
                 ->rawColumns(['preview', 'delete', 'action'])
                 ->setRowAttr([
-                    'data-entry-id' => function ($row) {
-                        return $row->id;
-                    },
+                    'data-entry-id' => fn($row) => $row->id,
                 ])
                 ->make(true);
         }

@@ -24,12 +24,8 @@ class BladeServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Blade::directive('iverified', function ($exp) {
-            return '<?php if(request()->user()->verified_at !== NULL): ?>';
-        });
+        Blade::directive('iverified', fn($exp) => '<?php if(request()->user()->verified_at !== NULL): ?>');
 
-        Blade::directive('endiverified', function ($exp) {
-            return '<?php endif; ?>';
-        });
+        Blade::directive('endiverified', fn($exp) => '<?php endif; ?>');
     }
 }

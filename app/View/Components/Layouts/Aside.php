@@ -6,16 +6,13 @@ use Illuminate\View\Component;
 
 class Aside extends Component
 {
-    public $asideTab;
-
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($asideTab)
+    public function __construct(public $asideTab)
     {
-        $this->asideTab = $asideTab;
     }
 
     /**

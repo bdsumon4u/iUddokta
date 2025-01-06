@@ -13,16 +13,13 @@ class TransactionCompleted extends Notification
 {
     use Queueable;
 
-    protected $event;
-
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($event)
+    public function __construct(protected $event)
     {
-        $this->event = $event;
     }
 
     /**
@@ -54,10 +51,8 @@ class TransactionCompleted extends Notification
     {
         $timezone = $this->event->timezone;
         $query = $this->event->transaction->reseller->orders()->whereIn('status', ['DELIVERED', 'FAILED']);
-        $orders = $query->where(function ($query) use ($timezone) {
-            return $query->whereBetween('data->completed_at', $timezone)
-                ->orWhereBetween('data->returned_at', $timezone);
-        })->get();
+        $orders = $query->where(fn($query) => $query->whereBetween('data->completed_at', $timezone)
+            ->orWhereBetween('data->returned_at', $timezone))->get();
 
         return (new MailMessage)
             ->markdown('emails.transaction_completed', [

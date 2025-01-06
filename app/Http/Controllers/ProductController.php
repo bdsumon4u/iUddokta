@@ -20,9 +20,7 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         $categories = Category::formatted();
-        $products = Product::with('baseImage')->when($request->s, function ($query) use ($request) {
-            return $query->where('name', 'like', "%{$request->s}%");
-        })->orderBy('is_active', 'desc')->latest()->paginate(18);
+        $products = Product::with('baseImage')->when($request->s, fn($query) => $query->where('name', 'like', "%{$request->s}%"))->orderBy('is_active', 'desc')->latest()->paginate(18);
 
         return view('admin.products.index', compact('categories', 'products'));
     }
@@ -35,9 +33,7 @@ class ProductController extends Controller
     public function trashed(Request $request)
     {
         $categories = Category::formatted();
-        $products = Product::with('baseImage')->onlyTrashed()->when($request->s, function ($query) use ($request) {
-            return $query->where('name', 'like', "%{$request->s}%");
-        })->latest()->paginate(18);
+        $products = Product::with('baseImage')->onlyTrashed()->when($request->s, fn($query) => $query->where('name', 'like', "%{$request->s}%"))->latest()->paginate(18);
 
         return view('admin.products.trashed', compact('categories', 'products'));
     }
@@ -86,7 +82,7 @@ class ProductController extends Controller
 
         $images = [$data['base_image'] => ['zone' => 'base']];
         if ($data['additional_images']) {
-            foreach (explode(',', $data['additional_images']) as $additional_image) {
+            foreach (explode(',', (string) $data['additional_images']) as $additional_image) {
                 $images[$additional_image] = ['zone' => 'additionals'];
             }
         }
@@ -162,8 +158,8 @@ class ProductController extends Controller
 
         $images = [$data['base_image'] => ['zone' => 'base']];
         if ($data['additional_images']) {
-            foreach (explode(',', $data['additional_images']) as $additional_image) {
-                $images[$additional_image] = $images[$additional_image] ?? ['zone' => 'additionals'];
+            foreach (explode(',', (string) $data['additional_images']) as $additional_image) {
+                $images[$additional_image] ??= ['zone' => 'additionals'];
             }
         }
         $product->images()->sync($images);

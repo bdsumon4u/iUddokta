@@ -108,9 +108,7 @@ class Reseller extends Authenticatable implements MustVerifyEmail
 
     public function getPaidAttribute()
     {
-        return $this->transactions->where('status', 'paid')->sum(function ($transaction) {
-            return $transaction->amount;
-        });
+        return $this->transactions->where('status', 'paid')->sum(fn($transaction) => $transaction->amount);
     }
 
     /**
@@ -153,44 +151,32 @@ class Reseller extends Authenticatable implements MustVerifyEmail
 
     public function getTotalSellAttribute()
     {
-        return $this->orders->sum(function ($order) {
-            return $order->data['sell'];
-        });
+        return $this->orders->sum(fn($order) => $order->data['sell']);
     }
 
     public function getPendingSellAttribute()
     {
-        return $this->pending_orders->sum(function ($order) {
-            return $order->data['sell'];
-        });
+        return $this->pending_orders->sum(fn($order) => $order->data['sell']);
     }
 
     public function getProcessingSellAttribute()
     {
-        return $this->processing_orders->sum(function ($order) {
-            return $order->data['sell'];
-        });
+        return $this->processing_orders->sum(fn($order) => $order->data['sell']);
     }
 
     public function getShippingSellAttribute()
     {
-        return $this->shipping_orders->sum(function ($order) {
-            return $order->data['sell'];
-        });
+        return $this->shipping_orders->sum(fn($order) => $order->data['sell']);
     }
 
     public function getCompletedSellAttribute()
     {
-        return $this->completed_orders->sum(function ($order) {
-            return $order->data['sell'];
-        });
+        return $this->completed_orders->sum(fn($order) => $order->data['sell']);
     }
 
     public function getReturnedSellAttribute()
     {
-        return $this->returned_orders->sum(function ($order) {
-            return $order->data['sell'];
-        });
+        return $this->returned_orders->sum(fn($order) => $order->data['sell']);
     }
 
     /**
@@ -202,23 +188,13 @@ class Reseller extends Authenticatable implements MustVerifyEmail
         $completed = $this->completed_orders;
         $returned = $this->returned_orders;
 
-        $completed_advanced = $completed->sum(function ($order) {
-            return $order->data['advanced'];
-        });
-        $completed_shipping = $completed->sum(function ($order) {
-            return $order->data['shipping'];
-        });
+        $completed_advanced = $completed->sum(fn($order) => $order->data['advanced']);
+        $completed_shipping = $completed->sum(fn($order) => $order->data['shipping']);
 
-        $completed_buy = $completed->sum(function ($order) {
-            return $order->data['buy_price'] ?? $order->data['price'];
-        });
+        $completed_buy = $completed->sum(fn($order) => $order->data['buy_price'] ?? $order->data['price']);
         // $non_pending_charges = $non_pending->sum(function($order){ return $order->data['delivery_charge'] + $order->data['packaging'] + $order->data['cod_charge']; });
-        $completed_charges = $completed->sum(function ($order) {
-            return $order->data['delivery_charge'] + $order->data['packaging'] + $order->data['cod_charge'];
-        });
-        $returned_charges = $returned->sum(function ($order) {
-            return $order->data['delivery_charge'] + $order->data['packaging'] + $order->data['cod_charge'];
-        });
+        $completed_charges = $completed->sum(fn($order) => $order->data['delivery_charge'] + $order->data['packaging'] + $order->data['cod_charge']);
+        $returned_charges = $returned->sum(fn($order) => $order->data['delivery_charge'] + $order->data['packaging'] + $order->data['cod_charge']);
 
         // $balance = $this->completed_sell - $completed_advanced - $completed_buy - $non_pending_charges + $completed_shipping - ($this->paid);
         $balance = $this->completed_sell - $completed_advanced - $completed_buy - $completed_charges - $returned_charges + $completed_shipping - ($this->paid);
@@ -234,7 +210,7 @@ class Reseller extends Authenticatable implements MustVerifyEmail
         $payment_methods = [];
         $methods = $this->payment ?? [];
         foreach ($methods as $method) {
-            $payment_methods[$method->method] = $payment_methods[$method->method] ?? $method;
+            $payment_methods[$method->method] ??= $method;
         }
 
         return $payment_methods;
