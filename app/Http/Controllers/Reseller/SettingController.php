@@ -84,10 +84,8 @@ class SettingController extends Controller
         $items = [];
         foreach ($payment as $item) {
             if (isset($item['method']) && ! empty($item['method']) && isset($item['type']) && ! empty($item['type']) && isset($item['number']) && ! empty($item['number'])) {
-                if ($item['method'] == 'Bank') {
-                    if (! isset($item['bank_name']) || empty($item['bank_name']) || ! isset($item['account_name']) || empty($item['account_name'])) {
-                        continue;
-                    }
+                if ($item['method'] == 'Bank' && (! isset($item['bank_name']) || empty($item['bank_name']) || ! isset($item['account_name']) || empty($item['account_name']))) {
+                    continue;
                 }
                 $items[] = $item;
             }

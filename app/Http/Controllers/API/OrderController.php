@@ -17,11 +17,7 @@ class OrderController extends Controller
      */
     public function admin(Request $request, $status = null, ?Reseller $reseller = null)
     {
-        if ($reseller?->getKey()) {
-            $orders = $reseller->orders()->getQuery();
-        } else {
-            $orders = Order::has('reseller')->with('reseller');
-        }
+        $orders = $reseller?->getKey() ? $reseller->orders()->getQuery() : Order::has('reseller')->with('reseller');
         if ($request->ajax()) {
             return Datatables::of($orders->status($status)->latest('id')->with('reseller'))
                 ->addIndexColumn()

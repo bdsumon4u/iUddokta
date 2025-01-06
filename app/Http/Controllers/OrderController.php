@@ -66,8 +66,8 @@ class OrderController extends Controller
         ]);
 
         $data['status'] = $request->status;
-        $data['completed_at'] = strtolower($request->status) == 'delivered' ? now()->toDateTimeString() : '';
-        $data['returned_at'] = strtolower($request->status) == 'failed' ? now()->toDateTimeString() : '';
+        $data['completed_at'] = strtolower($request->status) === 'delivered' ? now()->toDateTimeString() : '';
+        $data['returned_at'] = strtolower($request->status) === 'failed' ? now()->toDateTimeString() : '';
         $orders = Order::whereIn('id', $request->order_id)->where('status', '!=', $request->status)->get();
 
         $orders->each->update($data);

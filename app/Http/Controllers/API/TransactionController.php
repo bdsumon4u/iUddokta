@@ -17,11 +17,7 @@ class TransactionController extends Controller
      */
     public function index(Request $request, $status, ?Reseller $reseller = null)
     {
-        if ($reseller?->getKey()) {
-            $orders = $reseller->transactions()->getQuery();
-        } else {
-            $orders = Transaction::query();
-        }
+        $orders = $reseller?->getKey() ? $reseller->transactions()->getQuery() : Transaction::query();
         if ($request->ajax()) {
             return Datatables::of($orders->status($status)->latest()->with('reseller'))
                 ->addIndexColumn()

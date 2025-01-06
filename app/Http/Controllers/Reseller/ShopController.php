@@ -59,7 +59,7 @@ class ShopController extends Controller
                 $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
                 $extension = $request->file('logo')->getClientOriginalExtension();
                 $fileNameToStore = $filename.time().'.'.$extension;
-                $thumbnailpic = 'thumb'.'-'.$fileNameToStore;
+                $thumbnailpic = 'thumb-'.$fileNameToStore;
 
                 //This store image creates the folder and saves the file
                 $path = $request->file('logo')->storeAs('public/shop', $fileNameToStore);
@@ -125,7 +125,7 @@ class ShopController extends Controller
                 $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
                 $extension = $request->file('logo')->getClientOriginalExtension();
                 $fileNameToStore = $filename.time().'.'.$extension;
-                $thumbnailpic = 'thumb'.'-'.$fileNameToStore;
+                $thumbnailpic = 'thumb-'.$fileNameToStore;
 
                 //This store image creates the folder and saves the file
                 $path = $request->file('logo')->storeAs('public/shop', $fileNameToStore);
