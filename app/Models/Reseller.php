@@ -31,40 +31,27 @@ class Reseller extends Authenticatable implements MustVerifyEmail
     protected $hidden = [
         'password', 'remember_token',
     ];
-
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-        'payment' => 'object',
-        'documents' => 'object',
-    ];
-
     /**
      * Set Hashed Password Attribute
      *
      * @param  string  $password
      * @return void
      */
-    public function setPasswordAttribute($password)
+    protected function password(): \Illuminate\Database\Eloquent\Casts\Attribute
     {
-        $this->attributes['password'] = Hash::needsRehash($password)
+        return \Illuminate\Database\Eloquent\Casts\Attribute::make(set: fn($password) => ['password' => Hash::needsRehash($password)
                                         ? Hash::make($password)
-                                        : $password;
+                                        : $password]);
     }
-
     /**
      * Set Payment Attribute
      *
      * @param  array  $payment
      * @return void
      */
-    public function setPaymentAttribute($payment)
+    protected function payment(): \Illuminate\Database\Eloquent\Casts\Attribute
     {
-        $this->attributes['payment'] = json_encode($payment);
+        return \Illuminate\Database\Eloquent\Casts\Attribute::make(set: fn($payment) => ['payment' => json_encode($payment)]);
     }
 
     /**
@@ -106,9 +93,9 @@ class Reseller extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Transaction::class);
     }
 
-    public function getPaidAttribute()
+    protected function paid(): \Illuminate\Database\Eloquent\Casts\Attribute
     {
-        return $this->transactions->where('status', 'paid')->sum(fn($transaction) => $transaction->amount);
+        return \Illuminate\Database\Eloquent\Casts\Attribute::make(get: fn() => $this->transactions->where('status', 'paid')->sum(fn($transaction) => $transaction->amount));
     }
 
     /**
@@ -118,106 +105,103 @@ class Reseller extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(Order::class);
     }
-
-    public function getPendingOrdersAttribute()
+    protected function pendingOrders(): \Illuminate\Database\Eloquent\Casts\Attribute
     {
-        return $this->orders->where('status', 'PENDING');
+        return \Illuminate\Database\Eloquent\Casts\Attribute::make(get: fn() => $this->orders->where('status', 'PENDING'));
     }
-
-    public function getNonPendingOrdersAttribute()
+    protected function nonPendingOrders(): \Illuminate\Database\Eloquent\Casts\Attribute
     {
-        return $this->orders->where('status', '!=', 'PENDING');
+        return \Illuminate\Database\Eloquent\Casts\Attribute::make(get: fn() => $this->orders->where('status', '!=', 'PENDING'));
     }
-
-    public function getProcessingOrdersAttribute()
+    protected function processingOrders(): \Illuminate\Database\Eloquent\Casts\Attribute
     {
-        return $this->orders->where('status', 'PROCESSING');
+        return \Illuminate\Database\Eloquent\Casts\Attribute::make(get: fn() => $this->orders->where('status', 'PROCESSING'));
     }
-
-    public function getShippingOrdersAttribute()
+    protected function shippingOrders(): \Illuminate\Database\Eloquent\Casts\Attribute
     {
-        return $this->orders->where('status', 'SHIPPING');
+        return \Illuminate\Database\Eloquent\Casts\Attribute::make(get: fn() => $this->orders->where('status', 'SHIPPING'));
     }
-
-    public function getCompletedOrdersAttribute()
+    protected function completedOrders(): \Illuminate\Database\Eloquent\Casts\Attribute
     {
-        return $this->orders->where('status', 'DELIVERED');
+        return \Illuminate\Database\Eloquent\Casts\Attribute::make(get: fn() => $this->orders->where('status', 'DELIVERED'));
     }
-
-    public function getReturnedOrdersAttribute()
+    protected function returnedOrders(): \Illuminate\Database\Eloquent\Casts\Attribute
     {
-        return $this->orders->where('status', 'FAILED');
+        return \Illuminate\Database\Eloquent\Casts\Attribute::make(get: fn() => $this->orders->where('status', 'FAILED'));
     }
-
-    public function getTotalSellAttribute()
+    protected function totalSell(): \Illuminate\Database\Eloquent\Casts\Attribute
     {
-        return $this->orders->sum(fn($order) => $order->data['sell']);
+        return \Illuminate\Database\Eloquent\Casts\Attribute::make(get: fn() => $this->orders->sum(fn($order) => $order->data['sell']));
     }
-
-    public function getPendingSellAttribute()
+    protected function pendingSell(): \Illuminate\Database\Eloquent\Casts\Attribute
     {
-        return $this->pending_orders->sum(fn($order) => $order->data['sell']);
+        return \Illuminate\Database\Eloquent\Casts\Attribute::make(get: fn() => $this->pending_orders->sum(fn($order) => $order->data['sell']));
     }
-
-    public function getProcessingSellAttribute()
+    protected function processingSell(): \Illuminate\Database\Eloquent\Casts\Attribute
     {
-        return $this->processing_orders->sum(fn($order) => $order->data['sell']);
+        return \Illuminate\Database\Eloquent\Casts\Attribute::make(get: fn() => $this->processing_orders->sum(fn($order) => $order->data['sell']));
     }
-
-    public function getShippingSellAttribute()
+    protected function shippingSell(): \Illuminate\Database\Eloquent\Casts\Attribute
     {
-        return $this->shipping_orders->sum(fn($order) => $order->data['sell']);
+        return \Illuminate\Database\Eloquent\Casts\Attribute::make(get: fn() => $this->shipping_orders->sum(fn($order) => $order->data['sell']));
     }
-
-    public function getCompletedSellAttribute()
+    protected function completedSell(): \Illuminate\Database\Eloquent\Casts\Attribute
     {
-        return $this->completed_orders->sum(fn($order) => $order->data['sell']);
+        return \Illuminate\Database\Eloquent\Casts\Attribute::make(get: fn() => $this->completed_orders->sum(fn($order) => $order->data['sell']));
     }
-
-    public function getReturnedSellAttribute()
+    protected function returnedSell(): \Illuminate\Database\Eloquent\Casts\Attribute
     {
-        return $this->returned_orders->sum(fn($order) => $order->data['sell']);
+        return \Illuminate\Database\Eloquent\Casts\Attribute::make(get: fn() => $this->returned_orders->sum(fn($order) => $order->data['sell']));
     }
-
     /**
      * Balance
      */
-    public function getBalanceAttribute()
+    protected function balance(): \Illuminate\Database\Eloquent\Casts\Attribute
     {
-        $non_pending = $this->non_pending_orders;
-        $completed = $this->completed_orders;
-        $returned = $this->returned_orders;
-
-        $completed_advanced = $completed->sum(fn($order) => $order->data['advanced']);
-        $completed_shipping = $completed->sum(fn($order) => $order->data['shipping']);
-
-        $completed_buy = $completed->sum(fn($order) => $order->data['buy_price'] ?? $order->data['price']);
-        // $non_pending_charges = $non_pending->sum(function($order){ return $order->data['delivery_charge'] + $order->data['packaging'] + $order->data['cod_charge']; });
-        $completed_charges = $completed->sum(fn($order) => $order->data['delivery_charge'] + $order->data['packaging'] + $order->data['cod_charge']);
-        $returned_charges = $returned->sum(fn($order) => $order->data['delivery_charge'] + $order->data['packaging'] + $order->data['cod_charge']);
-
-        // $balance = $this->completed_sell - $completed_advanced - $completed_buy - $non_pending_charges + $completed_shipping - ($this->paid);
-        $balance = $this->completed_sell - $completed_advanced - $completed_buy - $completed_charges - $returned_charges + $completed_shipping - ($this->paid);
-
-        return $balance;
+        return \Illuminate\Database\Eloquent\Casts\Attribute::make(get: function () {
+            $non_pending = $this->non_pending_orders;
+            $completed = $this->completed_orders;
+            $returned = $this->returned_orders;
+            $completed_advanced = $completed->sum(fn($order) => $order->data['advanced']);
+            $completed_shipping = $completed->sum(fn($order) => $order->data['shipping']);
+            $completed_buy = $completed->sum(fn($order) => $order->data['buy_price'] ?? $order->data['price']);
+            // $non_pending_charges = $non_pending->sum(function($order){ return $order->data['delivery_charge'] + $order->data['packaging'] + $order->data['cod_charge']; });
+            $completed_charges = $completed->sum(fn($order) => $order->data['delivery_charge'] + $order->data['packaging'] + $order->data['cod_charge']);
+            $returned_charges = $returned->sum(fn($order) => $order->data['delivery_charge'] + $order->data['packaging'] + $order->data['cod_charge']);
+            // $balance = $this->completed_sell - $completed_advanced - $completed_buy - $non_pending_charges + $completed_shipping - ($this->paid);
+            $balance = $this->completed_sell - $completed_advanced - $completed_buy - $completed_charges - $returned_charges + $completed_shipping - ($this->paid);
+            return $balance;
+        });
     }
-
     /**
      * Get Payment Methods Attribute
      */
-    public function getPaymentMethodsAttribute()
+    protected function paymentMethods(): \Illuminate\Database\Eloquent\Casts\Attribute
     {
-        $payment_methods = [];
-        $methods = $this->payment ?? [];
-        foreach ($methods as $method) {
-            $payment_methods[$method->method] ??= $method;
-        }
-
-        return $payment_methods;
+        return \Illuminate\Database\Eloquent\Casts\Attribute::make(get: function () {
+            $payment_methods = [];
+            $methods = $this->payment ?? [];
+            foreach ($methods as $method) {
+                $payment_methods[$method->method] ??= $method;
+            }
+            return $payment_methods;
+        });
     }
-
-    public function getLastPaidAttribute()
+    protected function lastPaid(): \Illuminate\Database\Eloquent\Casts\Attribute
     {
-        return $this->transactions->last() ?? new Transaction;
+        return \Illuminate\Database\Eloquent\Casts\Attribute::make(get: fn() => $this->transactions->last() ?? new Transaction);
+    }
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @return array
+     */
+    protected function casts(): array
+    {
+        return [
+            'email_verified_at' => 'datetime',
+            'payment' => 'object',
+            'documents' => 'object',
+        ];
     }
 }

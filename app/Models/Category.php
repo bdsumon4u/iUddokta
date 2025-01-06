@@ -18,15 +18,17 @@ class Category extends Model
         'parent_id', 'name', 'slug',
     ];
 
-    protected $casts = [
-        'id' => 'integer',
-    ];
-
     /**
      * Products
      */
     public function products()
     {
         return $this->belongsToMany(Product::class);
+    }
+    protected function casts(): array
+    {
+        return [
+            'id' => 'integer',
+        ];
     }
 }

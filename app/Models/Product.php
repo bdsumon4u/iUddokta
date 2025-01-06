@@ -84,13 +84,13 @@ class Product extends Model
         });
     }
 
-    public function getIsAvailableAttribute()
+    protected function isAvailable(): \Illuminate\Database\Eloquent\Casts\Attribute
     {
-        return $this->stock !== 0;
+        return \Illuminate\Database\Eloquent\Casts\Attribute::make(get: fn() => $this->stock !== 0);
     }
 
-    public function getAvailabilityAttribute()
+    protected function availability(): \Illuminate\Database\Eloquent\Casts\Attribute
     {
-        return $this->isAvailable ? (is_null($this->stock) ? 'In Stock' : "<span class=\"bg-info\">$this->stock Available</span>") : '<span class="bg-danger">Out Of Stock</span>';
+        return \Illuminate\Database\Eloquent\Casts\Attribute::make(get: fn() => $this->isAvailable ? (is_null($this->stock) ? 'In Stock' : "<span class=\"bg-info\">$this->stock Available</span>") : '<span class="bg-danger">Out Of Stock</span>');
     }
 }

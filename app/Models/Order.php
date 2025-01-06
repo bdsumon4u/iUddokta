@@ -14,28 +14,22 @@ class Order extends Model
     protected $fillable = [
         'reseller_id', 'data', 'status', 'created_at', 'updated_at',
     ];
-
-    public function setDataAttribute($data)
+    protected function data(): \Illuminate\Database\Eloquent\Casts\Attribute
     {
-        $this->attributes['data'] = json_encode(array_merge($this->data ?? [], $data));
+        return \Illuminate\Database\Eloquent\Casts\Attribute::make(get: fn($data) =>
+            // return unserialize($data);
+            json_decode((string) $data, true), set: fn($data) => ['data' => json_encode(array_merge($this->data ?? [], $data))]);
     }
-
-    public function getDataAttribute($data)
+    protected function shop(): \Illuminate\Database\Eloquent\Casts\Attribute
     {
-        // return unserialize($data);
-        return json_decode((string) $data, true);
+        return \Illuminate\Database\Eloquent\Casts\Attribute::make(get: fn() => Shop::find($this->data['shop']));
     }
-
-    public function getShopAttribute()
+    protected function barcode(): \Illuminate\Database\Eloquent\Casts\Attribute
     {
-        return Shop::find($this->data['shop']);
-    }
-
-    public function getBarcodeAttribute()
-    {
-        $pad = str_pad($this->id, 10, '0', STR_PAD_LEFT);
-
-        return substr($pad, 0, 3).'-'.substr($pad, 3, 3).'-'.substr($pad, 6, 4);
+        return \Illuminate\Database\Eloquent\Casts\Attribute::make(get: function () {
+            $pad = str_pad($this->id, 10, '0', STR_PAD_LEFT);
+            return substr($pad, 0, 3).'-'.substr($pad, 3, 3).'-'.substr($pad, 6, 4);
+        });
     }
 
     /**

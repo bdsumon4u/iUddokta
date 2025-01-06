@@ -7,18 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 class Setting extends Model
 {
     protected $fillable = ['name', 'value'];
-
-    public function setValueAttribute($data)
+    protected function value(): \Illuminate\Database\Eloquent\Casts\Attribute
     {
-        $this->attributes['value'] = json_encode($data);
+        return \Illuminate\Database\Eloquent\Casts\Attribute::make(get: fn($data) => json_decode((string) $data), set: fn($data) => ['value' => json_encode($data)]);
     }
-
-    public function getValueAttribute($data)
+    protected function casts(): array
     {
-        return json_decode((string) $data);
+        return [
+            // 'value' => 'array',
+        ];
     }
-
-    protected $casts = [
-        // 'value' => 'array',
-    ];
 }
