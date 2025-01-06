@@ -52,10 +52,9 @@ class OrderController extends Controller
                         $ret .= '<del style="white-space: nowrap;"><strong>Order:</strong> '.theMoney($row->data['price'])."</del>
                             <div class='my-1'></div>";
                     }
-                    $ret .= '<strong style="white-space: nowrap;">Sell:</strong> '.theMoney($row->data['sell'])."
-                            <div class='my-1'></div>";
 
-                    return $ret;
+                    return $ret . ('<strong style="white-space: nowrap;">Sell:</strong> ' . theMoney($row->data['sell']) . "
+                            <div class='my-1'></div>");
                 })
                 ->editColumn('status', function ($row) {
                     $return = '<select data-id="'.$row->id.'" onchange="changeStatus" class="status-column form-control-sm">';
@@ -118,10 +117,9 @@ class OrderController extends Controller
                         $ret .= '<del style="white-space: nowrap;"><strong>Order:</strong> '.theMoney($row->data['price'])."</del>
                             <div class='my-1'></div>";
                     }
-                    $ret .= '<strong style="white-space: nowrap;">Sell:</strong> '.theMoney($row->data['sell'])."
-                            <div class='my-1'></div>";
 
-                    return $ret;
+                    return $ret . ('<strong style="white-space: nowrap;">Sell:</strong> ' . theMoney($row->data['sell']) . "
+                            <div class='my-1'></div>");
                 })
                 ->addColumn('status', function ($row) {
                     $variant = $this->variant($row->status);
@@ -144,9 +142,8 @@ class OrderController extends Controller
                     $btn = '<div class="btn-group btn-group-sm d-flex justify-content-between">
                             <a class="btn btn-sm btn-primary" href="'.route('reseller.order.show', $row->id).'" noclick="window.open(\''.route('reseller.order.show', $row->id).'\', \'popup\', \'width=`100%`, height=`100%`\')">View</a>';
                     $row->status == 'PENDING' && $btn .= '<a class="btn btn-sm btn-danger" href="'.route('reseller.order.cancel', $row->id).'" onclick="if (confirm(\'Are You Sure?\')){return true;}else{event.stopPropagation(); event.preventDefault(); return false;};">Cancel</a>';
-                    $btn .= '</div>';
 
-                    return $btn;
+                    return $btn . '</div>';
                 })
                 ->rawColumns(['customer', 'status', 'price', 'ordered_at', 'action'])
                 ->setRowAttr([
@@ -158,8 +155,6 @@ class OrderController extends Controller
 
     /**
      * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function create(): void
     {
@@ -168,8 +163,6 @@ class OrderController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function store(Request $request): void
     {
@@ -180,7 +173,6 @@ class OrderController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
     public function show($id): void
     {
@@ -191,7 +183,6 @@ class OrderController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
     public function edit($id): void
     {
@@ -202,7 +193,6 @@ class OrderController extends Controller
      * Update the specified resource in storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id): void
     {
@@ -213,7 +203,6 @@ class OrderController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
     public function destroy($id): void
     {

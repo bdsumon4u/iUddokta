@@ -30,8 +30,6 @@ class OrderController extends Controller
 
     /**
      * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function create(): void
     {
@@ -40,8 +38,6 @@ class OrderController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function store(Request $request): void
     {
@@ -88,8 +84,6 @@ class OrderController extends Controller
 
     /**
      * Show the form for editing the specified resource.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function edit(Order $order): void
     {
@@ -113,7 +107,6 @@ class OrderController extends Controller
             'customer_email' => 'nullable',
             'customer_phone' => 'required',
             'customer_address' => 'required|string',
-            'delivery_method' => 'required|string',
             'note' => 'nullable',
             'shipping' => 'required',
             'advanced' => 'required',

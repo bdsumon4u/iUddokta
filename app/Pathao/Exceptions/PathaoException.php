@@ -15,8 +15,6 @@ class PathaoException extends Exception
 
     /**
      * Json return
-     *
-     * @return array
      */
     public function render(): array
     {

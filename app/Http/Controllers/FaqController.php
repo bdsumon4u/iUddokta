@@ -58,8 +58,6 @@ class FaqController extends Controller
 
     /**
      * Display the specified resource.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function show(Faq $faq): void
     {

@@ -19,8 +19,6 @@ class MenuController extends Controller
 
     /**
      * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function create(): void
     {
@@ -46,7 +44,6 @@ class MenuController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  App\Models\Menu  $hmenu
      * @return \Illuminate\Http\Response
      */
     public function show(Menu $hmenu)
@@ -58,8 +55,6 @@ class MenuController extends Controller
 
     /**
      * Show the form for editing the specified resource.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function edit(Menu $menu): void
     {
@@ -70,7 +65,6 @@ class MenuController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \App\Models\Menu  $menu
-     * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $menu): void
     {

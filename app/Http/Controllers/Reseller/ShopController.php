@@ -71,14 +71,11 @@ class ShopController extends Controller
 
                 //Here is where I am trying to resize with image and it breaks
                 Image::make(storage_path().'/app/public/shop/'.$fileNameToStore)->resize(250, 66)->save(public_path($to));
-
-                if (! empty($to)) {
-                    Storage::delete(public_path($to));
-                    unset($data['logo']);
-                    $data += [
-                        'logo' => $to,
-                    ];
-                }
+                Storage::delete(public_path($to));
+                unset($data['logo']);
+                $data += [
+                    'logo' => $to,
+                ];
             }
 
             $shop = Shop::create($data);
@@ -89,8 +86,6 @@ class ShopController extends Controller
 
     /**
      * Display the specified resource.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function show(Shop $shop): void
     {
@@ -142,14 +137,11 @@ class ShopController extends Controller
 
                 //Here is where I am trying to resize with image and it breaks
                 Image::make(storage_path().'/app/public/shop/'.$fileNameToStore)->resize(250, 66)->save(public_path($to));
-
-                if (! empty($to)) {
-                    Storage::delete(public_path($to));
-                    unset($data['logo']);
-                    $data += [
-                        'logo' => $to,
-                    ];
-                }
+                Storage::delete(public_path($to));
+                unset($data['logo']);
+                $data += [
+                    'logo' => $to,
+                ];
             }
 
             $shop->update($data);
@@ -160,8 +152,6 @@ class ShopController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function destroy(Shop $shop): void
     {

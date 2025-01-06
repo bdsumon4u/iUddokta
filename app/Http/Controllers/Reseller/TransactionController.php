@@ -113,8 +113,6 @@ class TransactionController extends Controller
 
     /**
      * Show the form for editing the specified resource.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function edit(Transaction $transaction): void
     {
@@ -123,8 +121,6 @@ class TransactionController extends Controller
 
     /**
      * Update the specified resource in storage.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Transaction $transaction): void
     {
@@ -133,8 +129,6 @@ class TransactionController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function destroy(Transaction $transaction): void
     {

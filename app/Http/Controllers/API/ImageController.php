@@ -19,16 +19,8 @@ class ImageController extends Controller
                 ->addColumn('empty', fn($row): string => '')
                 ->addColumn('preview', fn($row): string => '<img src="'.asset($row->path).'" class="img-preview img-responsive img-thumbnail" width="150" height="150">')
                 ->addColumn('size', fn($row) => bytesToHuman($row->size))
-                ->addColumn('delete', function ($row) {
-                    $btn = '<a href="'.route('admin.images.show', $row->id).'" class="select-item btn btn-danger btn-sm">Delete</a>';
-
-                    return $btn;
-                })
-                ->addColumn('action', function ($row) {
-                    $btn = '<a href="" class="select-item btn btn-light btn-sm">Select</a>';
-
-                    return $btn;
-                })
+                ->addColumn('delete', fn($row): string => '<a href="'.route('admin.images.show', $row->id).'" class="select-item btn btn-danger btn-sm">Delete</a>')
+                ->addColumn('action', fn($row): string => '<a href="" class="select-item btn btn-light btn-sm">Select</a>')
                 ->rawColumns(['preview', 'delete', 'action'])
                 ->setRowAttr([
                     'data-entry-id' => fn($row) => $row->id,

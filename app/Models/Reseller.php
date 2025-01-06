@@ -35,7 +35,6 @@ class Reseller extends Authenticatable implements MustVerifyEmail
      * Set Hashed Password Attribute
      *
      * @param  string  $password
-     * @return void
      */
     protected function password(): \Illuminate\Database\Eloquent\Casts\Attribute
     {
@@ -47,7 +46,6 @@ class Reseller extends Authenticatable implements MustVerifyEmail
      * Set Payment Attribute
      *
      * @param  array  $payment
-     * @return void
      */
     protected function payment(): \Illuminate\Database\Eloquent\Casts\Attribute
     {
@@ -56,8 +54,6 @@ class Reseller extends Authenticatable implements MustVerifyEmail
 
     /**
      * Send the email verification notification.
-     *
-     * @return void
      */
     public function sendEmailVerificationNotification(): void
     {
@@ -68,7 +64,6 @@ class Reseller extends Authenticatable implements MustVerifyEmail
      * Send the password reset notification.
      *
      * @param  string  $token
-     * @return void
      */
     public function sendPasswordResetNotification($token): void
     {
@@ -193,8 +188,6 @@ class Reseller extends Authenticatable implements MustVerifyEmail
     }
     /**
      * The attributes that should be cast to native types.
-     *
-     * @return array
      */
     protected function casts(): array
     {

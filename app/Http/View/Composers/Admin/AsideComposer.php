@@ -19,8 +19,6 @@ class AsideComposer
 
     /**
      * Bind data to the view.
-     *
-     * @return void
      */
     public function compose(View $view): void
     {

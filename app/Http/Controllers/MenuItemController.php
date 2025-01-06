@@ -10,8 +10,6 @@ class MenuItemController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function index(): void
     {
@@ -20,8 +18,6 @@ class MenuItemController extends Controller
 
     /**
      * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function create(): void
     {
@@ -47,8 +43,6 @@ class MenuItemController extends Controller
 
     /**
      * Display the specified resource.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function show(MenuItem $menuItem): void
     {
@@ -57,8 +51,6 @@ class MenuItemController extends Controller
 
     /**
      * Show the form for editing the specified resource.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function edit(MenuItem $menuItem): void
     {

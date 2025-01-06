@@ -59,9 +59,8 @@ class Order extends Model
     public function current_price()
     {
         $products = Product::whereIn('id', array_keys($this->data['products']))->get();
-        $sum = $products->sum(fn($product): int|float => $product->wholesale * $this->data['products'][$product->id]['quantity']);
 
-        return $sum;
+        return $products->sum(fn($product): int|float => $product->wholesale * $this->data['products'][$product->id]['quantity']);
     }
 
     /**
