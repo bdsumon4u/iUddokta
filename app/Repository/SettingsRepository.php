@@ -18,7 +18,7 @@ class SettingsRepository
         ]));
     }
 
-    public function setMany($data)
+    public function setMany($data): void
     {
         foreach ($data as $name => $value) {
             $this->set($name, $value);

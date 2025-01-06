@@ -30,7 +30,7 @@ class PaymentCalculator extends Component
 
     public $order_ids;
 
-    public function mount(Reseller $reseller, $amount = null, $method = null)
+    public function mount(Reseller $reseller, $amount = null, $method = null): void
     {
         $this->reseller = $reseller;
         $this->amount = $amount;
@@ -45,7 +45,7 @@ class PaymentCalculator extends Component
 
         $this->order_ids = $orders->pluck('id')->implode(',');
 
-        $this->amount = $orders->sum(fn($item) => $item->data['profit'] - $item->data['advanced']);
+        $this->amount = $orders->sum(fn($item): int|float => $item->data['profit'] - $item->data['advanced']);
     }
 
     public function render()
@@ -53,15 +53,15 @@ class PaymentCalculator extends Component
         return view('livewire.payment-calculator');
     }
 
-    public function calc()
+    public function calc(): void
     {
         $this->balance = $this->reseller->balance - (is_numeric($this->amount) ? $this->amount : 0);
     }
 
-    public function chMethod()
+    public function chMethod(): void
     {
         if (! empty($this->method)) {
-            $arr = Arr::first($this->reseller->payment, fn($payment) => $payment->method == $this->method);
+            $arr = Arr::first($this->reseller->payment, fn($payment): bool => $payment->method == $this->method);
 
             $this->bank_name = $arr->bank_name ?? '';
             $this->account_name = $arr->account_name ?? '';

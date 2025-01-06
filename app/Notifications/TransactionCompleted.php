@@ -28,7 +28,7 @@ class TransactionCompleted extends Notification
      * @param  mixed  $notifiable
      * @return array
      */
-    public function via($notifiable)
+    public function via($notifiable): array
     {
         $via = [];
         if (
@@ -69,7 +69,7 @@ class TransactionCompleted extends Notification
      * @param  mixed  $notifiable
      * @return array
      */
-    public function toArray($notifiable)
+    public function toArray($notifiable): array
     {
         $transaction = $this->event->transaction;
         $type = $this->event->type;

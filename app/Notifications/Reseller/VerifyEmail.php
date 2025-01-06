@@ -29,7 +29,7 @@ class VerifyEmail extends Notification
      * @param  mixed  $notifiable
      * @return array|string
      */
-    public function via($notifiable)
+    public function via($notifiable): array
     {
         return ['mail'];
     }
@@ -79,7 +79,7 @@ class VerifyEmail extends Notification
      * @param  \Closure  $callback
      * @return void
      */
-    public static function toMailUsing($callback)
+    public static function toMailUsing($callback): void
     {
         static::$toMailCallback = $callback;
     }

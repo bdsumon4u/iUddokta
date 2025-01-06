@@ -13,7 +13,7 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
         //
     }
@@ -23,12 +23,12 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         Schema::defaultStringLength(191);
         Paginator::useBootstrapFour();
 
-        $this->app->bind('pathao', fn() => new \App\Pathao\Manage\Manage(
+        $this->app->bind('pathao', fn(): \App\Pathao\Manage\Manage => new \App\Pathao\Manage\Manage(
             new \App\Pathao\Apis\AreaApi,
             new \App\Pathao\Apis\StoreApi,
             new \App\Pathao\Apis\OrderApi

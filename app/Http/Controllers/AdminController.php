@@ -59,7 +59,7 @@ class AdminController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user)
+    public function show(User $user): void
     {
         //
     }

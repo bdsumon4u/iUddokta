@@ -33,7 +33,7 @@ class OrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(): void
     {
         //
     }
@@ -43,7 +43,7 @@ class OrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request): void
     {
         //
     }
@@ -91,7 +91,7 @@ class OrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function edit(Order $order)
+    public function edit(Order $order): void
     {
         //
     }

@@ -30,7 +30,7 @@ class SettingController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(): void
     {
         //
     }
@@ -40,7 +40,7 @@ class SettingController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(): void
     {
         //
     }
@@ -50,7 +50,7 @@ class SettingController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request): void
     {
         //
     }
@@ -60,7 +60,7 @@ class SettingController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function show(Setting $setting)
+    public function show(Setting $setting): void
     {
         //
     }
@@ -132,7 +132,7 @@ class SettingController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Setting $setting)
+    public function destroy(Setting $setting): void
     {
         //
     }

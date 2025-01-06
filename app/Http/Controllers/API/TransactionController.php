@@ -25,9 +25,9 @@ class TransactionController extends Controller
         if ($request->ajax()) {
             return Datatables::of($orders->status($status)->latest()->with('reseller'))
                 ->addIndexColumn()
-                ->addColumn('empty', fn($row) => '')
-                ->addColumn('id', fn($row) => '<a href="'.route(auth('reseller')->check() ? 'reseller.transactions.show' : 'admin.transactions.show', $row->id ?? 0).'">'.$row->id.'</a>')
-                ->addColumn('reseller', fn($row) => '<a href="'.route(auth('reseller')->check() ? 'reseller.profile.show' : 'admin.resellers.show', data_get($row->reseller, 'id', 0)).'">
+                ->addColumn('empty', fn($row): string => '')
+                ->addColumn('id', fn($row): string => '<a href="'.route(auth('reseller')->check() ? 'reseller.transactions.show' : 'admin.transactions.show', $row->id ?? 0).'">'.$row->id.'</a>')
+                ->addColumn('reseller', fn($row): string => '<a href="'.route(auth('reseller')->check() ? 'reseller.profile.show' : 'admin.resellers.show', data_get($row->reseller, 'id', 0)).'">
                             <strong>Name:</strong>'.($row->reseller->name ?? '').'
                             <br>
                             <strong>Phone:</strong>'.($row->reseller->phone ?? '').'
@@ -48,7 +48,7 @@ class TransactionController extends Controller
 
                     return $ret;
                 })
-                ->addColumn('pay', fn($row) => '<a class="btn btn-sm btn-block btn-primary" href="'.route('admin.transactions.pay-to-reseller', [data_get($row->reseller, 'id', 0),
+                ->addColumn('pay', fn($row): string => '<a class="btn btn-sm btn-block btn-primary" href="'.route('admin.transactions.pay-to-reseller', [data_get($row->reseller, 'id', 0),
                     'transaction_id' => $row->id,
                     'amount' => $row->amount,
                     'method' => $row->method,
@@ -59,7 +59,7 @@ class TransactionController extends Controller
                     'account_type' => $row->account_type,
                     'account_number' => $row->account_number,
                 ]).'">Pay ৳'.$row->amount.'</a>')
-                ->addColumn('delete', fn($row) => '<a class="btn btn-sm btn-block btn-danger" href="'.route('admin.transactions.destroy', $row->id).'">Delete</a>')
+                ->addColumn('delete', fn($row): string => '<a class="btn btn-sm btn-block btn-danger" href="'.route('admin.transactions.destroy', $row->id).'">Delete</a>')
                 ->rawColumns(['id', 'reseller', 'way', 'pay', 'delete'])
                 ->setRowAttr([
                     'data-entry-id' => fn($row) => $row->id,
@@ -73,7 +73,7 @@ class TransactionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(): void
     {
         //
     }
@@ -83,7 +83,7 @@ class TransactionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request): void
     {
         //
     }
@@ -94,7 +94,7 @@ class TransactionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id): void
     {
         //
     }
@@ -105,7 +105,7 @@ class TransactionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id): void
     {
         //
     }
@@ -116,7 +116,7 @@ class TransactionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id): void
     {
         //
     }
@@ -127,7 +127,7 @@ class TransactionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id): void
     {
         //
     }

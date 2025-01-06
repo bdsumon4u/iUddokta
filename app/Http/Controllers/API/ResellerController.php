@@ -14,10 +14,10 @@ class ResellerController extends Controller
         if ($request->ajax()) {
             return DataTables::of(Reseller::latest())
                 ->addIndexColumn()
-                ->addColumn('empty', fn($row) => '')
-                ->addColumn('name', fn($row) => '<a href="'.route('admin.resellers.show', $row->id).'">'.$row->name.'</a>')
-                ->addColumn('status', fn($row) => '<span class="badge badge-'.($row->verified_at ? 'success' : 'secondary').'">'.($row->verified_at ? 'Verified' : 'Non-Verified').'</span>')
-                ->addColumn('action', fn($row) => '<form action="'.route('admin.resellers.destroy', $row->id).'" method="post">
+                ->addColumn('empty', fn($row): string => '')
+                ->addColumn('name', fn($row): string => '<a href="'.route('admin.resellers.show', $row->id).'">'.$row->name.'</a>')
+                ->addColumn('status', fn($row): string => '<span class="badge badge-'.($row->verified_at ? 'success' : 'secondary').'">'.($row->verified_at ? 'Verified' : 'Non-Verified').'</span>')
+                ->addColumn('action', fn($row): string => '<form action="'.route('admin.resellers.destroy', $row->id).'" method="post">
                             <div class="btn-group btn-group-inline">
                                 <a class="btn btn-sm btn-primary" target="_blank" href="'.route('admin.resellers.edit', $row->id).'">Edit</a>
                                 <button class="btn btn-sm btn-danger">Delete</button>

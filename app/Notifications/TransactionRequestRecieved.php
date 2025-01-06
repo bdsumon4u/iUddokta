@@ -28,7 +28,7 @@ class TransactionRequestRecieved extends Notification
      * @param  mixed  $notifiable
      * @return array
      */
-    public function via($notifiable)
+    public function via($notifiable): array
     {
         $via = ['database'];
         if (
@@ -63,7 +63,7 @@ class TransactionRequestRecieved extends Notification
      * @param  mixed  $notifiable
      * @return array
      */
-    public function toArray($notifiable)
+    public function toArray($notifiable): array
     {
         $transaction = $this->event->transaction;
 

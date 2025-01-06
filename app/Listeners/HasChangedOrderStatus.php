@@ -22,7 +22,7 @@ class HasChangedOrderStatus
      * @param  object  $event
      * @return void
      */
-    public function handle($event)
+    public function handle($event): void
     {
         $event->order->reseller->notify(new OrderStatusChanged($event));
     }

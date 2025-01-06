@@ -24,7 +24,7 @@ class HasRecievedNewOrder
      * @param  object  $event
      * @return void
      */
-    public function handle($event)
+    public function handle($event): void
     {
         Notification::send(User::all(), new NewOrderRecieved($event));
     }

@@ -4,7 +4,7 @@ namespace App\Install;
 
 class Requirement
 {
-    public function extensions()
+    public function extensions(): array
     {
         return [
             'PHP >= 8.2' => version_compare(phpversion(), '8.2'),
@@ -19,7 +19,7 @@ class Requirement
         ];
     }
 
-    public function directories()
+    public function directories(): array
     {
         return [
             'storage' => is_writable(storage_path()),

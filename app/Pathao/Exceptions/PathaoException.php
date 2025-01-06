@@ -18,7 +18,7 @@ class PathaoException extends Exception
      *
      * @return array
      */
-    public function render()
+    public function render(): array
     {
         return [
             'error' => true,

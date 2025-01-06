@@ -73,7 +73,7 @@ Route::controller(\App\Http\Controllers\Reseller\ProductController::class)->grou
 });
 
 // Checkout Route
-Route::get('checkout', fn () => [])->name('checkout');
+Route::get('checkout', fn (): array => [])->name('checkout');
 
 // Authentication Routes
 Route::controller(\App\Http\Controllers\Auth\LoginController::class)->group(function (): void {

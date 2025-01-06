@@ -76,7 +76,10 @@ class SettingController extends Controller
         dd($request->all());
     }
 
-    public function payment_filter($payment)
+    /**
+     * @return mixed[]
+     */
+    public function payment_filter($payment): array
     {
         $items = [];
         foreach ($payment as $item) {

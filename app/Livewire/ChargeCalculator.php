@@ -34,7 +34,7 @@ class ChargeCalculator extends Component
 
     public $profit;
 
-    public function mount($order, $quantity, $cp)
+    public function mount($order, $quantity, $cp): void
     {
         $this->order = $order;
         $this->quantity = $quantity;
@@ -62,12 +62,12 @@ class ChargeCalculator extends Component
         return view('livewire.charge-calculator');
     }
 
-    public function changed()
+    public function changed(): void
     {
         $this->theMoney();
     }
 
-    public function theMoney()
+    public function theMoney(): void
     {
         $this->payable = (empty($this->sell) ? 0 : round($this->sell))
                         + (empty($this->shipping) ? 0 : round($this->shipping))

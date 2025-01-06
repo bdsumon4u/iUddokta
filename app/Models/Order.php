@@ -16,9 +16,9 @@ class Order extends Model
     ];
     protected function data(): \Illuminate\Database\Eloquent\Casts\Attribute
     {
-        return \Illuminate\Database\Eloquent\Casts\Attribute::make(get: fn($data) =>
+        return \Illuminate\Database\Eloquent\Casts\Attribute::make(get: fn($data): mixed =>
             // return unserialize($data);
-            json_decode((string) $data, true), set: fn($data) => ['data' => json_encode(array_merge($this->data ?? [], $data))]);
+            json_decode((string) $data, true), set: fn($data): array => ['data' => json_encode(array_merge($this->data ?? [], $data))]);
     }
     protected function shop(): \Illuminate\Database\Eloquent\Casts\Attribute
     {
@@ -59,7 +59,7 @@ class Order extends Model
     public function current_price()
     {
         $products = Product::whereIn('id', array_keys($this->data['products']))->get();
-        $sum = $products->sum(fn($product) => $product->wholesale * $this->data['products'][$product->id]['quantity']);
+        $sum = $products->sum(fn($product): int|float => $product->wholesale * $this->data['products'][$product->id]['quantity']);
 
         return $sum;
     }

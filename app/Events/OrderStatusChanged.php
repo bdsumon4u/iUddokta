@@ -32,17 +32,17 @@ class OrderStatusChanged //implements ShouldBroadcastNow
      *
      * @return \Illuminate\Broadcasting\Channel|array
      */
-    public function broadcastOn()
+    public function broadcastOn(): \Illuminate\Broadcasting\Channel
     {
         return new Channel("reseller-{$this->order->reseller->id}-notice-count");
     }
 
-    public function broadcastAs()
+    public function broadcastAs(): string
     {
         return 'reseller.notice.count';
     }
 
-    public function broadcastWith()
+    public function broadcastWith(): array
     {
         return [
             'notice_count' => $this->order->reseller->unreadNotifications->count() + 1,

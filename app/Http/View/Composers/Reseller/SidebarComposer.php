@@ -93,7 +93,7 @@ class SidebarComposer
      *
      * @return void
      */
-    public function compose(View $view)
+    public function compose(View $view): void
     {
         $view->with('menu', $this->menu);
         $view->with('provider', 'resellers');

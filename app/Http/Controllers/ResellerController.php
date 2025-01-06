@@ -43,7 +43,7 @@ class ResellerController extends Controller
         return view('admin.resellers.show', compact('reseller'));
     }
 
-    public function destroy($id)
+    public function destroy($id): bool
     {
         abort_if(! request()->user()->is_super, 403, 'Not Allowed.');
 

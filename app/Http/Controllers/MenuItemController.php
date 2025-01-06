@@ -13,7 +13,7 @@ class MenuItemController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(): void
     {
         //
     }
@@ -23,7 +23,7 @@ class MenuItemController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(): void
     {
         //
     }
@@ -50,7 +50,7 @@ class MenuItemController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function show(MenuItem $menuItem)
+    public function show(MenuItem $menuItem): void
     {
         //
     }
@@ -60,7 +60,7 @@ class MenuItemController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function edit(MenuItem $menuItem)
+    public function edit(MenuItem $menuItem): void
     {
         //
     }

@@ -11,7 +11,7 @@ class Store
         $this->settings = $settingsRepo;
     }
 
-    public function setup($data)
+    public function setup($data): void
     {
         $this->settings->setMany([
             'company' => [

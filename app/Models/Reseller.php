@@ -39,7 +39,7 @@ class Reseller extends Authenticatable implements MustVerifyEmail
      */
     protected function password(): \Illuminate\Database\Eloquent\Casts\Attribute
     {
-        return \Illuminate\Database\Eloquent\Casts\Attribute::make(set: fn($password) => ['password' => Hash::needsRehash($password)
+        return \Illuminate\Database\Eloquent\Casts\Attribute::make(set: fn($password): array => ['password' => Hash::needsRehash($password)
                                         ? Hash::make($password)
                                         : $password]);
     }
@@ -51,7 +51,7 @@ class Reseller extends Authenticatable implements MustVerifyEmail
      */
     protected function payment(): \Illuminate\Database\Eloquent\Casts\Attribute
     {
-        return \Illuminate\Database\Eloquent\Casts\Attribute::make(set: fn($payment) => ['payment' => json_encode($payment)]);
+        return \Illuminate\Database\Eloquent\Casts\Attribute::make(set: fn($payment): array => ['payment' => json_encode($payment)]);
     }
 
     /**
@@ -59,7 +59,7 @@ class Reseller extends Authenticatable implements MustVerifyEmail
      *
      * @return void
      */
-    public function sendEmailVerificationNotification()
+    public function sendEmailVerificationNotification(): void
     {
         $this->notify(new VerifyEmail);
     }
@@ -70,7 +70,7 @@ class Reseller extends Authenticatable implements MustVerifyEmail
      * @param  string  $token
      * @return void
      */
-    public function sendPasswordResetNotification($token)
+    public function sendPasswordResetNotification($token): void
     {
         $this->notify(new ResetPassword($token));
     }
@@ -166,8 +166,8 @@ class Reseller extends Authenticatable implements MustVerifyEmail
             $completed_shipping = $completed->sum(fn($order) => $order->data['shipping']);
             $completed_buy = $completed->sum(fn($order) => $order->data['buy_price'] ?? $order->data['price']);
             // $non_pending_charges = $non_pending->sum(function($order){ return $order->data['delivery_charge'] + $order->data['packaging'] + $order->data['cod_charge']; });
-            $completed_charges = $completed->sum(fn($order) => $order->data['delivery_charge'] + $order->data['packaging'] + $order->data['cod_charge']);
-            $returned_charges = $returned->sum(fn($order) => $order->data['delivery_charge'] + $order->data['packaging'] + $order->data['cod_charge']);
+            $completed_charges = $completed->sum(fn($order): float|int|array => $order->data['delivery_charge'] + $order->data['packaging'] + $order->data['cod_charge']);
+            $returned_charges = $returned->sum(fn($order): float|int|array => $order->data['delivery_charge'] + $order->data['packaging'] + $order->data['cod_charge']);
             // $balance = $this->completed_sell - $completed_advanced - $completed_buy - $non_pending_charges + $completed_shipping - ($this->paid);
             $balance = $this->completed_sell - $completed_advanced - $completed_buy - $completed_charges - $returned_charges + $completed_shipping - ($this->paid);
             return $balance;

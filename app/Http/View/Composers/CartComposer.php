@@ -12,7 +12,7 @@ class CartComposer
      *
      * @return void
      */
-    public function compose(View $view)
+    public function compose(View $view): void
     {
         $user_id = auth('reseller')->user()->id;
         $cart = Cart::session($user_id)->getContent();

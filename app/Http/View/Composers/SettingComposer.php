@@ -12,7 +12,7 @@ class SettingComposer
      *
      * @return void
      */
-    public function compose(View $view)
+    public function compose(View $view): void
     {
         $settings = cache('settings', function () {
             $settings = Setting::all()->groupBy('name')->map(fn($item) => $item->last()->value)->toArray();

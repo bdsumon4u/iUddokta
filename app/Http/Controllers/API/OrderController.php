@@ -28,14 +28,14 @@ class OrderController extends Controller
                     // ->addColumn('empty', function($row){
                     //     return '';
                     // })
-                ->addColumn('checkbox', fn($row) => '<input type="checkbox" class="form-control" name="order_id[]" value="'.$row->id.'" style="min-height: 20px;min-width: 20px;max-height: 20px;max-width: 20px;">')
-                ->editColumn('id', fn($row) => '<a class="px-2 btn btn-light btn-sm text-nowrap" href="'.route('admin.order.show', $row->id).'">'.$row->id.'<i class="ml-1 fa fa-eye"></i></a>')
-                ->addColumn('reseller', fn($row) => '<a href="'.route('admin.resellers.show', $row->reseller->id ?? 0).'">
+                ->addColumn('checkbox', fn($row): string => '<input type="checkbox" class="form-control" name="order_id[]" value="'.$row->id.'" style="min-height: 20px;min-width: 20px;max-height: 20px;max-width: 20px;">')
+                ->editColumn('id', fn($row): string => '<a class="px-2 btn btn-light btn-sm text-nowrap" href="'.route('admin.order.show', $row->id).'">'.$row->id.'<i class="ml-1 fa fa-eye"></i></a>')
+                ->addColumn('reseller', fn($row): string => '<a href="'.route('admin.resellers.show', $row->reseller->id ?? 0).'">
                             <strong>Name:</strong>'.optional($row->reseller)->name.'
                             <div class="my-1"></div>
                             <strong>Phone:</strong>'.optional($row->reseller)->phone.'
                         </a>')
-                ->addColumn('customer', fn($row) => '<strong>Name:</strong>'.$row->data['customer_name'].'
+                ->addColumn('customer', fn($row): string => '<strong>Name:</strong>'.$row->data['customer_name'].'
                             <div class="my-1"></div>
                             <strong>Phone:</strong>'.$row->data['customer_phone'])
                 ->addColumn('price', function ($row) {
@@ -70,7 +70,7 @@ class OrderController extends Controller
 
                     return $return;
                 })
-                ->addColumn('ordered_at', fn($row) => '<span style="white-space: nowrap;">'.$row->created_at->format('d-M-Y').'</span><div class="my-1"></div><span>'.$row->created_at->format('h:i A').'</span>')
+                ->addColumn('ordered_at', fn($row): string => '<span style="white-space: nowrap;">'.$row->created_at->format('d-M-Y').'</span><div class="my-1"></div><span>'.$row->created_at->format('h:i A').'</span>')
                 ->addColumn('completed_at', function ($row) {
                     $col = $row->status == 'FAILED' ? 'returned_at' : 'completed_at';
 
@@ -100,8 +100,8 @@ class OrderController extends Controller
         if ($request->ajax()) {
             return Datatables::of($orders->status($status)->latest('id')->with('reseller'))
                 ->addIndexColumn()
-                ->addColumn('empty', fn($row) => '')
-                ->addColumn('customer', fn($row) => '<strong>Name:</strong>'.$row->data['customer_name'].'
+                ->addColumn('empty', fn($row): string => '')
+                ->addColumn('customer', fn($row): string => '<strong>Name:</strong>'.$row->data['customer_name'].'
                             <div class="my-1">
                             <strong>Phone:</strong>'.$row->data['customer_phone'])
                 ->addColumn('price', function ($row) {
@@ -134,7 +134,7 @@ class OrderController extends Controller
 
                     return $return;
                 })
-                ->addColumn('ordered_at', fn($row) => '<span style="white-space: nowrap;">'.$row->created_at->format('d-M-Y').'</span><div class="my-1"></div><span>'.$row->created_at->format('h:i A').'</span>')
+                ->addColumn('ordered_at', fn($row): string => '<span style="white-space: nowrap;">'.$row->created_at->format('d-M-Y').'</span><div class="my-1"></div><span>'.$row->created_at->format('h:i A').'</span>')
                 ->addColumn('completed_returned_at', function ($row) {
                     $col = $row->status == 'FAILED' ? 'returned_at' : 'completed_at';
 
@@ -161,7 +161,7 @@ class OrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(): void
     {
         //
     }
@@ -171,7 +171,7 @@ class OrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request): void
     {
         //
     }
@@ -182,7 +182,7 @@ class OrderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id): void
     {
         //
     }
@@ -193,7 +193,7 @@ class OrderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id): void
     {
         //
     }
@@ -204,7 +204,7 @@ class OrderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id): void
     {
         //
     }
@@ -215,7 +215,7 @@ class OrderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id): void
     {
         //
     }

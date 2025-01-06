@@ -27,7 +27,7 @@ class NewOrderRecieved extends Notification
      * @param  mixed  $notifiable
      * @return array
      */
-    public function via($notifiable)
+    public function via($notifiable): array
     {
         return [];
     }
@@ -52,7 +52,7 @@ class NewOrderRecieved extends Notification
      * @param  mixed  $notifiable
      * @return array
      */
-    public function toArray($notifiable)
+    public function toArray($notifiable): array
     {
         $order = $this->event->order;
         $reseller = $this->event->reseller;

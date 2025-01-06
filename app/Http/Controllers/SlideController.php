@@ -29,7 +29,7 @@ class SlideController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(): void
     {
         //
     }
@@ -67,7 +67,7 @@ class SlideController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function show(Slide $slide)
+    public function show(Slide $slide): void
     {
         //
     }

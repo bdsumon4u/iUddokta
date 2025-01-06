@@ -9,7 +9,7 @@ use Modules\User\Entities\Role;
 
 class App
 {
-    public function setup()
+    public function setup(): void
     {
         $this->generateAppKey();
         $this->setEnvVariables();
@@ -19,12 +19,12 @@ class App
         $this->createStorageFolder();
     }
 
-    private function generateAppKey()
+    private function generateAppKey(): void
     {
         Artisan::call('key:generate', ['--force' => true]);
     }
 
-    private function setEnvVariables()
+    private function setEnvVariables(): void
     {
         $env = DotenvEditor::load();
 
@@ -36,12 +36,12 @@ class App
         $env->save();
     }
 
-    private function createCustomerRole()
+    private function createCustomerRole(): void
     {
         Role::create(['name' => 'Customer']);
     }
 
-    private function setAppSettings()
+    private function setAppSettings(): void
     {
         Setting::setMany([
             'active_theme' => 'Storefront',
@@ -94,12 +94,12 @@ class App
         ]);
     }
 
-    private function createDefaultCurrencyRate()
+    private function createDefaultCurrencyRate(): void
     {
         CurrencyRate::create(['currency' => 'USD', 'rate' => 1]);
     }
 
-    private function createStorageFolder()
+    private function createStorageFolder(): void
     {
         Artisan::call('storage:link');
     }

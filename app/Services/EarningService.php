@@ -9,6 +9,9 @@ class EarningService
 {
     public $reseller;
 
+    /**
+     * @var \list<string>
+     */
     public $periods = [];
 
     public $timeFormat = 'd-M-Y';
@@ -17,6 +20,9 @@ class EarningService
 
     public $orders;
 
+    /**
+     * @var string|false
+     */
     public $currentPeriod;
 
     public $nextTransactionPeriod;
@@ -93,7 +99,7 @@ class EarningService
             return null;
         }
 
-        return $this->orders->filter(fn($order) => $order->status == 'DELIVERED');
+        return $this->orders->filter(fn($order): bool => $order->status == 'DELIVERED');
     }
 
     public function returnedOrders()
@@ -102,10 +108,10 @@ class EarningService
             return null;
         }
 
-        return $this->orders->filter(fn($order) => $order->status == 'FAILED');
+        return $this->orders->filter(fn($order): bool => $order->status == 'FAILED');
     }
 
-    public function nextTransactionPeriod($currentPeriod = null)
+    public function nextTransactionPeriod($currentPeriod = null): ?array
     {
         $currentPeriod && (
             $this->currentPeriod = $currentPeriod
@@ -115,7 +121,7 @@ class EarningService
             return null;
         }
 
-        [$start_date, $end_date] = array_map(fn($date) => Carbon::parse($date), explode($this->seperator, (string) $this->currentPeriod));
+        [$start_date, $end_date] = array_map(fn($date): \Carbon\Carbon => Carbon::parse($date), explode($this->seperator, (string) $this->currentPeriod));
 
         $fOfMon = $start_date->copy()->firstOfMonth();
         $mOfMon = $fOfMon->copy()->addDays(14);

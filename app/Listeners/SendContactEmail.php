@@ -8,16 +8,13 @@ use Illuminate\Support\Facades\Mail;
 
 class SendContactEmail
 {
-    protected $settingsRepo;
-
     /**
      * Create the event listener.
      *
      * @return void
      */
-    public function __construct(SettingsRepository $settingsRepo)
+    public function __construct(protected \App\Repository\SettingsRepository $settingsRepo)
     {
-        $this->settingsRepo = $settingsRepo;
     }
 
     /**
@@ -26,7 +23,7 @@ class SendContactEmail
      * @param  object  $event
      * @return void
      */
-    public function handle($event)
+    public function handle($event): void
     {
         $data = $event->data;
         $email = optional($this->settingsRepo->first('company')->value)->email;

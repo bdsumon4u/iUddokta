@@ -26,17 +26,17 @@ class NewOrderRecieved //implements ShouldBroadcastNow
      *
      * @return \Illuminate\Broadcasting\Channel|array
      */
-    public function broadcastOn()
+    public function broadcastOn(): \Illuminate\Broadcasting\Channel
     {
         return new Channel('admin-notice-count');
     }
 
-    public function broadcastAs()
+    public function broadcastAs(): string
     {
         return 'admin.notice.count';
     }
 
-    public function broadcastWith()
+    public function broadcastWith(): array
     {
         return [
             'notice_count' => 'increment',

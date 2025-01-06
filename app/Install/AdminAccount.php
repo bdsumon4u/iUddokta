@@ -7,7 +7,7 @@ use App\Models\User as AppUser;
 
 class AdminAccount
 {
-    public function setup($data)
+    public function setup($data): void
     {
         AppUser::create([
             'name' => $data['first_name'].' '.$data['last_name'],

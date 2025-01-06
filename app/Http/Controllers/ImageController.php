@@ -34,7 +34,7 @@ class ImageController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(): void
     {
         //
     }
@@ -44,7 +44,7 @@ class ImageController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request): void
     {
         $request->validate([
             'file' => 'required|image',
@@ -91,7 +91,7 @@ class ImageController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function edit(Image $image)
+    public function edit(Image $image): void
     {
         //
     }
@@ -101,7 +101,7 @@ class ImageController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Image $image)
+    public function update(Request $request, Image $image): void
     {
         //
     }
@@ -111,7 +111,7 @@ class ImageController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Image $image)
+    public function destroy(Image $image): void
     {
         //
     }

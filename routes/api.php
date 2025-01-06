@@ -33,7 +33,7 @@ Route::group(['as' => 'api.'], function (): void {
 
 Route::get('/pathao', function (): void {
     Order::where('status', 'INVOICED')->get()->each(function (Order $order): void {
-        $description = implode('\n', array_map(fn($item) => $item['quantity'].' x '.$item['name'], $order->data['products']));
+        $description = implode('\n', array_map(fn($item): string => $item['quantity'].' x '.$item['name'], $order->data['products']));
 
         $data = [
             'store_id' => config('pathao.store_id'), // Find in store list,

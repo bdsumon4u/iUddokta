@@ -26,17 +26,17 @@ class TransactionCompleted //implements ShouldBroadcastNow
      *
      * @return \Illuminate\Broadcasting\Channel|array
      */
-    public function broadcastOn()
+    public function broadcastOn(): \Illuminate\Broadcasting\Channel
     {
         return new Channel("reseller-{$this->transaction->reseller->id}-notice-count");
     }
 
-    public function broadcastAs()
+    public function broadcastAs(): string
     {
         return 'reseller.notice.count';
     }
 
-    public function broadcastWith()
+    public function broadcastWith(): array
     {
         return [
             'notice_count' => $this->transaction->reseller->unreadNotifications->count() + 1,

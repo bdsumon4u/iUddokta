@@ -22,7 +22,7 @@ class ViewComposerServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
         //
     }
@@ -32,7 +32,7 @@ class ViewComposerServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         View::composer('*', function ($view): void {
             $parameters = optional(Route::current())

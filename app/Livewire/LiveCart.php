@@ -42,7 +42,7 @@ class LiveCart extends Component
 
     public $delete;
 
-    public function mount($type, $cart, $sell = 0, $shipping = 100, $advanced = 100, $discount = 0)
+    public function mount($type, $cart, $sell = 0, $shipping = 100, $advanced = 100, $discount = 0): void
     {
         $this->order = new Order;
         $this->type = $type;
@@ -56,7 +56,7 @@ class LiveCart extends Component
         $this->shops = auth('reseller')->user()->shops;
     }
 
-    public function increment($id)
+    public function increment($id): void
     {
         $cart = CartFacade::session($this->user_id);
         $cart->update($id, [
@@ -68,7 +68,7 @@ class LiveCart extends Component
         $this->theMoney();
     }
 
-    public function decrement($id)
+    public function decrement($id): void
     {
         $cart = CartFacade::session($this->user_id);
         $cart->update($id, [
@@ -80,12 +80,12 @@ class LiveCart extends Component
         $this->theMoney();
     }
 
-    public function changed()
+    public function changed(): void
     {
         $this->theMoney();
     }
 
-    public function remove($id)
+    public function remove($id): void
     {
         Cart::session($this->user_id)->remove($id);
         unset($this->cart[$id]);
@@ -103,7 +103,7 @@ class LiveCart extends Component
     {
         return Cart::session($this->user_id)
             ->getContent()
-            ->sum(fn($item) => $item->attributes->product->retail * $item->quantity);
+            ->sum(fn($item): int|float => $item->attributes->product->retail * $item->quantity);
     }
 
     protected function theMoney()

@@ -50,7 +50,7 @@ class TransactionController extends Controller
             ->whereIn('id', explode(',', $request->order_ids))
             ->get();
 
-        $amount = $orders->sum(fn($item) => $item->data['profit'] - $item->data['advanced']);
+        $amount = $orders->sum(fn($item): int|float => $item->data['profit'] - $item->data['advanced']);
 
         $data = $request->validate([
             'amount' => 'required|integer',
@@ -116,7 +116,7 @@ class TransactionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function edit(Transaction $transaction)
+    public function edit(Transaction $transaction): void
     {
         //
     }
@@ -126,7 +126,7 @@ class TransactionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Transaction $transaction)
+    public function update(Request $request, Transaction $transaction): void
     {
         //
     }
@@ -136,7 +136,7 @@ class TransactionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Transaction $transaction)
+    public function destroy(Transaction $transaction): void
     {
         //
     }

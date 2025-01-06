@@ -12,7 +12,7 @@ class BladeServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
         //
     }
@@ -22,10 +22,10 @@ class BladeServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
-        Blade::directive('iverified', fn($exp) => '<?php if(request()->user()->verified_at !== NULL): ?>');
+        Blade::directive('iverified', fn($exp): string => '<?php if(request()->user()->verified_at !== NULL): ?>');
 
-        Blade::directive('endiverified', fn($exp) => '<?php endif; ?>');
+        Blade::directive('endiverified', fn($exp): string => '<?php endif; ?>');
     }
 }

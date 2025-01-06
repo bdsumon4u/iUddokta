@@ -61,7 +61,7 @@ class FaqController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function show(Faq $faq)
+    public function show(Faq $faq): void
     {
         //
     }

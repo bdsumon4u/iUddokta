@@ -86,11 +86,11 @@ class Product extends Model
 
     protected function isAvailable(): \Illuminate\Database\Eloquent\Casts\Attribute
     {
-        return \Illuminate\Database\Eloquent\Casts\Attribute::make(get: fn() => $this->stock !== 0);
+        return \Illuminate\Database\Eloquent\Casts\Attribute::make(get: fn(): bool => $this->stock !== 0);
     }
 
     protected function availability(): \Illuminate\Database\Eloquent\Casts\Attribute
     {
-        return \Illuminate\Database\Eloquent\Casts\Attribute::make(get: fn() => $this->isAvailable ? (is_null($this->stock) ? 'In Stock' : "<span class=\"bg-info\">$this->stock Available</span>") : '<span class="bg-danger">Out Of Stock</span>');
+        return \Illuminate\Database\Eloquent\Casts\Attribute::make(get: fn(): string => $this->isAvailable ? (is_null($this->stock) ? 'In Stock' : "<span class=\"bg-info\">$this->stock Available</span>") : '<span class="bg-danger">Out Of Stock</span>');
     }
 }

@@ -22,7 +22,7 @@ class AsideComposer
      *
      * @return void
      */
-    public function compose(View $view)
+    public function compose(View $view): void
     {
         $view->with('asideTab', $this->asideTab);
     }

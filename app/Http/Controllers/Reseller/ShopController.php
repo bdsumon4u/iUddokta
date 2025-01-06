@@ -92,7 +92,7 @@ class ShopController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function show(Shop $shop)
+    public function show(Shop $shop): void
     {
         //
     }
@@ -163,7 +163,7 @@ class ShopController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Shop $shop)
+    public function destroy(Shop $shop): void
     {
         //
     }

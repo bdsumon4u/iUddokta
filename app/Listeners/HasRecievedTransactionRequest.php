@@ -24,7 +24,7 @@ class HasRecievedTransactionRequest
      * @param  object  $event
      * @return void
      */
-    public function handle($event)
+    public function handle($event): void
     {
         $event->transaction->reseller->notify(new TransactionRequestRecieved($event));
         Notification::send(User::all(), new TransactionRequestRecieved($event));

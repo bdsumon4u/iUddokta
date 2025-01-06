@@ -14,7 +14,7 @@ class Slugify extends Component
 
     public $emt;
 
-    public function mount($src, $emt)
+    public function mount($src, $emt): void
     {
         $this->src = $src;
         $this->emt = $emt;
@@ -25,7 +25,7 @@ class Slugify extends Component
         }
     }
 
-    public function slugify()
+    public function slugify(): void
     {
         $slug = $this->title;
         $slug = strtolower((string) $slug);
