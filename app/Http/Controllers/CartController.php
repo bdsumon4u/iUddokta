@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
-use Illuminate\Http\Request;
 use Darryldecode\Cart\Facades\CartFacade as Cart;
+use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
@@ -18,18 +18,19 @@ class CartController extends Controller
      */
     public function index()
     {
-        if(auth('reseller')->user()->shops->isEmpty()) {
+        if (auth('reseller')->user()->shops->isEmpty()) {
             return redirect()->route('reseller.home')->with('error', 'Create Shop First.');
         }
+
         return view('reseller.cart.index');
     }
-    
+
     /**
      * Add Item
      */
     public function add(Request $request, Product $product)
     {
-        if(auth('reseller')->user()->shops->isEmpty()) {
+        if (auth('reseller')->user()->shops->isEmpty()) {
             return redirect()->route('reseller.home')->with('error', 'Create Shop First.');
         }
         $data = $request->has('qty') ? ['quantity' => $request->qty] : [];
@@ -45,9 +46,10 @@ class CartController extends Controller
 
         $user_id = auth('reseller')->user()->id;
         Cart::session($user_id)->add($data);
+
         return redirect()->back()->with('success', 'Item Added To Cart.');
     }
-    
+
     /**
      * Remove Item
      */
@@ -55,6 +57,7 @@ class CartController extends Controller
     {
         $user_id = auth('reseller')->user()->id;
         Cart::session($user_id)->remove($product->id);
+
         return redirect()->back()->with('success', 'Item Removed From Cart.');
     }
 
@@ -65,6 +68,7 @@ class CartController extends Controller
     {
         $user_id = auth('reseller')->user()->id;
         Cart::session($user_id)->clear();
+
         return redirect()->route('reseller.product.index')->with('success', 'Cart Cleared.');
     }
 
@@ -73,9 +77,10 @@ class CartController extends Controller
      */
     public function checkout(Request $request)
     {
-        if(auth('reseller')->user()->shops->isEmpty()) {
+        if (auth('reseller')->user()->shops->isEmpty()) {
             return redirect()->route('reseller.home')->with('error', 'Create Shop First.');
         }
+
         return view('reseller.checkout.index', [
             'sell' => $request->sell,
             'shipping' => $request->shipping,

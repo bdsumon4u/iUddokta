@@ -35,7 +35,7 @@ class Order extends Model
     {
         $pad = str_pad($this->id, 10, '0', STR_PAD_LEFT);
 
-        return substr($pad, 0, 3) . '-' . substr($pad, 3, 3) . '-' . substr($pad, 6, 4);
+        return substr($pad, 0, 3).'-'.substr($pad, 3, 3).'-'.substr($pad, 6, 4);
     }
 
     /**

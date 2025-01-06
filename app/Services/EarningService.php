@@ -8,12 +8,17 @@ use Carbon\Carbon;
 class EarningService
 {
     public $reseller;
+
     public $periods = [];
+
     public $timeFormat = 'd-M-Y';
+
     public $seperator = '--';
+
     public $orders;
 
     public $currentPeriod;
+
     public $nextTransactionPeriod;
 
     public function __construct($reseller)
@@ -35,7 +40,7 @@ class EarningService
                 $periods[] = $this->lastHalf($date->firstOfMonth());
             }
             // Last Month
-            else if ($date->year == date('Y') && $date->month == date('m')) {
+            elseif ($date->year == date('Y') && $date->month == date('m')) {
                 $periods[] = $this->firstHalf($date);
                 date('d') <= 15 || (
                     $periods[] = $this->lastHalf($date)
@@ -59,19 +64,19 @@ class EarningService
 
     public function firstHalf($date): string
     {
-        return $date->format($this->timeFormat) . $this->seperator . $date->copy()->addDays(14)->format($this->timeFormat);
+        return $date->format($this->timeFormat).$this->seperator.$date->copy()->addDays(14)->format($this->timeFormat);
     }
 
     public function lastHalf($date): string
     {
-        return $date->copy()->addDays(15)->format($this->timeFormat) . $this->seperator . $date->copy()->lastOfMonth()->format($this->timeFormat);
+        return $date->copy()->addDays(15)->format($this->timeFormat).$this->seperator.$date->copy()->lastOfMonth()->format($this->timeFormat);
     }
 
     public function orders($period)
     {
         return $this->orders = $this->reseller->orders()
-            ->where(function($query) use ($period) {
-                list($start_date, $end_date) = explode($this->seperator, $period);
+            ->where(function ($query) use ($period) {
+                [$start_date, $end_date] = explode($this->seperator, $period);
                 $start_date = Carbon::parse($start_date);
                 $end_date = Carbon::parse($end_date)->endOfDay();
 
@@ -107,14 +112,14 @@ class EarningService
     public function nextTransactionPeriod($currentPeriod = null)
     {
         $currentPeriod && (
-        $this->currentPeriod = $currentPeriod
+            $this->currentPeriod = $currentPeriod
         );
 
         if (! $this->currentPeriod) {
             return null;
         }
 
-        list($start_date, $end_date) = array_map(function ($date) {
+        [$start_date, $end_date] = array_map(function ($date) {
             return Carbon::parse($date);
         }, explode($this->seperator, $this->currentPeriod));
 
@@ -127,19 +132,20 @@ class EarningService
 
         return $this->nextTransactionPeriod
             = $end_date->day > 15 ? [
-            $fOfNextMon, $mOfNextMon->endOfDay(),
-        ] : [
-            $mOfMon->addDay(), $lOfMon->endOfDay(),
-        ];
+                $fOfNextMon, $mOfNextMon->endOfDay(),
+            ] : [
+                $mOfMon->addDay(), $lOfMon->endOfDay(),
+            ];
     }
 
     public function howPaid($currentPeriod = null)
     {
         $currentPeriod && (
-        $this->nextTransactionPeriod($currentPeriod)
+            $this->nextTransactionPeriod($currentPeriod)
         );
 
         $transactions = $this->reseller->transactions()->status('paid')->whereBetween('updated_at', $this->nextTransactionPeriod)->get();
+
         return $transactions->isEmpty() ? null : $transactions->sum('amount');
     }
 }

@@ -5,7 +5,6 @@ namespace App\Install;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Jackiedo\DotenvEditor\Facades\DotenvEditor;
-use MenuDatabaseSeeder;
 
 class Database
 {

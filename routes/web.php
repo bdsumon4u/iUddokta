@@ -87,7 +87,7 @@ Route::controller(\App\Http\Controllers\Auth\LoginController::class)->group(func
 Auth::routes(['register' => false]);
 
 // Fallback Login Route
-Route::match(['get', /*'post'*/], '/login', fn () => abort(404));
+Route::match(['get'/*'post'*/], '/login', fn () => abort(404));
 
 // Dashboard Route
 Route::get('/dashboard', [\App\Http\Controllers\HomeController::class, 'index'])->name('home');

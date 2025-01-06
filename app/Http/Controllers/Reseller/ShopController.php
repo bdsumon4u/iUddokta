@@ -29,6 +29,7 @@ class ShopController extends Controller
     public function create()
     {
         Gate::allowIf(auth('reseller')->user()->shops->isEmpty(), 'You already have a shop.');
+
         return view('reseller.shop.create');
     }
 

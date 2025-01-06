@@ -18,13 +18,13 @@ class SettingsRepository
                 'name' => $name,
             ], [
                 'value' => $value,
-            ])->value
+            ])->value,
         ]));
     }
 
     public function setMany($data)
     {
-        foreach($data as $name => $value) {
+        foreach ($data as $name => $value) {
             $this->set($name, $value);
         }
     }

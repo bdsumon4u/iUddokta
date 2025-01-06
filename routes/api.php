@@ -33,29 +33,28 @@ Route::group(['as' => 'api.'], function () {
     Route::get('resellers/edit', [\App\Http\Controllers\API\ResellerController::class, 'edit'])->name('resellers.edit');
 });
 
-
 Route::get('/pathao', function () {
     Order::where('status', 'INVOICED')->get()->each(function (Order $order) {
         $description = implode('\n', array_map(function ($item) {
-            return $item['quantity'] . ' x ' . $item['name'];
+            return $item['quantity'].' x '.$item['name'];
         }, $order->data['products']));
 
         $data = [
-            "store_id"            => config('pathao.store_id'), // Find in store list,
-            "merchant_order_id"   => $order->id, // Unique order id
-            "recipient_name"      => $order->data['customer_name'] ?? 'N/A', // Customer name
-            "recipient_phone"     => Str::after($order->data['customer_phone'], '+88') ?? '', // Customer phone
-            "recipient_address"   => $order->data['customer_address'] ?? 'N/A', // Customer address
-            "recipient_city"      => $order->data['city_id'], // Find in city method
-            "recipient_zone"      => $order->data['area_id'], // Find in zone method
+            'store_id' => config('pathao.store_id'), // Find in store list,
+            'merchant_order_id' => $order->id, // Unique order id
+            'recipient_name' => $order->data['customer_name'] ?? 'N/A', // Customer name
+            'recipient_phone' => Str::after($order->data['customer_phone'], '+88') ?? '', // Customer phone
+            'recipient_address' => $order->data['customer_address'] ?? 'N/A', // Customer address
+            'recipient_city' => $order->data['city_id'], // Find in city method
+            'recipient_zone' => $order->data['area_id'], // Find in zone method
             // "recipient_area"      => "", // Find in Area method
-            "delivery_type"       => 48, // 48 for normal delivery or 12 for on demand delivery
-            "item_type"           => 2, // 1 for document, 2 for parcel
+            'delivery_type' => 48, // 48 for normal delivery or 12 for on demand delivery
+            'item_type' => 2, // 1 for document, 2 for parcel
             // "special_instruction" => $order->note,
-            "item_quantity"       => 1, // item quantity
-            "item_weight"         => $order->data['weight'] ?? 0.5, // parcel weight
-            "amount_to_collect"   => intval($order->data['payable']),
-            "item_description"    => $description, // product details
+            'item_quantity' => 1, // item quantity
+            'item_weight' => $order->data['weight'] ?? 0.5, // parcel weight
+            'amount_to_collect' => intval($order->data['payable']),
+            'item_description' => $description, // product details
         ];
 
         try {

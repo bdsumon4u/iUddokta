@@ -67,6 +67,7 @@ class Product extends Model
         if (! $this->relationLoaded('baseImage')) {
             $this->load('baseImage');
         }
+
         return asset($this->getRelation('baseImage')?->first()?->path);
     }
 

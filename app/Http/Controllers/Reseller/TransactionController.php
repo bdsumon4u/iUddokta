@@ -31,6 +31,7 @@ class TransactionController extends Controller
     public function request()
     {
         $reseller = auth('reseller')->user();
+
         return view('reseller.transactions.request', compact('reseller'));
     }
 
@@ -42,7 +43,7 @@ class TransactionController extends Controller
     public function store(Request $request)
     {
         $reseller = auth('reseller')->user();
-        
+
         $orders = $reseller->orders()
             ->where('status', 'DELIVERED')
             ->whereDoesntHave('transactions')
@@ -67,7 +68,7 @@ class TransactionController extends Controller
         $data['reseller_id'] = $reseller->id;
 
         DB::transaction(function () use ($data, $orders) {
-            if($transaction = Transaction::create($data)) {
+            if ($transaction = Transaction::create($data)) {
                 $transaction->orders()->attach($orders->pluck('id'));
                 event(new TransactionRequestRecieved($transaction));
 

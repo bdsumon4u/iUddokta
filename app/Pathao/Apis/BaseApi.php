@@ -2,13 +2,11 @@
 
 namespace App\Pathao\Apis;
 
-use GuzzleHttp\Client;
-use Illuminate\Support\Facades\Storage;
-use GuzzleHttp\Exception\GuzzleException;
-use GuzzleHttp\Exception\ClientException;
-use App\Pathao\Exceptions\PathaoException;
 use App\Pathao\Exceptions\PathaoCourierValidationException;
-use App\Repositories\SettingRepository;
+use App\Pathao\Exceptions\PathaoException;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\GuzzleException;
 
 class BaseApi
 {
@@ -33,7 +31,7 @@ class BaseApi
         $this->setHeaders();
         $this->request = new Client([
             'base_uri' => $this->baseUrl,
-            'headers'  => $this->headers
+            'headers' => $this->headers,
         ]);
     }
 
@@ -42,10 +40,10 @@ class BaseApi
      */
     private function setBaseUrl()
     {
-        if (config("pathao.sandbox") == true) {
-            $this->baseUrl = "https://hermes-api.p-stageenv.xyz";
+        if (config('pathao.sandbox') == true) {
+            $this->baseUrl = 'https://hermes-api.p-stageenv.xyz';
         } else {
-            $this->baseUrl = "https://api-hermes.pathaointernal.com";
+            $this->baseUrl = 'https://api-hermes.pathaointernal.com';
         }
     }
 
@@ -55,15 +53,15 @@ class BaseApi
     private function setHeaders()
     {
         $this->headers = [
-            "Accept"       => "application/json",
-            "Content-Type" => "application/json",
+            'Accept' => 'application/json',
+            'Content-Type' => 'application/json',
         ];
     }
 
     /**
      * Merge Headers
      *
-     * @param array $header
+     * @param  array  $header
      */
     private function mergeHeader($header)
     {
@@ -78,17 +76,17 @@ class BaseApi
     private function authenticate()
     {
         try {
-            $response = $this->send("POST", "aladdin/api/v1/issue-token", [
-                "client_id"  => config('pathao.client_id'),
-                "client_secret" => config('pathao.client_secret'),
-                "username"   => config('pathao.username'),
-                "password"   => config('pathao.password'),
-                "grant_type" => "password",
+            $response = $this->send('POST', 'aladdin/api/v1/issue-token', [
+                'client_id' => config('pathao.client_id'),
+                'client_secret' => config('pathao.client_secret'),
+                'username' => config('pathao.username'),
+                'password' => config('pathao.password'),
+                'grant_type' => 'password',
             ]);
 
             file_put_contents(storage_path('app/pathao_bearer_token.json'), json_encode([
-                "token"      => "Bearer " . $response->access_token,
-                "expires_in" => time() + $response->expires_in
+                'token' => 'Bearer '.$response->access_token,
+                'expires_in' => time() + $response->expires_in,
             ]));
 
         } catch (ClientException $e) {
@@ -101,13 +99,14 @@ class BaseApi
      * Authorization set to header
      *
      * @return $this
+     *
      * @throws PathaoException|GuzzleException
      */
     public function authorization()
     {
         $storageExits = file_exists(storage_path('app/pathao_bearer_token.json'));
 
-        if (!$storageExits) {
+        if (! $storageExits) {
             $this->authenticate();
         }
 
@@ -121,7 +120,7 @@ class BaseApi
         }
 
         $this->mergeHeader([
-            'Authorization' => $jsonToken->token
+            'Authorization' => $jsonToken->token,
         ]);
 
         return $this;
@@ -130,11 +129,11 @@ class BaseApi
     /**
      * Sending Request
      *
-     * @param string $method
-     * @param string $uri
-     * @param array $body
-     *
+     * @param  string  $method
+     * @param  string  $uri
+     * @param  array  $body
      * @return mixed
+     *
      * @throws GuzzleException
      * @throws PathaoException
      */
@@ -142,18 +141,19 @@ class BaseApi
     {
         try {
             $response = $this->request->request($method, $uri, [
-                "headers" => $this->headers,
-                "body"    => json_encode($body)
+                'headers' => $this->headers,
+                'body' => json_encode($body),
             ]);
+
             return json_decode($response->getBody());
         } catch (ClientException $e) {
             if ($e->getCode() == 401) {
-                $message = "Unauthorized";
-                $errors  = [];
+                $message = 'Unauthorized';
+                $errors = [];
             } else {
                 $response = json_decode($e->getResponse()->getBody()->getContents());
-                $message  = $response->message;
-                $errors   = isset($response->errors) ? $response->errors : [];
+                $message = $response->message;
+                $errors = isset($response->errors) ? $response->errors : [];
             }
             throw new PathaoException($message, $e->getCode(), $errors);
         }
@@ -162,19 +162,19 @@ class BaseApi
     /**
      * Data Validation
      *
-     * @param array $data
-     * @param array $requiredFields
+     * @param  array  $data
+     * @param  array  $requiredFields
      *
      * @throws PathaoCourierValidationException
      */
     public function validation($data, $requiredFields)
     {
-        if (!is_array($data) || !is_array($requiredFields)) {
-            throw new \TypeError("Argument must be of the type array", 500);
+        if (! is_array($data) || ! is_array($requiredFields)) {
+            throw new \TypeError('Argument must be of the type array', 500);
         }
 
-        if (!count($data) || !count($requiredFields)) {
-            throw new PathaoCourierValidationException("Invalid data!", 422);
+        if (! count($data) || ! count($requiredFields)) {
+            throw new PathaoCourierValidationException('Invalid data!', 422);
         }
 
         $requiredColumns = array_diff($requiredFields, array_keys($data));
@@ -189,5 +189,4 @@ class BaseApi
         }
 
     }
-
 }

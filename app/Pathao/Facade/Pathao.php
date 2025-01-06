@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static mixed area()
  * @method static mixed store()
  * @method static mixed order()
+ *
  * @see Manage
  */
 class Pathao extends Facade

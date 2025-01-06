@@ -242,7 +242,7 @@ class OrderController extends Controller
 
     private function variant($status): string
     {
-        return match(strtolower($status)) {
+        return match (strtolower($status)) {
             'pending' => 'secondary',
             'processing' => 'warning',
             'invoiced' => 'info',

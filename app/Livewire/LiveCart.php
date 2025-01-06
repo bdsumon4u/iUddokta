@@ -13,6 +13,7 @@ class LiveCart extends Component
     public Order $order;
 
     public $city_id = 0;
+
     public $area_id = 0;
 
     public $type;
@@ -43,7 +44,7 @@ class LiveCart extends Component
 
     public function mount($type, $cart, $sell = 0, $shipping = 100, $advanced = 100, $discount = 0)
     {
-        $this->order = new Order();
+        $this->order = new Order;
         $this->type = $type;
         $this->cart = $cart;
         $this->user_id = auth('reseller')->user()->id;
@@ -120,7 +121,6 @@ class LiveCart extends Component
                         - (empty($this->discount) ? 0 : round($this->discount));
     }
 
-
     public function getCityList()
     {
         $exception = false;
@@ -129,11 +129,14 @@ class LiveCart extends Component
                 return Pathao::area()->city()->data;
             } catch (\Exception $e) {
                 $exception = true;
+
                 return [];
             }
         });
 
-        if ($exception) cache()->forget('pathao_cities');
+        if ($exception) {
+            cache()->forget('pathao_cities');
+        }
 
         return $cityList;
     }
@@ -143,17 +146,20 @@ class LiveCart extends Component
         $areaList = [];
         $exception = false;
         if ($this->city_id ?? false) {
-            $areaList = cache()->remember('pathao_areas:' . $this->city_id, now()->addDay(), function () use (&$exception) {
+            $areaList = cache()->remember('pathao_areas:'.$this->city_id, now()->addDay(), function () use (&$exception) {
                 try {
                     return Pathao::area()->zone($this->city_id)->data;
                 } catch (\Exception $e) {
                     $exception = true;
+
                     return [];
                 }
             });
         }
 
-        if ($exception) cache()->forget('pathao_areas:' . $this->city_id);
+        if ($exception) {
+            cache()->forget('pathao_areas:'.$this->city_id);
+        }
 
         return $areaList;
     }

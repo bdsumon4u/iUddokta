@@ -160,6 +160,7 @@ class OrderController extends Controller
         $order_ids = array_filter($order_ids);
 
         $orders = Order::whereIn('id', $order_ids)->get();
+
         return view('admin.orders.invoices', compact('orders'));
     }
 
@@ -181,7 +182,7 @@ class OrderController extends Controller
 
     private function variant($status): string
     {
-        return match(strtolower($status)) {
+        return match (strtolower($status)) {
             'pending' => 'secondary',
             'processing' => 'warning',
             'invoiced' => 'info',
