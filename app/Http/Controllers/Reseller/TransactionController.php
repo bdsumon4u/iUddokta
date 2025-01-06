@@ -70,9 +70,7 @@ class TransactionController extends Controller
                 $transaction->orders()->attach($orders->pluck('id'));
                 event(new TransactionRequestRecieved($transaction));
 
-                if ($transaction->orders->count() != $orders->count()) {
-                    throw new \Exception('Transaction not created.');
-                }
+                throw_if($transaction->orders->count() != $orders->count(), new \Exception('Transaction not created.'));
             }
         });
 
