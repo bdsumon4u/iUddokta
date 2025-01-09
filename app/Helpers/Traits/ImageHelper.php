@@ -3,7 +3,7 @@
 namespace App\Helpers\Traits;
 
 use Illuminate\Support\Facades\Storage;
-use Intervention\Image\Facades\Image;
+use Intervention\Image\Laravel\Facades\Image;
 
 trait ImageHelper
 {
@@ -20,7 +20,7 @@ trait ImageHelper
             time(),
         ]).'-'.preg_replace('/\s+/', '-', $file->getClientOriginalName());
 
-        $image = Image::make($file)->resize($arg['width'], $arg['height']);
+        $image = Image::read($file)->resize($arg['width'], $arg['height']);
         Storage::disk('public')->put($path, (string) $image->encode());
 
         return Storage::url($path);

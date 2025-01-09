@@ -7,7 +7,7 @@ use App\Models\Shop;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
-use Intervention\Image\Facades\Image;
+use Intervention\Image\Laravel\Facades\Image;
 
 class ShopController extends Controller
 {
@@ -70,7 +70,7 @@ class ShopController extends Controller
                 $to = 'shop/'.$thumbnailpic;
 
                 //Here is where I am trying to resize with image and it breaks
-                Image::make(storage_path().'/app/public/shop/'.$fileNameToStore)->resize(250, 66)->save(public_path($to));
+                Image::read(storage_path().'/app/public/shop/'.$fileNameToStore)->resize(250, 66)->save(public_path($to));
                 Storage::delete(public_path($to));
                 unset($data['logo']);
                 $data += [
@@ -136,7 +136,7 @@ class ShopController extends Controller
                 $to = 'shop/'.$thumbnailpic;
 
                 //Here is where I am trying to resize with image and it breaks
-                Image::make(storage_path().'/app/public/shop/'.$fileNameToStore)->resize(250, 66)->save(public_path($to));
+                Image::read(storage_path().'/app/public/shop/'.$fileNameToStore)->resize(250, 66)->save(public_path($to));
                 Storage::delete(public_path($to));
                 unset($data['logo']);
                 $data += [
