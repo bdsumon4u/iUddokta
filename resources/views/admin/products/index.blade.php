@@ -32,7 +32,7 @@
                                 <div class="product-item">
                                     <div
                                         class="shadow-sm card rounded-0 @unless ($product->is_active) border border-danger @endunless">
-                                        <a href="{{ route('admin.products.show', $product->id) }}">
+                                        <a href="{{ route('admin.products.edit', $product->id) }}">
                                             <img class="p-2 card-img-top" src="{{ $product->base_image }}" alt="Base Image">
                                             <div class="p-2 card-body">
                                                 <div class="card-title-text">{{ $product->name }}</div>
