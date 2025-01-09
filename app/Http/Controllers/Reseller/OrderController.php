@@ -66,9 +66,12 @@ class OrderController extends Controller
             'advanced.required' => 'The :key field must be at least 0.',
             'discount.required' => 'The :key field must be at least 0.',
         ]);
-        $data['shipping'] = $reseller->shop->{$data['shipping_area']} ?? 100;
+        $data['shipping'] = $reseller->{$data['shipping_area']} ?? 100;
         $data['payable'] = $data['sell'] + $data['shipping'] - $data['advanced'] - $data['discount'];
-
+        $shipping_setting = optional(\App\Models\Setting::whereName('shipping_charge')->first())->value;
+        $data['delivery_charge'] = $delivery_charge ?? $shipping_setting->{$data['shipping_area'] ?? ''} ?? 100;
+        $data['packaging'] ??= 0;
+        $data['cod_charge'] ??= 0;
         $cart = CartFacade::session($reseller->id);
         $data['price'] = $cart->getTotal();
         $data['products'] = $cart->getContent()
@@ -86,6 +89,7 @@ class OrderController extends Controller
                     'retail' => $product->retail,
                 ];
             })->toArray();
+        $data['profit'] ??= $data['payable'] - $data['price'] - $data['delivery_charge'] - $data['packaging'] - $data['cod_charge'];
 
         $order = Order::create([
             'reseller_id' => $reseller->id,

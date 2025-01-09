@@ -20,7 +20,7 @@ class Reseller extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'phone', 'password', 'payment', 'documents', 'verified_at',
+        'name', 'email', 'phone', 'password', 'inside_dhaka', 'outside_dhaka', 'payment', 'documents', 'verified_at',
     ];
 
     /**

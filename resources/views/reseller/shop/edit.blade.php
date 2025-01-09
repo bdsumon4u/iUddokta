@@ -94,26 +94,6 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="inside_dhaka">Shipping Charge (Inside Dhaka)</label><span class="text-danger">*</span>
-                                    <input type="text" name="inside_dhaka" value="{{ old('inside_dhaka', $shop->inside_dhaka ?? 80) }}"
-                                        id="inside_dhaka" class="form-control @error('inside_dhaka') is-invalid @enderror">
-                                    @error('inside_dhaka')
-                                        <strong class="invalid-feedback">{{ $message }}</strong>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="outside_dhaka">Shipping Charge (Outside Dhaka)</label><span class="text-danger">*</span>
-                                    <input type="text" name="outside_dhaka" value="{{ old('outside_dhaka', $shop->outside_dhaka ?? 150) }}"
-                                        id="outside_dhaka" class="form-control @error('outside_dhaka') is-invalid @enderror">
-                                    @error('outside_dhaka')
-                                        <strong class="invalid-feedback">{{ $message }}</strong>
-                                    @enderror
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>

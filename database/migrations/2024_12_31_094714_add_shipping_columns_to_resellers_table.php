@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('shops', function (Blueprint $table) {
-            $table->after('website', function (Blueprint $table) {
-                $table->integer('inside_dhaka')->default(80);
-                $table->integer('outside_dhaka')->default(150);
+        Schema::table('resellers', function (Blueprint $table) {
+            $table->after('password', function (Blueprint $table) {
+                $table->integer('inside_dhaka')->default(70);
+                $table->integer('outside_dhaka')->default(130);
             });
         });
     }
@@ -24,7 +24,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('shops', function (Blueprint $table) {
+        Schema::table('resellers', function (Blueprint $table) {
             $table->dropColumn(['inside_dhaka', 'outside_dhaka']);
         });
     }

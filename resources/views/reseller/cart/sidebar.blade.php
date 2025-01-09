@@ -18,11 +18,11 @@
     <div class="h-auto form-control">
         <div class="custom-control custom-radio custom-control-inline">
             <input type="radio" class="custom-control-input" id="inside-dhaka" name="shipping_area" value="inside_dhaka" checked>
-            <label class="custom-control-label" for="inside-dhaka">ঢাকা শহর ({{auth('reseller')->user()->shop->inside_dhaka}} টাকা) </label>
+            <label class="custom-control-label" for="inside-dhaka">ঢাকা শহর ({{auth('reseller')->user()->inside_dhaka}} টাকা) </label>
         </div>
         <div class="custom-control custom-radio custom-control-inline">
             <input type="radio" class="custom-control-input" id="outside-dhaka" name="shipping_area" value="outside_dhaka">
-            <label class="custom-control-label" for="outside-dhaka">ঢাকার বাইরে ({{auth('reseller')->user()->shop->outside_dhaka}} টাকা) </label>
+            <label class="custom-control-label" for="outside-dhaka">ঢাকার বাইরে ({{auth('reseller')->user()->outside_dhaka}} টাকা) </label>
         </div>
     </div>
 </div>

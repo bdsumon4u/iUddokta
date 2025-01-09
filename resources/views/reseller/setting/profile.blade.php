@@ -3,9 +3,9 @@
 @section('content')
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card rounded-0 shadow-sm">
-                <div class="card-header py-2">Reseller <strong>Setting</strong></div>
-                <div class="card-body p-2">
+            <div class="shadow-sm card rounded-0">
+                <div class="py-2 card-header">Reseller <strong>Setting</strong></div>
+                <div class="p-2 card-body">
                     <form action="{{ route('reseller.setting.profile') }}" method="post" enctype="multipart/form-data">
                         @csrf
                         @method('PATCH')
@@ -18,7 +18,7 @@
                         <input type="hidden" name="verified_at" value="{{ old('verified_at', $user->verified_at ?? 0) }}">
                         <div class="row">
                             <div class="col-sm-12">
-                                <h4><small class="border-bottom mb-1">General</small></h4>
+                                <h4><small class="mb-1 border-bottom">General</small></h4>
                             </div>
                         </div>
 
@@ -49,7 +49,27 @@
                                             <input name="phone" value="{{ old('phone', $user->phone) }}" id="phone"
                                                 cols="30" rows="10"
                                                 class="form-control @error('phone') is-invalid @enderror">
-                                            {!! $errors->first('name', '<span class="invalid-feedback">:message</span>') !!}
+                                            {!! $errors->first('phone', '<span class="invalid-feedback">:message</span>') !!}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="inside_dhaka">Shipping Charge (Inside Dhaka)</label><span class="text-danger">*</span>
+                                            <input type="text" name="inside_dhaka" value="{{ old('inside_dhaka', $user->inside_dhaka ?? 70) }}"
+                                                id="inside_dhaka" class="form-control @error('inside_dhaka') is-invalid @enderror">
+                                            @error('inside_dhaka')
+                                                <strong class="invalid-feedback">{{ $message }}</strong>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="outside_dhaka">Shipping Charge (Outside Dhaka)</label><span class="text-danger">*</span>
+                                            <input type="text" name="outside_dhaka" value="{{ old('outside_dhaka', $user->outside_dhaka ?? 130) }}"
+                                                id="outside_dhaka" class="form-control @error('outside_dhaka') is-invalid @enderror">
+                                            @error('outside_dhaka')
+                                                <strong class="invalid-feedback">{{ $message }}</strong>
+                                            @enderror
                                         </div>
                                     </div>
                                 </div>
@@ -100,7 +120,7 @@
                                 </div>
                             </div>
                             <div class="col-sm-12">
-                                <div class="form-group mb-0">
+                                <div class="mb-0 form-group">
                                     <button type="submit" class="btn btn-success">Submit</button>
                                 </div>
                             </div>

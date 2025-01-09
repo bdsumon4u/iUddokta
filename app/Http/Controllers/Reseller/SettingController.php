@@ -22,6 +22,8 @@ class SettingController extends Controller
         $data = $request->validate([
             'phone' => 'required',
             'photo' => 'nullable|image',
+            'inside_dhaka' => 'required|integer',
+            'outside_dhaka' => 'required|integer',
             'nid.front' => 'nullable|image',
             'nid.back' => 'nullable|image',
         ]);

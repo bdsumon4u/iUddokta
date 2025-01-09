@@ -6,9 +6,7 @@
         <div class="shadow-sm card rounded-0">
             <div class="card-header">
                 <strong>My Shops</strong>
-                @if($shops->isEmpty())
                 <div class="card-header-actions"><a href="{{ route('reseller.shops.create') }}" class="card-header-action btn btn-sm btn-primary text-light">Add New</a></div>
-                @endif
             </div>
             <div class="card-body">
                 <div class="row justify-content-around">
