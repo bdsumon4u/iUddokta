@@ -55,7 +55,7 @@ class PaymentCalculator extends Component
 
     public function calc(): void
     {
-        $this->balance = $this->reseller->balance - (is_numeric($this->amount) ? $this->amount : 0);
+        $this->balance = $this->reseller->balance - ($this->amount ?? 0);
     }
 
     public function chMethod(): void

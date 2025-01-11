@@ -80,7 +80,7 @@ class OrderController extends Controller
 
                 return [
                     'id' => $product->id,
-                    'quantity' => is_numeric($product->stock) && $product->stock < $item->quantity ? $product->stock : $item->quantity,
+                    'quantity' => $product->stock && ($product->stock < $item->quantity) ? $product->stock : $item->quantity,
                     'image' => $product->base_image,
                     'name' => $product->name,
                     'code' => $product->code,
@@ -100,7 +100,7 @@ class OrderController extends Controller
             $cart->getContent()
                 ->map(function ($item) {
                     $product = Product::findOrFail($item->attributes->product->id);
-                    $product->stock = is_numeric($product->stock) ? ($product->stock >= $item->quantity ? $product->stock - $item->quantity : 0) : $product->stock;
+                    $product->stock = $product->stock ? ($product->stock >= $item->quantity ? $product->stock - $item->quantity : 0) : $product->stock;
 
                     return $product->save();
                 });
@@ -167,7 +167,7 @@ class OrderController extends Controller
         if ($order->status == 'PENDING') {
             foreach ($order->data['products'] as $item) {
                 $product = Product::findOrFail($item['id']);
-                $product->stock = is_numeric($product->stock) ? $product->stock + $item['quantity'] : $product->stock;
+                $product->stock = $product->stock ? $product->stock + $item['quantity'] : $product->stock;
                 $product->save();
             }
             $order->delete();
@@ -183,7 +183,7 @@ class OrderController extends Controller
         if ($order->status == 'PENDING') {
             foreach ($order->data['products'] as $item) {
                 $product = Product::findOrFail($item['id']);
-                $product->stock = is_numeric($product->stock) ? $product->stock + $item['quantity'] : $product->stock;
+                $product->stock = $product->stock ? $product->stock + $item['quantity'] : $product->stock;
                 $product->save();
             }
             $order->delete();

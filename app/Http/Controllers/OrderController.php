@@ -136,7 +136,7 @@ class OrderController extends Controller
                 event(new OrderStatusChanged(['order' => $order, 'before' => $before]));
                 foreach ($order->data['products'] as $item) {
                     $product = Product::findOrFail($item['id']);
-                    $product->stock = is_numeric($product->stock) ? $product->stock + $item['quantity'] : $product->stock;
+                    $product->stock = $product->stock ? $product->stock + $item['quantity'] : $product->stock;
                     $product->save();
                 }
             }
@@ -165,7 +165,7 @@ class OrderController extends Controller
 
         foreach ($order->data['products'] as $item) {
             $product = Product::findOrFail($item['id']);
-            $product->stock = is_numeric($product->stock) ? $product->stock + $item['quantity'] : $product->stock;
+            $product->stock = $product->stock ? $product->stock + $item['quantity'] : $product->stock;
             $product->save();
         }
         $order->delete();

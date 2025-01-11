@@ -60,7 +60,7 @@
         <div class="form-group">
             <div class="custom-control custom-checkbox">
                 <input type="hidden" name="should_track" value="0">
-                <input type="checkbox" name="should_track" value="1" @if(old('should_track', is_numeric($product->stock))) checked @endif id="should-track" class="custom-control-input">
+                <input type="checkbox" name="should_track" value="1" @if(old('should_track', $product->stock)) checked @endif id="should-track" class="custom-control-input">
                 <label for="should-track" class="custom-control-label @error('stock') is-invalid @enderror">Track</label>
                 @error('stock')
                 <span class="invalid-feedback">{{ $message }}</span>
@@ -69,7 +69,7 @@
         </div>
     </div>
     <div class="col-sm-12">
-        <div class="form-group stock-count" @if(!old('should_track', is_numeric($product->stock))) style="display: none;" @endif>
+        <div class="form-group stock-count" @if(!old('should_track', $product->stock)) style="display: none;" @endif>
             <label for="stock">Stock Count</label>
             <input type="text" name="stock" value="{{ old('stock', $product->stock) }}" id="stock" class="form-control">
         </div>
@@ -123,7 +123,7 @@
 <div class="form-group">
     <div class="custom-control custom-checkbox">
         <input type="hidden" name="is_active" value="0">
-        <input type="checkbox" name="is_active" value="1" @if(old('is_active', is_numeric($product->is_active))) checked @endif id="is-active" class="custom-control-input">
+        <input type="checkbox" name="is_active" value="1" @if(old('is_active', $product->is_active)) checked @endif id="is-active" class="custom-control-input">
         <label for="is-active" class="custom-control-label @error('is_active') is-invalid @enderror">Is Active</label>
         @error('is_active')
         <span class="invalid-feedback">{{ $message }}</span>
