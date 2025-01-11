@@ -91,7 +91,7 @@
                     
                     <img src="{{ $product->base_image }}" alt="Base Image" id="base_image-preview" class="img-thumbnail img-responsive" style="height: 150px; width: 150px; cursor: pointer;">
                     
-                    <input type="hidden" name="base_image" value="{{ old('base_image', optional($product->baseImage())->id ?? 0) }}" class="@error('base_image') is-invalid @enderror" id="base-image" class="form-control">
+                    <input type="hidden" name="base_image" value="{{ old('base_image', optional($product->baseImage()->first())->id ?? 0) }}" class="@error('base_image') is-invalid @enderror" id="base-image" class="form-control">
                     @error('base_image')
                         <span class="invalid-feedback">{{ $message }}</span>
                     @enderror
