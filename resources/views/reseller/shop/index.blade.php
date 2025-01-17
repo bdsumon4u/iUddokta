@@ -17,7 +17,7 @@
                                 <div class="card-header-actions"><a href="{{ route('reseller.shops.edit', $shop->id) }}" class="card-header-action btn btn-sm btn-primary text-light">Edit</a></div>
                             </div>
                             <div class="p-2 card-body">
-                                <img src="{{ asset($shop->logo) }}" alt="" class="mx-auto img-responsive thumbnail d-block">
+                                <img src="{{ asset('storage/'.$shop->logo) }}" alt="" class="mx-auto img-responsive thumbnail d-block">
                                 <table class="table table-sm table-borderless">
                                     <tr>
                                         <th>Email:</th>

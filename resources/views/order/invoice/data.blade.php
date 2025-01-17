@@ -3,7 +3,7 @@
         <div class="col-sm-7">
             <div class="shop-logo">
                 @if($logo = $shop->logo)
-                <img src="{{ asset($logo) }}" alt="" class="img-responsive">
+                <img src="{{ asset('storage/'.$logo) }}" alt="" class="img-responsive">
                 @else
                 <h1 class="my-2">{{ $shop->name }}</h1>
                 @endif

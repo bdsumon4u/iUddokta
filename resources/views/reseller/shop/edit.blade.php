@@ -69,7 +69,7 @@
                                         <strong class="invalid-feedback">{{ $message }}</strong>
                                     @enderror
                                     @if ($shop->logo)
-                                        <img id="logo-preview" class="mt-2" src="{{ asset($shop->logo) }}" alt="Logo"
+                                        <img id="logo-preview" class="mt-2" src="{{ asset('storage/'.$shop->logo) }}" alt="Logo"
                                             class="img-responsive img-thumbnail">
                                     @endif
                                 </div>
