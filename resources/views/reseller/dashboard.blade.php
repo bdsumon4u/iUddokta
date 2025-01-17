@@ -2,6 +2,13 @@
 
 @section('content')
     <div class="row">
+        @if($content = \App\Models\Notice::value('content'))
+            <div class="col-md-12">
+                <div class="alert alert-info">
+                    {!! $content !!}
+                </div>
+            </div>
+        @endif
         @iverified
             <div class="col-md-6">
                 <div class="orders-table">

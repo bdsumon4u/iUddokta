@@ -138,6 +138,12 @@ class SidebarComposer
                     ],
                 ],
             ],
+            [
+                'icon' => 'fa fa-bell',
+                'style' => 'simple',
+                'name' => 'Notice',
+                'route' => 'admin.notice',
+            ],
         ];
     }
 

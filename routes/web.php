@@ -98,6 +98,7 @@ Route::group(['prefix' => 'reseller', 'as' => 'reseller.'], function (): void {
 
 // Admin Routes Group with Middleware and Prefix
 Route::group(['middleware' => 'auth', 'prefix' => 'admin', 'as' => 'admin.'], function (): void {
+    Route::any('/notice', \App\Http\Controllers\NoticeController::class)->name('notice');
 
     // Slide and Category Resources
     Route::resource('slides', \App\Http\Controllers\SlideController::class);
