@@ -152,6 +152,7 @@
                                                     {!! $errors->first('customer_address', '<span class="error-message">:message</span>') !!}
                                                 </div>
                                             </div>
+                                            <livewire:pathao-address :cityId="$order->data['city_id']??null" :areaId="$order->data['area_id']??null" />
                                             <div class="col-md-12">
                                                 <div class="form-group {{ $errors->has('note') ? 'has-error' : '' }}">
                                                     <label for="note">
