@@ -12,9 +12,9 @@ class LiveCart extends Component
 {
     public Order $order;
 
-    public $city_id = 0;
+    public $city_id;
 
-    public $area_id = 0;
+    public $area_id;
 
     public $type;
 
@@ -54,6 +54,8 @@ class LiveCart extends Component
         $this->discount = $discount;
         $this->theMoney();
         $this->shops = auth('reseller')->user()->shops;
+        $this->city_id = old('city_id');
+        $this->area_id = old('area_id');
     }
 
     public function increment($id): void
