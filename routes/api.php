@@ -35,11 +35,15 @@ Route::get('/pathao', function (): void {
     Order::where('status', 'INVOICED')->get()->each(function (Order $order): void {
         $description = implode('\n', array_map(fn($item): string => $item['quantity'].' x '.$item['name'], $order->data['products']));
 
+        $phone = $order->data['customer_phone'] ?? '';
+        $phone = preg_replace('/[^0-9]/', '', $phone);
+        $phone = preg_replace('/^88/', '', $phone);
+    
         $data = [
             'store_id' => config('pathao.store_id'), // Find in store list,
             'merchant_order_id' => $order->id, // Unique order id
             'recipient_name' => $order->data['customer_name'] ?? 'N/A', // Customer name
-            'recipient_phone' => Str::after($order->data['customer_phone'], '+88') ?? '', // Customer phone
+            'recipient_phone' => $phone, // Customer phone
             'recipient_address' => $order->data['customer_address'] ?? 'N/A', // Customer address
             'recipient_city' => $order->data['city_id'], // Find in city method
             'recipient_zone' => $order->data['area_id'], // Find in zone method
@@ -64,7 +68,7 @@ Route::get('/pathao', function (): void {
                 ],
             ]);
         } catch (\Exception $e) {
-            dump($order, $e->getMessage());
+            dump($order, $data, $e->getMessage());
         }
     });
 });
