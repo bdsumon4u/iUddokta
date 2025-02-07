@@ -1,0 +1,32 @@
+name: Continuous Deployment
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y openssh-client
+      
+      - name: Create SSH directory and known_hosts file
+        run: |
+          mkdir -p ~/.ssh
+          touch ~/.ssh/known_hosts
+          ssh-keyscan -t rsa cyber32.com >> ~/.ssh/known_hosts
+      
+      - name: Start SSH agent
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_KEY }}
+      
+      - name: Deploy to server
+        run: ssh -o StrictHostKeyChecking=no iuddok@cyber32.com 'cd public_html && ./server_deploy.sh'
