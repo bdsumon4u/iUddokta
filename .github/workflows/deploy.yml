@@ -29,4 +29,4 @@ jobs:
           ssh-private-key: ${{ secrets.SSH_KEY }}
       
       - name: Deploy to server
-        run: ssh -o StrictHostKeyChecking=no iuddok@cyber32.com 'cd public_html && ./server_deploy.sh'
+        run: ssh -o StrictHostKeyChecking=no iuddok@192.250.235.27 'cd public_html && ./server_deploy.sh'
