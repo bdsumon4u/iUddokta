@@ -70,7 +70,7 @@ class OrderController extends Controller
         $data['payable'] = $data['sell'] + $data['shipping'] - $data['advanced'] - $data['discount'];
         $shipping_setting = optional(\App\Models\Setting::whereName('shipping_charge')->first())->value;
         $data['delivery_charge'] = $delivery_charge ?? $shipping_setting->{$data['shipping_area'] ?? ''} ?? 100;
-        $data['packaging'] ??= 0;
+        $data['packaging'] ??= 25;
         $data['cod_charge'] ??= 0;
         $cart = CartFacade::session($reseller->id);
         $data['price'] = $cart->getTotal();
