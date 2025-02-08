@@ -80,7 +80,7 @@ Route::post('pathao-webhook', function (Request $request) {
     // }
 
     if (! $order = Order::find($request->merchant_order_id)/*->orWhere('data->consignment_id', $request->consignment_id)->first()*/) {
-        return response()->json(['message' => 'Order not found'], 402)
+        return response()->json(['message' => 'Order not found'], 202)
             ->header('X-Pathao-Merchant-Webhook-Integration-Secret', 'f3992ecc-59da-4cbe-a049-a13da2018d51');
     }
 
