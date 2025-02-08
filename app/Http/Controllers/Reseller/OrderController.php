@@ -92,6 +92,7 @@ class OrderController extends Controller
         $data['profit'] ??= $data['payable'] - $data['price'] - $data['delivery_charge'] - $data['packaging'] - $data['cod_charge'];
 
         $order = Order::create([
+            'status' => 'PENDING',
             'reseller_id' => $reseller->id,
             'data' => $data,
         ]);
