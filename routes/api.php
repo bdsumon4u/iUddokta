@@ -95,13 +95,13 @@ Route::post('pathao-webhook', function (Request $request) {
     // $order->forceFill(['courier' => ['booking' => 'Pathao'] + $courier]);
 
     $status = $order->status;
-    if ($request->order_status_slug == 'Pickup_Cancelled') {
+    if ($request->event == 'order.pickup-cancelled') {
         $status = 'CANCELLED';
-    } elseif ($request->order_status_slug == 'Delivered') {
+    } elseif ($request->event == 'order.delivered') {
         $status = 'COMPLETED';
-    } elseif ($request->order_status_slug == 'Payment_Invoice') {
+    } elseif ($request->event == 'order.paid') {
 
-    } elseif ($request->order_status_slug == 'Return') {
+    } elseif ($request->event == 'order.returned') {
         $status = 'FAILED';
         // TODO: add to stock
     }
