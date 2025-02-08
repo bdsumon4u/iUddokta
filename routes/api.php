@@ -75,12 +75,13 @@ Route::get('/pathao', function (): void {
 });
 
 Route::post('pathao-webhook', function (Request $request) {
-    if ($request->header('X-PATHAO-Signature') != '248054') {
-        return;
-    }
+    // if ($request->header('X-PATHAO-Signature') != '248054') {
+    //     return;
+    // }
 
     if (! $order = Order::find($request->merchant_order_id)/*->orWhere('data->consignment_id', $request->consignment_id)->first()*/) {
-        return;
+        return response()->json(['message' => 'Order not found'], 402)
+            ->header('X-Pathao-Merchant-Webhook-Integration-Secret', 'f3992ecc-59da-4cbe-a049-a13da2018d51');
     }
 
     // $courier = $request->only([
@@ -108,5 +109,5 @@ Route::post('pathao-webhook', function (Request $request) {
     (new OrderController)->status($request->merge(['status' => $status, 'order_id' => [$order->id]]));
 
     return response()->json(['message' => 'Webhook processed'], 202)
-        ->header('X-Pathao-Merchant-Webhook-Integration-Secret', 'your-secret-value');
+        ->header('X-Pathao-Merchant-Webhook-Integration-Secret', 'f3992ecc-59da-4cbe-a049-a13da2018d51');
 });
