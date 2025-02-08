@@ -135,7 +135,7 @@
         $('.datatable').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{!! route('api.transactions.index', [request()->query('status', 'paid'), auth('reseller')->user()->id]) !!}",
+            ajax: "{!! route('api.transactions.index', [request()->query('status', 'PAID'), auth('reseller')->user()->id]) !!}",
             buttons: dt_buttons,
             columns: [{
                     data: 'empty',

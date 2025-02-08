@@ -90,7 +90,7 @@ class Reseller extends Authenticatable implements MustVerifyEmail
 
     protected function paid(): \Illuminate\Database\Eloquent\Casts\Attribute
     {
-        return \Illuminate\Database\Eloquent\Casts\Attribute::make(get: fn() => $this->transactions->where('status', 'paid')->sum(fn($transaction) => $transaction->amount));
+        return \Illuminate\Database\Eloquent\Casts\Attribute::make(get: fn() => $this->transactions->where('status', 'PAID')->sum(fn($transaction) => $transaction->amount));
     }
 
     /**

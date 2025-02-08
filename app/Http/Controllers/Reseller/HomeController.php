@@ -26,7 +26,7 @@ class HomeController extends Controller
     public function index()
     {
         $orders = Order::where('reseller_id', auth('reseller')->user()->id)->status('PENDING')->latest()->take(10)->get();
-        $transactions = Transaction::where('reseller_id', auth('reseller')->user()->id)->status('paid')->latest()->take(10)->get();
+        $transactions = Transaction::where('reseller_id', auth('reseller')->user()->id)->status('PAID')->latest()->take(10)->get();
 
         return view('reseller.dashboard', compact('orders', 'transactions'));
     }

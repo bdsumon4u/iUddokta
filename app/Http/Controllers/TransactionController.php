@@ -126,11 +126,11 @@ class TransactionController extends Controller
             $transaction = Transaction::findOrFail($id);
             $transaction->update([
                 'transaction_number' => $request->transaction_number,
-                'status' => 'paid',
+                'status' => 'PAID',
             ]);
             $transaction_type = 'request';
         } else {
-            $transaction = Transaction::create($data + ['status' => 'paid']);
+            $transaction = Transaction::create($data + ['status' => 'PAID']);
         }
 
         event(new TransactionCompleted($transaction, $transaction_type, $this->timezone));
