@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\OrderController;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -71,4 +72,38 @@ Route::get('/pathao', function (): void {
             dump($order, $data, $e->getMessage());
         }
     });
+});
+
+Route::post('pathao-webhook', function (Request $request): void {
+    if ($request->header('X-PATHAO-Signature') != '248054') {
+        return;
+    }
+
+    if (! $order = Order::find($request->merchant_order_id)/*->orWhere('data->consignment_id', $request->consignment_id)->first()*/) {
+        return;
+    }
+
+    // $courier = $request->only([
+    //     'consignment_id',
+    //     'order_status',
+    //     'reason',
+    //     'invoice_id',
+    //     'payment_status',
+    //     'collected_amount',
+    // ]);
+    // $order->forceFill(['courier' => ['booking' => 'Pathao'] + $courier]);
+
+    $status = $order->status;
+    if ($request->order_status_slug == 'Pickup_Cancelled') {
+        $status = 'CANCELLED';
+    } elseif ($request->order_status_slug == 'Delivered') {
+        $status = 'COMPLETED';
+    } elseif ($request->order_status_slug == 'Payment_Invoice') {
+
+    } elseif ($request->order_status_slug == 'Return') {
+        $status = 'FAILED';
+        // TODO: add to stock
+    }
+
+    (new OrderController)->status($request->merge(['status' => $status, 'order_id' => [$order->id]]));
 });
