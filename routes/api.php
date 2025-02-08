@@ -74,7 +74,7 @@ Route::get('/pathao', function (): void {
     });
 });
 
-Route::post('pathao-webhook', function (Request $request): void {
+Route::post('pathao-webhook', function (Request $request) {
     if ($request->header('X-PATHAO-Signature') != '248054') {
         return;
     }
@@ -106,4 +106,7 @@ Route::post('pathao-webhook', function (Request $request): void {
     }
 
     (new OrderController)->status($request->merge(['status' => $status, 'order_id' => [$order->id]]));
+
+    return response()->json(['message' => 'Webhook processed'], 202)
+        ->header('X-Pathao-Merchant-Webhook-Integration-Secret', 'your-secret-value');
 });
