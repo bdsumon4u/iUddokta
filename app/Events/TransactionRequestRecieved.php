@@ -16,9 +16,7 @@ class TransactionRequestRecieved
      *
      * @return void
      */
-    public function __construct(public $transaction)
-    {
-    }
+    public function __construct(public $transaction) {}
 
     /**
      * Get the channels the event should broadcast on.

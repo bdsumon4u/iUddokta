@@ -2,6 +2,10 @@
     <h4 class="text-center">Account</h4>
     @php $reseller = auth('reseller')->user() @endphp
     <table class="table table-sm table-borderless">
+        <tr class="border-bottom">
+            <th>Balance:</th>
+            <td>{{ theMoney($reseller->balance) }}</td>
+        </tr>
         <tr>
             <th>Total Sell:</th>
             <td>{{ theMoney($reseller->total_sell) }}</td>

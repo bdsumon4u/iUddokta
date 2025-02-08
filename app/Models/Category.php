@@ -25,6 +25,7 @@ class Category extends Model
     {
         return $this->belongsToMany(Product::class);
     }
+
     protected function casts(): array
     {
         return [

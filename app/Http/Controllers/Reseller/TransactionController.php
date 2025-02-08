@@ -50,7 +50,7 @@ class TransactionController extends Controller
             ->whereIn('id', explode(',', $request->order_ids))
             ->get();
 
-        $amount = $orders->sum(fn($item): int|float => $item->data['profit'] - $item->data['advanced']);
+        $amount = $orders->sum(fn ($item): int|float => $item->data['profit'] - $item->data['advanced'] - $item->data['discount']);
 
         $data = $request->validate([
             'amount' => 'required|integer',
@@ -63,6 +63,7 @@ class TransactionController extends Controller
             'account_number' => 'nullable',
         ]);
         $data['amount'] = $amount;
+        $data['status'] = 'PENDING';
         $data['reseller_id'] = $reseller->id;
 
         DB::transaction(function () use ($data, $orders): void {

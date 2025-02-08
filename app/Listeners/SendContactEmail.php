@@ -3,7 +3,6 @@
 namespace App\Listeners;
 
 use App\Mail\ContactMail;
-use App\Repository\SettingsRepository;
 use Illuminate\Support\Facades\Mail;
 
 class SendContactEmail
@@ -13,9 +12,7 @@ class SendContactEmail
      *
      * @return void
      */
-    public function __construct(protected \App\Repository\SettingsRepository $settingsRepo)
-    {
-    }
+    public function __construct(protected \App\Repository\SettingsRepository $settingsRepo) {}
 
     /**
      * Handle the event.

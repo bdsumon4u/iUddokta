@@ -99,7 +99,7 @@ class EarningService
             return null;
         }
 
-        return $this->orders->filter(fn($order): bool => $order->status == 'DELIVERED');
+        return $this->orders->filter(fn ($order): bool => $order->status == 'DELIVERED');
     }
 
     public function returnedOrders()
@@ -108,7 +108,7 @@ class EarningService
             return null;
         }
 
-        return $this->orders->filter(fn($order): bool => $order->status == 'FAILED');
+        return $this->orders->filter(fn ($order): bool => $order->status == 'FAILED');
     }
 
     public function nextTransactionPeriod($currentPeriod = null): ?array
@@ -121,7 +121,7 @@ class EarningService
             return null;
         }
 
-        [$start_date, $end_date] = array_map(fn($date): \Carbon\Carbon => Carbon::parse($date), explode($this->seperator, (string) $this->currentPeriod));
+        [$start_date, $end_date] = array_map(fn ($date): \Carbon\Carbon => Carbon::parse($date), explode($this->seperator, (string) $this->currentPeriod));
 
         $fOfMon = $start_date->copy()->firstOfMonth();
         $mOfMon = $fOfMon->copy()->addDays(14);

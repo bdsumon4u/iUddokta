@@ -8,6 +8,7 @@ use Livewire\Component;
 class PathaoAddress extends Component
 {
     public $city_id;
+
     public $area_id;
 
     public function mount($cityId, $areaId)

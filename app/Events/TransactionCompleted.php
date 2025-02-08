@@ -17,9 +17,7 @@ class TransactionCompleted //implements ShouldBroadcastNow
      *
      * @return void
      */
-    public function __construct(public $transaction, public $type, public $timezone)
-    {
-    }
+    public function __construct(public $transaction, public $type, public $timezone) {}
 
     /**
      * Get the channels the event should broadcast on.

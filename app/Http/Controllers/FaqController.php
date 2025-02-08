@@ -72,7 +72,7 @@ class FaqController extends Controller
      */
     public function edit($faq)
     {
-        $faq = cache("faq.{$faq}", fn() => Faq::findOrFail($faq));
+        $faq = cache("faq.{$faq}", fn () => Faq::findOrFail($faq));
 
         return view('admin.faqs.edit', compact('faq'));
     }

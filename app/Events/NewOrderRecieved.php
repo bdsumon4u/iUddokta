@@ -17,9 +17,7 @@ class NewOrderRecieved //implements ShouldBroadcastNow
      *
      * @return void
      */
-    public function __construct(public $order, public $reseller)
-    {
-    }
+    public function __construct(public $order, public $reseller) {}
 
     /**
      * Get the channels the event should broadcast on.

@@ -11,9 +11,7 @@ class Header extends Component
      *
      * @return void
      */
-    public function __construct(public $provider = 'users')
-    {
-    }
+    public function __construct(public $provider = 'users') {}
 
     /**
      * Get the view / contents that represent the component.

@@ -45,7 +45,7 @@ class PaymentCalculator extends Component
 
         $this->order_ids = $orders->pluck('id')->implode(',');
 
-        $this->amount = $orders->sum(fn($item): int|float => $item->data['profit'] - $item->data['advanced']);
+        $this->amount = $orders->sum(fn ($item): int|float => $item->data['profit'] - $item->data['advanced'] - $item->data['discount']);
     }
 
     public function render()
@@ -61,7 +61,7 @@ class PaymentCalculator extends Component
     public function chMethod(): void
     {
         if (! empty($this->method)) {
-            $arr = Arr::first($this->reseller->payment, fn($payment): bool => $payment->method == $this->method);
+            $arr = Arr::first($this->reseller->payment, fn ($payment): bool => $payment->method == $this->method);
 
             $this->bank_name = $arr->bank_name ?? '';
             $this->account_name = $arr->account_name ?? '';

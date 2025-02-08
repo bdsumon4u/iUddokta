@@ -11,9 +11,7 @@ class Aside extends Component
      *
      * @return void
      */
-    public function __construct(public $asideTab)
-    {
-    }
+    public function __construct(public $asideTab) {}
 
     /**
      * Get the view / contents that represent the component.

@@ -14,20 +14,24 @@ class Order extends Model
     protected $fillable = [
         'reseller_id', 'data', 'status', 'created_at', 'updated_at',
     ];
+
     protected function data(): \Illuminate\Database\Eloquent\Casts\Attribute
     {
-        return \Illuminate\Database\Eloquent\Casts\Attribute::make(get: fn($data): mixed =>
+        return \Illuminate\Database\Eloquent\Casts\Attribute::make(get: fn ($data): mixed =>
             // return unserialize($data);
-            json_decode((string) $data, true), set: fn($data): array => ['data' => json_encode(array_merge($this->data ?? [], $data))]);
+            json_decode((string) $data, true), set: fn ($data): array => ['data' => json_encode(array_merge($this->data ?? [], $data))]);
     }
+
     protected function shop(): \Illuminate\Database\Eloquent\Casts\Attribute
     {
-        return \Illuminate\Database\Eloquent\Casts\Attribute::make(get: fn() => Shop::find($this->data['shop']));
+        return \Illuminate\Database\Eloquent\Casts\Attribute::make(get: fn () => Shop::find($this->data['shop']));
     }
+
     protected function barcode(): \Illuminate\Database\Eloquent\Casts\Attribute
     {
         return \Illuminate\Database\Eloquent\Casts\Attribute::make(get: function () {
             $pad = str_pad($this->id, 10, '0', STR_PAD_LEFT);
+
             return substr($pad, 0, 3).'-'.substr($pad, 3, 3).'-'.substr($pad, 6, 4);
         });
     }
@@ -60,7 +64,7 @@ class Order extends Model
     {
         $products = Product::whereIn('id', array_keys($this->data['products']))->get();
 
-        return $products->sum(fn($product): int|float => $product->wholesale * $this->data['products'][$product->id]['quantity']);
+        return $products->sum(fn ($product): int|float => $product->wholesale * $this->data['products'][$product->id]['quantity']);
     }
 
     /**

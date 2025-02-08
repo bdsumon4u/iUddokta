@@ -105,7 +105,7 @@ class LiveCart extends Component
     {
         return Cart::session($this->user_id)
             ->getContent()
-            ->sum(fn($item): int|float => $item->attributes->product->retail * $item->quantity);
+            ->sum(fn ($item): int|float => $item->attributes->product->retail * $item->quantity);
     }
 
     protected function theMoney()

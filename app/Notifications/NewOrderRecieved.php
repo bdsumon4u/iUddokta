@@ -17,9 +17,7 @@ class NewOrderRecieved extends Notification
      *
      * @return void
      */
-    public function __construct(protected $event)
-    {
-    }
+    public function __construct(protected $event) {}
 
     /**
      * Get the notification's delivery channels.

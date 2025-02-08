@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Reseller;
 use App\Http\Controllers\Controller;
 use App\Models\Shop;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Laravel\Facades\Image;
 
@@ -30,47 +29,48 @@ class ShopController extends Controller
     {
         return view('reseller.shop.create');
     }
-/**
- * Store a newly created resource in storage.
- *
- * @return \Illuminate\Http\Response
- */
-public function store(Request $request)
-{
-    $validatedData = $request->validate([
-        'name' => 'required|max:255',
-        'email' => 'required|email',
-        'phone' => 'required',
-        'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        'address' => 'required',
-        'website' => 'nullable',
-    ]);
 
-    $validatedData['reseller_id'] = auth('reseller')->user()->id;
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        $validatedData = $request->validate([
+            'name' => 'required|max:255',
+            'email' => 'required|email',
+            'phone' => 'required',
+            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'address' => 'required',
+            'website' => 'nullable',
+        ]);
 
-    if ($request->hasFile('logo')) {
-        $file = $request->file('logo');
-        $fileNameToStore = $file->hashName();
-        $thumbnailName = 'thumb-' . $fileNameToStore;
+        $validatedData['reseller_id'] = auth('reseller')->user()->id;
 
-        // Store the original logo
-        $file->storeAs('public/shop', $fileNameToStore);
+        if ($request->hasFile('logo')) {
+            $file = $request->file('logo');
+            $fileNameToStore = $file->hashName();
+            $thumbnailName = 'thumb-'.$fileNameToStore;
 
-        // Create and store the thumbnail
-        $originalPath = storage_path('app/public/shop/' . $fileNameToStore);
-        $thumbnailPath = storage_path('app/public/shop/' . $thumbnailName);
+            // Store the original logo
+            $file->storeAs('public/shop', $fileNameToStore);
 
-        $image = Image::read($originalPath);
-        $image->resize(250, 66);
-        $image->save($thumbnailPath);
+            // Create and store the thumbnail
+            $originalPath = storage_path('app/public/shop/'.$fileNameToStore);
+            $thumbnailPath = storage_path('app/public/shop/'.$thumbnailName);
 
-        $validatedData['logo'] = 'shop/' . $thumbnailName;
+            $image = Image::read($originalPath);
+            $image->resize(250, 66);
+            $image->save($thumbnailPath);
+
+            $validatedData['logo'] = 'shop/'.$thumbnailName;
+        }
+
+        Shop::create($validatedData);
+
+        return redirect()->route('reseller.shops.index')->with('success', 'Shop Has Created Successfully.');
     }
-
-    Shop::create($validatedData);
-
-    return redirect()->route('reseller.shops.index')->with('success', 'Shop Has Created Successfully.');
-}
 
     /**
      * Display the specified resource.
@@ -105,25 +105,25 @@ public function store(Request $request)
             'address' => 'required',
             'website' => 'nullable',
         ]);
-        
+
         $validatedData['reseller_id'] = auth('reseller')->user()->id;
 
         if ($request->hasFile('logo')) {
             $file = $request->file('logo');
             $fileNameToStore = $file->hashName();
-            $thumbnailName = 'thumb-' . $fileNameToStore;
+            $thumbnailName = 'thumb-'.$fileNameToStore;
 
             // Store the original logo
             $file->storeAs('public/shop', $fileNameToStore);
 
             // Create and store the thumbnail
-            $thumbnailPath = storage_path('app/public/shop/' . $thumbnailName);
+            $thumbnailPath = storage_path('app/public/shop/'.$thumbnailName);
 
             $image = Image::read($file);
             $image->resize(250, 66);
             $image->save($thumbnailPath);
 
-            $validatedData['logo'] = 'shop/' . $thumbnailName;
+            $validatedData['logo'] = 'shop/'.$thumbnailName;
         }
 
         $shop->update($validatedData);

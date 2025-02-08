@@ -20,7 +20,7 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         $categories = Category::formatted();
-        $products = Product::with('baseImage')->when($request->s, fn($query) => $query->where('name', 'like', "%{$request->s}%"))->orderBy('is_active', 'desc')->latest()->paginate(18);
+        $products = Product::with('baseImage')->when($request->s, fn ($query) => $query->where('name', 'like', "%{$request->s}%"))->orderBy('is_active', 'desc')->latest()->paginate(18);
 
         return view('admin.products.index', compact('categories', 'products'));
     }
@@ -33,7 +33,7 @@ class ProductController extends Controller
     public function trashed(Request $request)
     {
         $categories = Category::formatted();
-        $products = Product::with('baseImage')->onlyTrashed()->when($request->s, fn($query) => $query->where('name', 'like', "%{$request->s}%"))->latest()->paginate(18);
+        $products = Product::with('baseImage')->onlyTrashed()->when($request->s, fn ($query) => $query->where('name', 'like', "%{$request->s}%"))->latest()->paginate(18);
 
         return view('admin.products.trashed', compact('categories', 'products'));
     }

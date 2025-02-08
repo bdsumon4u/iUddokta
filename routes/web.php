@@ -30,7 +30,7 @@ Route::get('/dev', function (): void {
 });
 
 Route::get('/', function (Request $request) {
-    $slides = cache()->rememberForever('slides', fn() => Slide::whereIsActive(1)->get());
+    $slides = cache()->rememberForever('slides', fn () => Slide::whereIsActive(1)->get());
 
     return view('home', compact('slides'))->withFaqs(cache('faqs', function () {
         $faqs = Faq::all();
@@ -42,7 +42,7 @@ Route::get('/', function (Request $request) {
     }));
 })->middleware([RedirectToInstallerIfNotInstalled::class, 'guest:reseller']);
 
-Route::get('/faqs', fn(Request $request) => view('faqs')->withFaqs(cache('faqs', function () {
+Route::get('/faqs', fn (Request $request) => view('faqs')->withFaqs(cache('faqs', function () {
     $faqs = Faq::all();
     $faqs->each(function ($faq): void {
         cache(["faq.{$faq->id}" => $faq]);

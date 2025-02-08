@@ -18,9 +18,7 @@ class TransactionCompleted extends Notification
      *
      * @return void
      */
-    public function __construct(protected $event)
-    {
-    }
+    public function __construct(protected $event) {}
 
     /**
      * Get the notification's delivery channels.
@@ -50,7 +48,7 @@ class TransactionCompleted extends Notification
     {
         $timezone = $this->event->timezone;
         $query = $this->event->transaction->reseller->orders()->whereIn('status', ['DELIVERED', 'FAILED']);
-        $orders = $query->where(fn($query) => $query->whereBetween('data->completed_at', $timezone)
+        $orders = $query->where(fn ($query) => $query->whereBetween('data->completed_at', $timezone)
             ->orWhereBetween('data->returned_at', $timezone))->get();
 
         return (new MailMessage)

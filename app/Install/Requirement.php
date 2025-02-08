@@ -31,6 +31,6 @@ class Requirement
     {
         return collect($this->extensions())
             ->merge($this->directories())
-            ->every(fn($item) => $item);
+            ->every(fn ($item) => $item);
     }
 }

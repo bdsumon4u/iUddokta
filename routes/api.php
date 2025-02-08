@@ -4,7 +4,6 @@ use App\Http\Controllers\OrderController;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Str;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,7 +16,7 @@ use Illuminate\Support\Str;
 |
 */
 
-Route::middleware('auth:api')->get('/user', fn(Request $request) => $request->user());
+Route::middleware('auth:api')->get('/user', fn (Request $request) => $request->user());
 
 Route::group(['as' => 'api.'], function (): void {
     Route::get('images', [\App\Http\Controllers\API\ImageController::class, 'index'])->name('images.index');
@@ -34,12 +33,12 @@ Route::group(['as' => 'api.'], function (): void {
 
 Route::get('/pathao', function (): void {
     Order::where('status', 'INVOICED')->get()->each(function (Order $order): void {
-        $description = implode('\n', array_map(fn($item): string => $item['quantity'].' x '.$item['name'], $order->data['products']));
+        $description = implode('\n', array_map(fn ($item): string => $item['quantity'].' x '.$item['name'], $order->data['products']));
 
         $phone = $order->data['customer_phone'] ?? '';
         $phone = preg_replace('/[^0-9]/', '', $phone);
         $phone = preg_replace('/^88/', '', $phone);
-    
+
         $data = [
             'store_id' => config('pathao.store_id'), // Find in store list,
             'merchant_order_id' => $order->id, // Unique order id

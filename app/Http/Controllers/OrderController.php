@@ -110,6 +110,7 @@ class OrderController extends Controller
             'note' => 'nullable',
             'shipping' => 'required',
             'advanced' => 'required',
+            'discount' => 'required',
             'buy_price' => 'required',
             'payable' => 'required',
             'profit' => 'required',
