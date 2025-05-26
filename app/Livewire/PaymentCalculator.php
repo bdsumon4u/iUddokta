@@ -45,7 +45,7 @@ class PaymentCalculator extends Component
 
         $this->order_ids = $orders->pluck('id')->implode(',');
 
-        $this->amount = $orders->sum(fn ($item): int|float => $item->data['profit'] - $item->data['advanced'] - $item->data['discount']);
+        $this->amount = $orders->sum(fn ($item): int|float => ($item->data['profit'] ?? 0) - ($item->data['advanced'] ?? 0) - ($item->data['discount'] ?? 0));
     }
 
     public function render()

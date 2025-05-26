@@ -67,7 +67,7 @@ class PageController extends Controller
      */
     public function show($page)
     {
-        $page = cache("page.$page", fn () => Page::where('slug', $page)->get()->last());
+        $page = cache("page.$page", fn () => Page::where('slug', $page)->firstOrFail());
 
         return view('page', compact('page'));
     }

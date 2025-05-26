@@ -169,7 +169,7 @@ class Reseller extends Authenticatable implements MustVerifyEmail
      */
     protected function balance(): Attribute
     {
-        return Attribute::get(fn () => $this->orders()->where('status', 'DELIVERED')->whereDoesntHave('transactions')->get()->sum(fn ($item): int|float => $item->data['profit'] - $item->data['advanced'] - ($item->data['discount'] ?? 0)));
+        return Attribute::get(fn () => $this->orders()->where('status', 'DELIVERED')->whereDoesntHave('transactions')->get()->sum(fn ($item): int|float => ($item->data['profit'] ?? 0) - ($item->data['advanced'] ?? 0) - ($item->data['discount'] ?? 0)));
     }
 
     /**
